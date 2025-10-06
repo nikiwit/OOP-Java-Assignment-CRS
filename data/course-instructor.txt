@@ -1,0 +1,100 @@
+CourseID,CourseName,Credits,Semester,Capacity,InstructorID
+C101,Algorithms,4,1,143,I001
+C102,Artificial Intelligence,2,2,92,I004
+C103,Biology,2,2,100,I002
+C104,Chemistry,3,3,130,I004
+C105,Operating Systems,2,3,144,I001
+C106,Artificial Intelligence,4,2,191,I002
+C107,English Composition,4,3,51,I005
+C108,Literature,3,1,197,I003
+C109,Software Engineering,2,1,146,I002
+C110,Literature,3,2,61,I002
+C111,Database Systems,2,2,99,I005
+C112,English Composition,2,3,148,I005
+C113,Data Structures,4,1,195,I003
+C114,Software Engineering,4,1,121,I005
+C115,Cybersecurity,3,2,95,I004
+C116,Operating Systems,3,1,104,I005
+C117,Cybersecurity,2,2,120,I001
+C118,Software Engineering,2,3,76,I005
+C119,Philosophy,4,1,193,I003
+C120,Machine Learning,3,1,176,I005
+C121,Computer Science,3,3,132,I002
+C122,Mathematics,4,2,170,I003
+C123,Operating Systems,2,1,74,I005
+C124,Mathematics,3,2,52,I002
+C125,Mathematics,2,2,51,I005
+C126,Cybersecurity,2,3,58,I005
+C127,History,4,1,69,I002
+C128,Mathematics,2,3,67,I002
+C129,Software Engineering,4,2,52,I001
+C130,History,4,2,58,I003
+C131,Cybersecurity,4,3,67,I002
+C132,Physics,3,3,156,I003
+C133,Physics,3,2,86,I004
+C134,Data Structures,4,3,142,I002
+C135,Biology,2,2,96,I005
+C136,Artificial Intelligence,4,2,119,I001
+C137,Algorithms,3,2,163,I004
+C138,Cybersecurity,3,1,169,I002
+C139,Economics,3,1,183,I005
+C140,Philosophy,4,1,152,I005
+C141,English Composition,4,2,176,I004
+C142,Networking,3,1,102,I003
+C143,Biology,4,1,72,I005
+C144,Mathematics,3,2,169,I003
+C145,Cybersecurity,4,1,60,I001
+C146,Cybersecurity,2,2,59,I003
+C147,Philosophy,4,3,80,I005
+C148,English Composition,2,3,114,I001
+C149,English Composition,2,3,66,I005
+C150,Literature,4,3,60,I003
+C151,Philosophy,2,2,53,I005
+C152,Computer Science,2,1,69,I005
+C153,Data Structures,3,3,56,I001
+C154,Networking,4,2,98,I005
+C155,Operating Systems,3,3,164,I004
+C156,Economics,3,3,109,I002
+C157,Operating Systems,2,1,69,I002
+C158,Computer Science,3,1,125,I001
+C159,Literature,3,2,188,I003
+C160,English Composition,3,3,88,I002
+C161,History,2,1,184,I005
+C162,Philosophy,3,2,60,I005
+C163,Economics,2,3,183,I005
+C164,English Composition,2,1,141,I002
+C165,Artificial Intelligence,4,2,151,I002
+C166,History,3,2,55,I003
+C167,Software Engineering,3,1,162,I005
+C168,Networking,4,1,193,I002
+C169,Computer Science,4,1,50,I004
+C170,Statistics,4,1,140,I002
+C171,Cybersecurity,4,1,159,I005
+C172,Chemistry,2,2,189,I002
+C173,Computer Science,2,2,177,I003
+C174,Computer Science,3,3,92,I001
+C175,Physics,2,2,194,I003
+C176,Economics,2,3,95,I004
+C177,Statistics,2,3,94,I005
+C178,English Composition,2,2,177,I002
+C179,English Composition,3,2,103,I003
+C180,Software Engineering,4,3,133,I005
+C181,Statistics,3,2,154,I005
+C182,Statistics,4,2,55,I002
+C183,English Composition,4,2,61,I001
+C184,Database Systems,3,1,53,I004
+C185,Data Structures,4,1,88,I002
+C186,Machine Learning,4,2,176,I004
+C187,Statistics,3,3,121,I001
+C188,Literature,4,1,154,I003
+C189,Data Structures,3,2,154,I004
+C190,Statistics,2,2,62,I004
+C191,Software Engineering,3,3,168,I002
+C192,Cybersecurity,4,1,62,I001
+C193,Artificial Intelligence,4,2,122,I003
+C194,Data Structures,3,2,133,I005
+C195,Philosophy,4,2,69,I004
+C196,Computer Science,2,1,115,I002
+C197,Statistics,4,2,114,I005
+C199,Networking,3,3,92,I002
+C200,Physics,3,2,85,I005

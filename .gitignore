@@ -108,7 +108,6 @@ config.properties
 # !lib/itextpdf-*.jar
 
 # Ignore generated data files (keep structure, ignore content)
-data/*.txt
 data/*.dat
 !data/.gitkeep
 

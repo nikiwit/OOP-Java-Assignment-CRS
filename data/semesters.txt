@@ -1,0 +1,4 @@
+SemesterID, SemesterName
+2025_Spring, Spring 2025
+2025_Summer, Summer 2025
+2025_Fall, Fall 2025

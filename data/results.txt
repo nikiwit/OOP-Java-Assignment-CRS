@@ -1,0 +1,101 @@
+ResultID,StudentID,CourseID,CourseName,AttemptNumber,Grade,GradePoint,PassedExam,PassedAssignment,Status,SemesterID
+R001,S001,C121,Computer Science,1,A,4.0,True,True,PASSED,2025_Spring
+R002,S001,C113,Data Structures,1,B+,3.3,True,True,PASSED,2025_Spring
+R003,S001,C101,Algorithms,1,A-,3.7,True,True,PASSED,2025_Summer
+R004,S001,C186,Machine Learning,1,B,3.0,True,True,PASSED,2025_Fall
+R005,S002,C108,Literature,1,B,3.0,True,True,PASSED,2025_Spring
+R006,S002,C150,Literature,1,A-,3.7,True,True,PASSED,2025_Summer
+R007,S002,C107,English Composition,1,B+,3.3,True,True,PASSED,2025_Summer
+R008,S002,C188,Literature,1,B-,2.7,True,True,PASSED,2025_Fall
+R009,S003,C122,Mathematics,1,A,4.0,True,True,PASSED,2025_Spring
+R010,S003,C124,Mathematics,1,A-,3.7,True,True,PASSED,2025_Spring
+R011,S003,C128,Mathematics,1,B+,3.3,True,True,PASSED,2025_Summer
+R012,S003,C144,Mathematics,1,B,3.0,True,True,PASSED,2025_Fall
+R013,S004,C119,Philosophy,1,B+,3.3,True,True,PASSED,2025_Spring
+R014,S004,C140,Philosophy,1,A-,3.7,True,True,PASSED,2025_Summer
+R015,S004,C147,Philosophy,1,B,3.0,True,True,PASSED,2025_Summer
+R016,S004,C195,Philosophy,1,B-,2.7,True,True,PASSED,2025_Fall
+R017,S005,C170,Statistics,1,C+,2.3,True,True,PASSED,2025_Spring
+R018,S005,C181,Statistics,1,B-,2.7,True,True,PASSED,2025_Summer
+R019,S005,C182,Statistics,1,F,0.0,False,True,FAILED,2025_Summer
+R020,S005,C182,Statistics,2,C,2.0,True,True,PASSED,2025_Fall
+R021,S006,C109,Software Engineering,1,B,3.0,True,True,PASSED,2025_Spring
+R022,S006,C129,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Summer
+R023,S006,C105,Operating Systems,1,A-,3.7,True,True,PASSED,2025_Summer
+R024,S006,C142,Networking,1,B,3.0,True,True,PASSED,2025_Fall
+R025,S007,C119,Philosophy,1,B-,2.7,True,True,PASSED,2025_Spring
+R026,S007,C151,Philosophy,1,C+,2.3,True,True,PASSED,2025_Summer
+R027,S007,C162,Philosophy,1,B,3.0,True,True,PASSED,2025_Fall
+R028,S008,C109,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Spring
+R029,S008,C142,Networking,1,A-,3.7,True,True,PASSED,2025_Summer
+R030,S008,C115,Cybersecurity,1,B,3.0,True,True,PASSED,2025_Summer
+R031,S009,C132,Physics,1,A,4.0,True,True,PASSED,2025_Spring
+R032,S009,C133,Physics,1,A-,3.7,True,True,PASSED,2025_Spring
+R033,S009,C175,Physics,1,B+,3.3,True,True,PASSED,2025_Summer
+R034,S009,C200,Physics,1,B,3.0,True,True,PASSED,2025_Fall
+R035,S010,C121,Computer Science,1,B,3.0,True,True,PASSED,2025_Spring
+R036,S010,C113,Data Structures,1,F,0.0,True,False,FAILED,2025_Summer
+R037,S010,C113,Data Structures,2,C+,2.3,True,True,PASSED,2025_Fall
+R038,S010,C152,Computer Science,1,B-,2.7,True,True,PASSED,2025_Fall
+R039,S011,C109,Software Engineering,1,A-,3.7,True,True,PASSED,2025_Spring
+R040,S011,C180,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Summer
+R041,S011,C105,Operating Systems,1,B,3.0,True,True,PASSED,2025_Summer
+R042,S011,C142,Networking,1,B-,2.7,True,True,PASSED,2025_Fall
+R043,S012,C109,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Spring
+R044,S012,C115,Cybersecurity,1,A,4.0,True,True,PASSED,2025_Summer
+R045,S012,C142,Networking,1,B,3.0,True,True,PASSED,2025_Fall
+R046,S013,C109,Software Engineering,1,B-,2.7,True,True,PASSED,2025_Spring
+R047,S013,C105,Operating Systems,1,C+,2.3,True,True,PASSED,2025_Summer
+R048,S013,C115,Cybersecurity,1,F,0.0,False,False,FAILED,2025_Summer
+R049,S013,C115,Cybersecurity,2,C,2.0,True,True,PASSED,2025_Fall
+R050,S014,C139,Economics,1,A-,3.7,True,True,PASSED,2025_Spring
+R051,S014,C156,Economics,1,B+,3.3,True,True,PASSED,2025_Summer
+R052,S014,C163,Economics,1,B,3.0,True,True,PASSED,2025_Summer
+R053,S014,C176,Economics,1,B-,2.7,True,True,PASSED,2025_Fall
+R054,S015,C109,Software Engineering,1,B,3.0,True,True,PASSED,2025_Spring
+R055,S015,C129,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Summer
+R056,S015,C142,Networking,1,A-,3.7,True,True,PASSED,2025_Fall
+R057,S016,C127,History,1,B-,2.7,True,True,PASSED,2025_Spring
+R058,S016,C130,History,1,C+,2.3,True,True,PASSED,2025_Summer
+R059,S016,C161,History,1,B,3.0,True,True,PASSED,2025_Fall
+R060,S017,C119,Philosophy,1,B+,3.3,True,True,PASSED,2025_Spring
+R061,S017,C140,Philosophy,1,A-,3.7,True,True,PASSED,2025_Summer
+R062,S017,C151,Philosophy,1,B,3.0,True,True,PASSED,2025_Fall
+R063,S018,C122,Mathematics,1,A,4.0,True,True,PASSED,2025_Spring
+R064,S018,C124,Mathematics,1,A-,3.7,True,True,PASSED,2025_Spring
+R065,S018,C128,Mathematics,1,B+,3.3,True,True,PASSED,2025_Summer
+R066,S019,C127,History,1,B,3.0,True,True,PASSED,2025_Spring
+R067,S019,C130,History,1,B-,2.7,True,True,PASSED,2025_Summer
+R068,S019,C166,History,1,C+,2.3,True,True,PASSED,2025_Fall
+R069,S020,C103,Biology,1,B+,3.3,True,True,PASSED,2025_Spring
+R070,S020,C135,Biology,1,B,3.0,True,True,PASSED,2025_Summer
+R071,S020,C143,Biology,1,B-,2.7,True,True,PASSED,2025_Fall
+R072,S021,C127,History,1,B-,2.7,True,True,PASSED,2025_Spring
+R073,S021,C161,History,1,C+,2.3,True,True,PASSED,2025_Summer
+R074,S021,C166,History,1,F,0.0,False,True,FAILED,2025_Fall
+R075,S021,C166,History,2,C,2.0,True,True,PASSED,2025_Fall
+R076,S022,C122,Mathematics,1,A-,3.7,True,True,PASSED,2025_Spring
+R077,S022,C124,Mathematics,1,B+,3.3,True,True,PASSED,2025_Summer
+R078,S022,C144,Mathematics,1,B,3.0,True,True,PASSED,2025_Fall
+R079,S023,C109,Software Engineering,1,B,3.0,True,True,PASSED,2025_Spring
+R080,S023,C114,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Summer
+R081,S023,C180,Software Engineering,1,A-,3.7,True,True,PASSED,2025_Fall
+R082,S024,C132,Physics,1,B+,3.3,True,True,PASSED,2025_Spring
+R083,S024,C175,Physics,1,B,3.0,True,True,PASSED,2025_Summer
+R084,S024,C200,Physics,1,B-,2.7,True,True,PASSED,2025_Fall
+R085,S025,C170,Statistics,1,B,3.0,True,True,PASSED,2025_Spring
+R086,S025,C181,Statistics,1,B-,2.7,True,True,PASSED,2025_Summer
+R087,S025,C190,Statistics,1,C+,2.3,True,True,PASSED,2025_Fall
+R088,S026,C109,Software Engineering,1,A-,3.7,True,True,PASSED,2025_Spring
+R089,S026,C129,Software Engineering,1,B+,3.3,True,True,PASSED,2025_Summer
+R090,S026,C142,Networking,1,B,3.0,True,True,PASSED,2025_Fall
+R091,S027,C122,Mathematics,1,A,4.0,True,True,PASSED,2025_Spring
+R092,S027,C128,Mathematics,1,A-,3.7,True,True,PASSED,2025_Summer
+R093,S027,C144,Mathematics,1,B+,3.3,True,True,PASSED,2025_Fall
+R094,S028,C122,Mathematics,1,B+,3.3,True,True,PASSED,2025_Spring
+R095,S028,C124,Mathematics,1,B,3.0,True,True,PASSED,2025_Summer
+R096,S028,C128,Mathematics,1,F,0.0,True,False,FAILED,2025_Fall
+R097,S028,C128,Mathematics,2,C+,2.3,True,True,PASSED,2025_Fall
+R098,S029,C108,Literature,1,B-,2.7,True,True,PASSED,2025_Spring
+R099,S029,C150,Literature,1,B,3.0,True,True,PASSED,2025_Summer
+R100,S029,C159,Literature,1,B+,3.3,True,True,PASSED,2025_Fall
