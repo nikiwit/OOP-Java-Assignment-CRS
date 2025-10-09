@@ -2,6 +2,10 @@
 
 Quick reference for team collaboration.
 
+## First Time Contributing?
+
+**Read [PACKAGE_GUIDE.md](PACKAGE_GUIDE.md)** It explains where to put your code (`models/`, `services/`, `dao/`, etc.) and how everything works together.
+
 ## Workflow
 
 ```bash
@@ -57,7 +61,8 @@ git push origin feature/your-feature-name  # Then create PR
 
 Before approving a PR, check:
 
-- [ ] Follows naming conventions (camelCase methods, PascalCase classes)
+- [ ] Code is in the correct package (`models/`, `services/`, `dao/`, etc.) - See [PACKAGE_GUIDE.md](PACKAGE_GUIDE.md)
+- [ ] Follows naming conventions (camelCase methods, PascalCase classes) - See [CODING_STANDARDS.md](CODING_STANDARDS.md)
 - [ ] No magic numbers (use constants)
 - [ ] Null checks on inputs
 - [ ] No empty catch blocks
@@ -113,4 +118,8 @@ git push origin feature/your-feature-name
 
 ---
 
-See [CODING_STANDARDS.md](CODING_STANDARDS.md) for Java conventions
+## Resources
+
+- [PACKAGE_GUIDE.md](PACKAGE_GUIDE.md) - Where to put your code
+- [CODING_STANDARDS.md](CODING_STANDARDS.md) - Java naming and style conventions
+- [README.md](README.md) - Overall Project Information

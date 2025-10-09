@@ -50,7 +50,11 @@ public class StudentRecord {              // Classes: PascalCase
 }
 ```
 
-See [CODING_STANDARDS.md](CODING_STANDARDS.md) for details.
+## Before You Code
+
+See [CODING_STANDARDS.md](CODING_STANDARDS.md) and [PACKAGE_GUIDE.md](PACKAGE_GUIDE.md) for details.
+
+These guides explain which folders to put your code in (`models/`, `services/`, `dao/`, etc.) and how everything works together. Don't skip this - it will save you (and essentially ours) time!
 
 ## Project Structure
 
@@ -61,19 +65,24 @@ OOP-Java-Assignment-CRS/
 ├── lib/                      # javax.mail.jar, itextpdf.jar
 ├── reports/                  # Generated PDFs
 ├── src/                      # Java source files
+│   ├── dao/                  # Data Access Objects (CRUD operations)
 │   ├── enums/                # Enumerations (Grade, UserRole, etc.)
-│   ├── filemanager/          # File I/O operations
 │   ├── gui/                  # Swing UI components
-│   ├── model/                # Student, Course, Enrollment
-│   ├── service/              # Email, PDF, validation logic
-│   ├── util/                 # Helper utilities, constants
+│   ├── models/               # Student, Course, Enrollment, User, etc.
+│   ├── services/             # Email, PDF, Authentication, CGPA calculation
+│   ├── utils/                # Helper utilities (FileManager, etc.)
 │   └── Main.java             # Application entry point
 ├── .gitignore                # Git ignore rules
 ├── class_diagram.md          # System class diagram
 ├── CODING_STANDARDS.md       # Java coding conventions
 ├── CONTRIBUTING.md           # Git workflow guide
+├── PACKAGE_GUIDE.md          # Project structure justification
 └── README.md                 # Project documentation
 ```
+
+**Not sure where your new class goes?** Check [PACKAGE_GUIDE.md](PACKAGE_GUIDE.md)
+
+**Not sure how to write it?** [CODING_STANDARDS.md](CODING_STANDARDS.md)
 
 ## Technologies
 
@@ -111,4 +120,8 @@ java -cp "bin;lib/*" Main
 
 ---
 
-See [CODING_STANDARDS.md](CODING_STANDARDS.md) before coding | [CONTRIBUTING.md](CONTRIBUTING.md) for detailed workflow
+## Documentation
+
+- [PACKAGE_GUIDE.md](PACKAGE_GUIDE.md) - **Start here!** Learn where to put your code
+- [CODING_STANDARDS.md](CODING_STANDARDS.md) - Java naming and style conventions
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Git workflow and collaboration guide
