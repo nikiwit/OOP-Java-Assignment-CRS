@@ -5,7 +5,6 @@ classDiagram
         <<enumeration>>
         ADMIN
         INSTRUCTOR
-        STUDENT
     }
 
     class GradeEnum {
@@ -73,7 +72,7 @@ classDiagram
         PROBATION
     }
 
-    %% Abstract User Class
+    %% Abstract User Class (Only Admin and Instructor can login)
     class User {
         <<abstract>>
         -String userId
@@ -104,16 +103,14 @@ classDiagram
     class Instructor {
         -String instructorId
         -String instructorName
-        -List~Course~ assignedCourses
         +createRecoveryPlan(Student student, Course course, String task) RecoveryPlan
         +updateRecoveryPlan(RecoveryPlan plan) void
         +trackProgress(RecoveryPlan plan) void
         +gradeRecovery(Grade grade) void
         +getAssignedCourses() List~Course~
-        +assignCourse(Course course) void
     }
 
-    %% Student Class
+    %% Student Class (NOT a User - students don't login)
     class Student {
         -String studentId
         -String firstName
@@ -121,18 +118,15 @@ classDiagram
         -String major
         -String email
         -String status
-        -int year
-        -int semester
-        -boolean retake
-        -List~Grade~ grades
-        -List~Result~ results
-        -List~RecoveryPlan~ recoveryPlans
         +calculateCGPA() double
         +getFailedCourses() List~Course~
         +isEligibleForProgression() boolean
         +getFullName() String
         +addGrade(Grade grade) void
         +getMajorRequiredCourses() List~Course~
+        +getGrades() List~Grade~
+        +getResults() List~Result~
+        +getRecoveryPlans() List~RecoveryPlan~
     }
 
     %% Course Class
@@ -143,11 +137,10 @@ classDiagram
         -int semester
         -int capacity
         -String instructorId
-        -List~RecoveryCourseAction~ recoveryActions
         +getCourseDetails() String
         +hasAvailableSeats() boolean
         +getInstructor() Instructor
-        +addRecoveryAction(RecoveryCourseAction action) void
+        +getRecoveryActions() List~RecoveryCourseAction~
     }
 
     %% Semester Class
@@ -185,7 +178,7 @@ classDiagram
         -String courseId
         -String courseName
         -int attemptNumber
-        -String component
+        -ComponentType component
         -String grade
         -double gradePoint
         -GradeStatus status
@@ -194,7 +187,7 @@ classDiagram
         +calculateGradePoint() double
         +isPassed() boolean
         +isFailed() boolean
-        +getComponent() ComponentType
+        +getComponentType() ComponentType
     }
 
     %% Result Class
@@ -235,7 +228,7 @@ classDiagram
         +getInstructor() Instructor
     }
 
-    %% Recovery Course Action
+    %% Recovery Course Action (Templates based on course subject)
     class RecoveryCourseAction {
         -String courseId
         -int actionNumber
@@ -271,10 +264,9 @@ classDiagram
         +send() void
         +markAsSent() void
         +markAsFailed() void
-        +getRecipient() User
     }
 
-    %% Login Log
+    %% Login Log (Binary file storage for timestamps)
     class LoginLog {
         -String loginId
         -String userId
@@ -290,11 +282,9 @@ classDiagram
     %% Academic Report
     class AcademicReport {
         -String reportId
-        -Student student
-        -String semester
+        -String studentId
+        -String semesterId
         -String year
-        -List~Grade~ grades
-        -List~Result~ results
         -double semesterGPA
         -double cumulativeCGPA
         -Date generatedDate
@@ -303,13 +293,15 @@ classDiagram
         +exportToPDF() void
         +calculateSemesterGPA() double
         +calculateCGPA() double
-        +includeGrade(Grade grade) void
+        +getStudent() Student
+        +getGrades() List~Grade~
+        +getResults() List~Result~
     }
 
     %% Services and Utilities
     class AuthenticationService {
+        <<singleton>>
         -static AuthenticationService instance
-        -List~LoginLog~ loginLogs
         -AuthenticationService()
         +static getInstance() AuthenticationService
         +authenticate(String email, String password) User
@@ -320,14 +312,14 @@ classDiagram
     }
 
     class EmailNotificationService {
+        <<singleton>>
         -static EmailNotificationService instance
         -String smtpHost
         -int smtpPort
-        -List~EmailNotification~ emailQueue
         -EmailNotificationService()
         +static getInstance() EmailNotificationService
         +sendEmail(EmailNotification email) void
-        +sendNotification(User user, NotificationType type, String content) void
+        +sendNotification(String recipientId, String email, NotificationType type, String content) void
         +sendRecoveryPlanNotification(Student student, RecoveryPlan plan) void
         +sendEligibilityNotification(Student student, Eligibility eligibility) void
         +sendReportNotification(Student student, AcademicReport report) void
@@ -335,15 +327,17 @@ classDiagram
     }
 
     class ReportGenerator {
+        <<singleton>>
         -static ReportGenerator instance
         -ReportGenerator()
         +static getInstance() ReportGenerator
-        +generateAcademicReport(Student student, String semester, String year) AcademicReport
+        +generateAcademicReport(Student student, String semesterId, String year) AcademicReport
         +exportReportToPDF(AcademicReport report) String
         +generateEligibilityReport(List~Eligibility~ eligibilities) String
     }
 
     class EligibilityChecker {
+        <<utility>>
         -static double MIN_CGPA = 2.0
         -static int MAX_FAILED_COURSES = 3
         +static checkEligibility(Student student, Semester semester) Eligibility
@@ -353,6 +347,7 @@ classDiagram
     }
 
     class CGPACalculator {
+        <<utility>>
         +static calculateCGPA(List~Grade~ grades) double
         +static calculateSemesterGPA(List~Grade~ grades, String semesterId) double
         +static getTotalCreditHours(List~Grade~ grades) int
@@ -486,116 +481,110 @@ classDiagram
         +updateMajorStudent(MajorStudent ms) void
     }
 
-    %% Relationships - Core Domain
+    %% RELATIONSHIPS WITH PROPER UML NOTATION
+
+    %% Inheritance (Generalization) - hollow triangle
     User <|-- Admin : extends
     User <|-- Instructor : extends
-    User --> UserRole : has
-    User --> LoginLog : creates
 
-    Admin --> User : manages
-    Admin --> EligibilityChecker : uses
+    %% Composition (strong ownership) - filled diamond
+    User *-- UserRole : has
+    Grade *-- ComponentType : has
+    Grade *-- GradeStatus : has
+    Grade *-- GradeEnum : uses
+    Result *-- GradeStatus : has
+    RecoveryPlan *-- RecoveryStatus : has
+    EmailNotification *-- EmailStatus : has
+    EmailNotification *-- NotificationType : has
+    Eligibility *-- EligibilityStatus : has
 
-    Instructor --> RecoveryPlan : creates/manages
-    Instructor --> Course : assigned to
-    Instructor --> Grade : grades
+    %% Aggregation (weak ownership) - hollow diamond
+    Student o-- MajorStudent : profile
+    AcademicReport o-- Student : for
+    AcademicReport o-- Grade : includes
+    AcademicReport o-- Result : includes
 
-    Student --> MajorStudent : has profile
-    Student "1" --> "*" Grade : has
-    Student "1" --> "*" Result : has
-    Student "1" --> "*" RecoveryPlan : has
-    Student --> Eligibility : has
+    %% Association - simple line with multiplicity
+    Student "1" -- "0..*" Grade : earns
+    Student "1" -- "0..*" Result : has
+    Student "1" -- "0..*" RecoveryPlan : enrolled in
+    Student "1" -- "0..1" Eligibility : evaluated by
 
-    Course "1" --> "*" Grade : enrolled in
-    Course "1" --> "*" MajorCourse : part of
-    Course "1" --> "*" RecoveryCourseAction : has actions
-    Course --> Instructor : taught by
+    Course "1" -- "0..*" Grade : given for
+    Course "1" -- "0..*" Result : produces
+    Course "1" -- "0..*" MajorCourse : required by
+    Course "1" -- "0..*" RecoveryCourseAction : has templates
+    Course "1" -- "1" Instructor : taught by
 
-    MajorCourse --> Course : refers to
-    MajorStudent --> Student : refers to
+    Instructor "1" -- "0..*" RecoveryPlan : manages
+    Instructor "1" -- "0..*" Grade : assigns
 
-    Grade --> Student : belongs to
-    Grade --> Course : for
-    Grade --> Semester : in
-    Grade --> Instructor : graded by
-    Grade --> GradeEnum : has
-    Grade --> ComponentType : type
-    Grade --> GradeStatus : status
+    Grade "1" -- "1" Semester : in
+    Grade "1" -- "1" Instructor : graded by
 
-    Result --> Student : belongs to
-    Result --> Course : for
-    Result --> Semester : in
-    Result --> GradeStatus : status
+    Result "1" -- "1" Semester : in
 
-    RecoveryPlan --> Student : for
-    RecoveryPlan --> Course : for
-    RecoveryPlan --> Instructor : managed by
-    RecoveryPlan --> RecoveryStatus : has
+    RecoveryPlan "1" -- "1" Student : for
+    RecoveryPlan "1" -- "1" Course : for
+    RecoveryPlan "1" -- "1" Instructor : managed by
 
-    RecoveryCourseAction --> Course : for
+    Eligibility "1" -- "1" Student : for
+    Eligibility "1" -- "1" Semester : in
 
-    Eligibility --> Student : for
-    Eligibility --> Semester : in
-    Eligibility --> EligibilityStatus : has
+    MajorCourse "1" -- "1" Course : maps to
+    MajorStudent "1" -- "1" Student : maps to
 
-    EmailNotification --> User : sent to
-    EmailNotification --> NotificationType : type
-    EmailNotification --> EmailStatus : has
-
-    LoginLog --> User : for
-
-    AcademicReport --> Student : for
-    AcademicReport "1" --> "*" Grade : includes
-    AcademicReport "1" --> "*" Result : includes
-
-    %% Relationships - Services
-    AuthenticationService --> LoginLog : manages
-    AuthenticationService --> User : authenticates
-
-    EmailNotificationService --> EmailNotification : sends
-    EmailNotificationService --> NotificationType : uses
-
-    ReportGenerator --> AcademicReport : generates
-    ReportGenerator --> Student : for
-
-    EligibilityChecker --> Student : checks
-    EligibilityChecker --> Eligibility : creates
-
-    CGPACalculator --> Grade : calculates from
-
-    %% Relationships - Data Access
-    UserDAO --> FileManager : uses
-    StudentDAO --> FileManager : uses
-    InstructorDAO --> FileManager : uses
-    CourseDAO --> FileManager : uses
-    GradeDAO --> FileManager : uses
-    ResultDAO --> FileManager : uses
-    RecoveryPlanDAO --> FileManager : uses
-    RecoveryCourseActionDAO --> FileManager : uses
-    EligibilityDAO --> FileManager : uses
-    EmailNotificationDAO --> FileManager : uses
-    LoginLogDAO --> FileManager : uses
-    SemesterDAO --> FileManager : uses
-    MajorCourseDAO --> FileManager : uses
-    MajorStudentDAO --> FileManager : uses
-
-    UserDAO --> User : persists
-    StudentDAO --> Student : persists
-    InstructorDAO --> Instructor : persists
-    CourseDAO --> Course : persists
-    GradeDAO --> Grade : persists
-    ResultDAO --> Result : persists
-    RecoveryPlanDAO --> RecoveryPlan : persists
-    RecoveryCourseActionDAO --> RecoveryCourseAction : persists
-    EligibilityDAO --> Eligibility : persists
-    EmailNotificationDAO --> EmailNotification : persists
-    LoginLogDAO --> LoginLog : persists
-    SemesterDAO --> Semester : persists
-    MajorCourseDAO --> MajorCourse : persists
-    MajorStudentDAO --> MajorStudent : persists
+    %% Dependency (uses) - dashed arrow
+    User ..> LoginLog : creates
+    Admin ..> User : manages
+    Admin ..> EligibilityChecker : uses
+    EmailNotification ..> Student : can notify
 
     %% Service Dependencies
-    Admin --> EmailNotificationService : uses
-    Instructor --> EmailNotificationService : uses
-    ReportGenerator --> EmailNotificationService : uses
-    EligibilityChecker --> EmailNotificationService : uses
+    AuthenticationService ..> LoginLog : manages
+    AuthenticationService ..> User : authenticates
+    EmailNotificationService ..> EmailNotification : sends
+    ReportGenerator ..> AcademicReport : generates
+    ReportGenerator ..> Student : uses
+    EligibilityChecker ..> Student : evaluates
+    EligibilityChecker ..> Eligibility : creates
+    CGPACalculator ..> Grade : calculates from
+
+    %% Services use EmailNotificationService
+    Admin ..> EmailNotificationService : uses
+    Instructor ..> EmailNotificationService : uses
+    ReportGenerator ..> EmailNotificationService : uses
+    EligibilityChecker ..> EmailNotificationService : uses
+
+    %% Data Access Layer - Aggregation (DAOs aggregate FileManager)
+    UserDAO o-- FileManager : uses
+    StudentDAO o-- FileManager : uses
+    InstructorDAO o-- FileManager : uses
+    CourseDAO o-- FileManager : uses
+    GradeDAO o-- FileManager : uses
+    ResultDAO o-- FileManager : uses
+    RecoveryPlanDAO o-- FileManager : uses
+    RecoveryCourseActionDAO o-- FileManager : uses
+    EligibilityDAO o-- FileManager : uses
+    EmailNotificationDAO o-- FileManager : uses
+    LoginLogDAO o-- FileManager : uses
+    SemesterDAO o-- FileManager : uses
+    MajorCourseDAO o-- FileManager : uses
+    MajorStudentDAO o-- FileManager : uses
+
+    %% DAO Dependencies on Domain Objects
+    UserDAO ..> User : persists
+    StudentDAO ..> Student : persists
+    InstructorDAO ..> Instructor : persists
+    CourseDAO ..> Course : persists
+    GradeDAO ..> Grade : persists
+    ResultDAO ..> Result : persists
+    RecoveryPlanDAO ..> RecoveryPlan : persists
+    RecoveryCourseActionDAO ..> RecoveryCourseAction : persists
+    EligibilityDAO ..> Eligibility : persists
+    EmailNotificationDAO ..> EmailNotification : persists
+    LoginLogDAO ..> LoginLog : persists
+    SemesterDAO ..> Semester : persists
+    MajorCourseDAO ..> MajorCourse : persists
+    MajorStudentDAO ..> MajorStudent : persists
 ```
