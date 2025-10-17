@@ -21,12 +21,11 @@ public class RecoveryPlanDAO {
     }
 
     /**
-     * Loads a recovery plan by student and course ID.
-     * @param studentId the student ID
-     * @param courseId the course ID
+     * Loads a recovery plan by plan ID.
+     * @param planId the plan ID
      * @return the RecoveryPlan object, or null if not found
      */
-    public RecoveryPlan loadRecoveryPlan(String studentId, String courseId) {
+    public RecoveryPlan loadRecoveryPlan(String planId) {
         // To be implemented
         return null;
     }

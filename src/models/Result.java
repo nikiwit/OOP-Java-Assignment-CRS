@@ -2,6 +2,7 @@ package models;
 
 import enums.ComponentType;
 import enums.GradeStatus;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,14 +22,14 @@ public class Result {
     private boolean passedAssignment;
     private GradeStatus status;
     private String semesterId;
+    private Date resultDate;
 
     /**
      * Checks if the student passed the overall course.
      * @return true if passed, false otherwise
      */
     public boolean isPassed() {
-        // To be implemented
-        return false;
+        return passedExam && passedAssignment;
     }
 
     /**
@@ -36,8 +37,7 @@ public class Result {
      * @return true if recovery is needed, false otherwise
      */
     public boolean needsRecovery() {
-        // To be implemented
-        return false;
+        return !passedExam || !passedAssignment;
     }
 
     /**

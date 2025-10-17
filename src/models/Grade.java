@@ -2,6 +2,7 @@ package models;
 
 import enums.ComponentType;
 import enums.GradeStatus;
+import java.util.Date;
 
 /**
  * Represents a grade record for a specific course component (assignment or exam).
@@ -13,12 +14,13 @@ public class Grade {
     private String courseId;
     private String courseName;
     private int attemptNumber;
-    private String component;
+    private ComponentType component;
     private String grade;
     private double gradePoint;
     private GradeStatus status;
     private String semesterId;
     private String instructorId;
+    private Date gradedDate;
 
     /**
      * Calculates the grade point value based on the letter grade.
@@ -51,9 +53,8 @@ public class Grade {
      * Gets the component type (Assignment or Exam).
      * @return the ComponentType enum value
      */
-    public ComponentType getComponent() {
-        // To be implemented
-        return null;
+    public ComponentType getComponentType() {
+        return component;
     }
 
     // Getters and setters to be implemented

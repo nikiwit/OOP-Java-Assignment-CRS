@@ -1,201 +1,61 @@
-GradeID,StudentID,CourseID,CourseName,AttemptNumber,Component,Grade,GradePoint,Status,SemesterID,InstructorID
-G001,S001,C121,Computer Science,1,Assignment,A,4.0,PASSED,2025_Spring,I002
-G002,S001,C121,Computer Science,1,Exam,A,4.0,PASSED,2025_Spring,I002
-G003,S001,C113,Data Structures,1,Assignment,A-,3.7,PASSED,2025_Spring,I003
-G004,S001,C113,Data Structures,1,Exam,B+,3.3,PASSED,2025_Spring,I003
-G005,S001,C101,Algorithms,1,Assignment,A,4.0,PASSED,2025_Summer,I001
-G006,S001,C101,Algorithms,1,Exam,A-,3.7,PASSED,2025_Summer,I001
-G007,S001,C186,Machine Learning,1,Assignment,B+,3.3,PASSED,2025_Fall,I004
-G008,S001,C186,Machine Learning,1,Exam,B,3.0,PASSED,2025_Fall,I004
-G009,S002,C108,Literature,1,Assignment,B+,3.3,PASSED,2025_Spring,I003
-G010,S002,C108,Literature,1,Exam,B,3.0,PASSED,2025_Spring,I003
-G011,S002,C150,Literature,1,Assignment,A,4.0,PASSED,2025_Summer,I003
-G012,S002,C150,Literature,1,Exam,A-,3.7,PASSED,2025_Summer,I003
-G013,S002,C107,English Composition,1,Assignment,B+,3.3,PASSED,2025_Summer,I005
-G014,S002,C107,English Composition,1,Exam,B+,3.3,PASSED,2025_Summer,I005
-G015,S002,C188,Literature,1,Assignment,B,3.0,PASSED,2025_Fall,I003
-G016,S002,C188,Literature,1,Exam,B-,2.7,PASSED,2025_Fall,I003
-G017,S003,C122,Mathematics,1,Assignment,A,4.0,PASSED,2025_Spring,I003
-G018,S003,C122,Mathematics,1,Exam,A,4.0,PASSED,2025_Spring,I003
-G019,S003,C124,Mathematics,1,Assignment,A,4.0,PASSED,2025_Spring,I002
-G020,S003,C124,Mathematics,1,Exam,A-,3.7,PASSED,2025_Spring,I002
-G021,S003,C128,Mathematics,1,Assignment,B+,3.3,PASSED,2025_Summer,I002
-G022,S003,C128,Mathematics,1,Exam,B+,3.3,PASSED,2025_Summer,I002
-G023,S003,C144,Mathematics,1,Assignment,B,3.0,PASSED,2025_Fall,I003
-G024,S003,C144,Mathematics,1,Exam,B,3.0,PASSED,2025_Fall,I003
-G025,S004,C119,Philosophy,1,Assignment,A-,3.7,PASSED,2025_Spring,I003
-G026,S004,C119,Philosophy,1,Exam,B+,3.3,PASSED,2025_Spring,I003
-G027,S004,C140,Philosophy,1,Assignment,A,4.0,PASSED,2025_Summer,I005
-G028,S004,C140,Philosophy,1,Exam,A-,3.7,PASSED,2025_Summer,I005
-G029,S004,C147,Philosophy,1,Assignment,B+,3.3,PASSED,2025_Summer,I005
-G030,S004,C147,Philosophy,1,Exam,B,3.0,PASSED,2025_Summer,I005
-G031,S004,C195,Philosophy,1,Assignment,B,3.0,PASSED,2025_Fall,I004
-G032,S004,C195,Philosophy,1,Exam,B-,2.7,PASSED,2025_Fall,I004
-G033,S005,C170,Statistics,1,Assignment,C+,2.3,PASSED,2025_Spring,I002
-G034,S005,C170,Statistics,1,Exam,C+,2.3,PASSED,2025_Spring,I002
-G035,S005,C181,Statistics,1,Assignment,B,3.0,PASSED,2025_Summer,I005
-G036,S005,C181,Statistics,1,Exam,B-,2.7,PASSED,2025_Summer,I005
-G037,S005,C182,Statistics,1,Assignment,C,2.0,PASSED,2025_Summer,I002
-G038,S005,C182,Statistics,1,Exam,F,0.0,FAILED,2025_Summer,I002
-G039,S005,C182,Statistics,2,Assignment,C,2.0,PASSED,2025_Fall,I002
-G040,S005,C182,Statistics,2,Exam,C,2.0,PASSED,2025_Fall,I002
-G041,S006,C109,Software Engineering,1,Assignment,B+,3.3,PASSED,2025_Spring,I002
-G042,S006,C109,Software Engineering,1,Exam,B,3.0,PASSED,2025_Spring,I002
-G043,S006,C129,Software Engineering,1,Assignment,B+,3.3,PASSED,2025_Summer,I001
-G044,S006,C129,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Summer,I001
-G045,S006,C105,Operating Systems,1,Assignment,A,4.0,PASSED,2025_Summer,I001
-G046,S006,C105,Operating Systems,1,Exam,A-,3.7,PASSED,2025_Summer,I001
-G047,S006,C142,Networking,1,Assignment,B,3.0,PASSED,2025_Fall,I003
-G048,S006,C142,Networking,1,Exam,B,3.0,PASSED,2025_Fall,I003
-G049,S007,C119,Philosophy,1,Assignment,B,3.0,PASSED,2025_Spring,I003
-G050,S007,C119,Philosophy,1,Exam,B-,2.7,PASSED,2025_Spring,I003
-G051,S007,C151,Philosophy,1,Assignment,B-,2.7,PASSED,2025_Summer,I005
-G052,S007,C151,Philosophy,1,Exam,C+,2.3,PASSED,2025_Summer,I005
-G053,S007,C162,Philosophy,1,Assignment,B+,3.3,PASSED,2025_Fall,I005
-G054,S007,C162,Philosophy,1,Exam,B,3.0,PASSED,2025_Fall,I005
-G055,S008,C109,Software Engineering,1,Assignment,A-,3.7,PASSED,2025_Spring,I002
-G056,S008,C109,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Spring,I002
-G057,S008,C142,Networking,1,Assignment,A,4.0,PASSED,2025_Summer,I003
-G058,S008,C142,Networking,1,Exam,A-,3.7,PASSED,2025_Summer,I003
-G059,S008,C115,Cybersecurity,1,Assignment,B+,3.3,PASSED,2025_Summer,I004
-G060,S008,C115,Cybersecurity,1,Exam,B,3.0,PASSED,2025_Summer,I004
-G061,S009,C132,Physics,1,Assignment,A,4.0,PASSED,2025_Spring,I003
-G062,S009,C132,Physics,1,Exam,A,4.0,PASSED,2025_Spring,I003
-G063,S009,C133,Physics,1,Assignment,A,4.0,PASSED,2025_Spring,I004
-G064,S009,C133,Physics,1,Exam,A-,3.7,PASSED,2025_Spring,I004
-G065,S009,C175,Physics,1,Assignment,A-,3.7,PASSED,2025_Summer,I003
-G066,S009,C175,Physics,1,Exam,B+,3.3,PASSED,2025_Summer,I003
-G067,S009,C200,Physics,1,Assignment,B+,3.3,PASSED,2025_Fall,I005
-G068,S009,C200,Physics,1,Exam,B,3.0,PASSED,2025_Fall,I005
-G069,S010,C121,Computer Science,1,Assignment,B+,3.3,PASSED,2025_Spring,I002
-G070,S010,C121,Computer Science,1,Exam,B,3.0,PASSED,2025_Spring,I002
-G071,S010,C113,Data Structures,1,Assignment,F,0.0,FAILED,2025_Summer,I003
-G072,S010,C113,Data Structures,1,Exam,D,1.0,TRANSIT,2025_Summer,I003
-G073,S010,C113,Data Structures,2,Assignment,C+,2.3,PASSED,2025_Fall,I003
-G074,S010,C113,Data Structures,2,Exam,C+,2.3,PASSED,2025_Fall,I003
-G075,S010,C152,Computer Science,1,Assignment,B,3.0,PASSED,2025_Fall,I005
-G076,S010,C152,Computer Science,1,Exam,B-,2.7,PASSED,2025_Fall,I005
-G077,S011,C109,Software Engineering,1,Assignment,A,4.0,PASSED,2025_Spring,I002
-G078,S011,C109,Software Engineering,1,Exam,A-,3.7,PASSED,2025_Spring,I002
-G079,S011,C180,Software Engineering,1,Assignment,B+,3.3,PASSED,2025_Summer,I005
-G080,S011,C180,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Summer,I005
-G081,S011,C105,Operating Systems,1,Assignment,B,3.0,PASSED,2025_Summer,I001
-G082,S011,C105,Operating Systems,1,Exam,B,3.0,PASSED,2025_Summer,I001
-G083,S011,C142,Networking,1,Assignment,B,3.0,PASSED,2025_Fall,I003
-G084,S011,C142,Networking,1,Exam,B-,2.7,PASSED,2025_Fall,I003
-G085,S012,C109,Software Engineering,1,Assignment,A-,3.7,PASSED,2025_Spring,I002
-G086,S012,C109,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Spring,I002
-G087,S012,C115,Cybersecurity,1,Assignment,A,4.0,PASSED,2025_Summer,I004
-G088,S012,C115,Cybersecurity,1,Exam,A,4.0,PASSED,2025_Summer,I004
-G089,S012,C142,Networking,1,Assignment,B+,3.3,PASSED,2025_Fall,I003
-G090,S012,C142,Networking,1,Exam,B,3.0,PASSED,2025_Fall,I003
-G091,S013,C109,Software Engineering,1,Assignment,B,3.0,PASSED,2025_Spring,I002
-G092,S013,C109,Software Engineering,1,Exam,B-,2.7,PASSED,2025_Spring,I002
-G093,S013,C105,Operating Systems,1,Assignment,B-,2.7,PASSED,2025_Summer,I001
-G094,S013,C105,Operating Systems,1,Exam,C+,2.3,PASSED,2025_Summer,I001
-G095,S013,C115,Cybersecurity,1,Assignment,F,0.0,FAILED,2025_Summer,I004
-G096,S013,C115,Cybersecurity,1,Exam,F,0.0,FAILED,2025_Summer,I004
-G097,S013,C115,Cybersecurity,2,Assignment,C,2.0,PASSED,2025_Fall,I004
-G098,S013,C115,Cybersecurity,2,Exam,C,2.0,PASSED,2025_Fall,I004
-G099,S014,C139,Economics,1,Assignment,A,4.0,PASSED,2025_Spring,I005
-G100,S014,C139,Economics,1,Exam,A-,3.7,PASSED,2025_Spring,I005
-G101,S014,C156,Economics,1,Assignment,A-,3.7,PASSED,2025_Summer,I002
-G102,S014,C156,Economics,1,Exam,B+,3.3,PASSED,2025_Summer,I002
-G103,S014,C163,Economics,1,Assignment,B+,3.3,PASSED,2025_Summer,I005
-G104,S014,C163,Economics,1,Exam,B,3.0,PASSED,2025_Summer,I005
-G105,S014,C176,Economics,1,Assignment,B,3.0,PASSED,2025_Fall,I004
-G106,S014,C176,Economics,1,Exam,B-,2.7,PASSED,2025_Fall,I004
-G107,S015,C109,Software Engineering,1,Assignment,B+,3.3,PASSED,2025_Spring,I002
-G108,S015,C109,Software Engineering,1,Exam,B,3.0,PASSED,2025_Spring,I002
-G109,S015,C129,Software Engineering,1,Assignment,B+,3.3,PASSED,2025_Summer,I001
-G110,S015,C129,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Summer,I001
-G111,S015,C142,Networking,1,Assignment,A,4.0,PASSED,2025_Fall,I003
-G112,S015,C142,Networking,1,Exam,A-,3.7,PASSED,2025_Fall,I003
-G113,S016,C127,History,1,Assignment,B,3.0,PASSED,2025_Spring,I002
-G114,S016,C127,History,1,Exam,B-,2.7,PASSED,2025_Spring,I002
-G115,S016,C130,History,1,Assignment,C+,2.3,PASSED,2025_Summer,I003
-G116,S016,C130,History,1,Exam,C+,2.3,PASSED,2025_Summer,I003
-G117,S016,C161,History,1,Assignment,B+,3.3,PASSED,2025_Fall,I005
-G118,S016,C161,History,1,Exam,B,3.0,PASSED,2025_Fall,I005
-G119,S017,C119,Philosophy,1,Assignment,A-,3.7,PASSED,2025_Spring,I003
-G120,S017,C119,Philosophy,1,Exam,B+,3.3,PASSED,2025_Spring,I003
-G121,S017,C140,Philosophy,1,Assignment,A,4.0,PASSED,2025_Summer,I005
-G122,S017,C140,Philosophy,1,Exam,A-,3.7,PASSED,2025_Summer,I005
-G123,S017,C151,Philosophy,1,Assignment,B+,3.3,PASSED,2025_Fall,I005
-G124,S017,C151,Philosophy,1,Exam,B,3.0,PASSED,2025_Fall,I005
-G125,S018,C122,Mathematics,1,Assignment,A,4.0,PASSED,2025_Spring,I003
-G126,S018,C122,Mathematics,1,Exam,A,4.0,PASSED,2025_Spring,I003
-G127,S018,C124,Mathematics,1,Assignment,A,4.0,PASSED,2025_Spring,I002
-G128,S018,C124,Mathematics,1,Exam,A-,3.7,PASSED,2025_Spring,I002
-G129,S018,C128,Mathematics,1,Assignment,A-,3.7,PASSED,2025_Summer,I002
-G130,S018,C128,Mathematics,1,Exam,B+,3.3,PASSED,2025_Summer,I002
-G131,S019,C127,History,1,Assignment,B+,3.3,PASSED,2025_Spring,I002
-G132,S019,C127,History,1,Exam,B,3.0,PASSED,2025_Spring,I002
-G133,S019,C130,History,1,Assignment,B,3.0,PASSED,2025_Summer,I003
-G134,S019,C130,History,1,Exam,B-,2.7,PASSED,2025_Summer,I003
-G135,S019,C166,History,1,Assignment,B-,2.7,PASSED,2025_Fall,I003
-G136,S019,C166,History,1,Exam,C+,2.3,PASSED,2025_Fall,I003
-G137,S020,C103,Biology,1,Assignment,A-,3.7,PASSED,2025_Spring,I002
-G138,S020,C103,Biology,1,Exam,B+,3.3,PASSED,2025_Spring,I002
-G139,S020,C135,Biology,1,Assignment,B+,3.3,PASSED,2025_Summer,I005
-G140,S020,C135,Biology,1,Exam,B,3.0,PASSED,2025_Summer,I005
-G141,S020,C143,Biology,1,Assignment,B,3.0,PASSED,2025_Fall,I005
-G142,S020,C143,Biology,1,Exam,B-,2.7,PASSED,2025_Fall,I005
-G143,S021,C127,History,1,Assignment,B,3.0,PASSED,2025_Spring,I002
-G144,S021,C127,History,1,Exam,B-,2.7,PASSED,2025_Spring,I002
-G145,S021,C161,History,1,Assignment,C+,2.3,PASSED,2025_Summer,I005
-G146,S021,C161,History,1,Exam,C+,2.3,PASSED,2025_Summer,I005
-G147,S021,C166,History,1,Assignment,D,1.0,TRANSIT,2025_Fall,I003
-G148,S021,C166,History,1,Exam,F,0.0,FAILED,2025_Fall,I003
-G149,S021,C166,History,2,Assignment,C,2.0,PASSED,2025_Fall,I003
-G150,S021,C166,History,2,Exam,C,2.0,PASSED,2025_Fall,I003
-G151,S022,C122,Mathematics,1,Assignment,A,4.0,PASSED,2025_Spring,I003
-G152,S022,C122,Mathematics,1,Exam,A-,3.7,PASSED,2025_Spring,I003
-G153,S022,C124,Mathematics,1,Assignment,A-,3.7,PASSED,2025_Summer,I002
-G154,S022,C124,Mathematics,1,Exam,B+,3.3,PASSED,2025_Summer,I002
-G155,S022,C144,Mathematics,1,Assignment,B+,3.3,PASSED,2025_Fall,I003
-G156,S022,C144,Mathematics,1,Exam,B,3.0,PASSED,2025_Fall,I003
-G157,S023,C109,Software Engineering,1,Assignment,B+,3.3,PASSED,2025_Spring,I002
-G158,S023,C109,Software Engineering,1,Exam,B,3.0,PASSED,2025_Spring,I002
-G159,S023,C114,Software Engineering,1,Assignment,A-,3.7,PASSED,2025_Summer,I005
-G160,S023,C114,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Summer,I005
-G161,S023,C180,Software Engineering,1,Assignment,A,4.0,PASSED,2025_Fall,I005
-G162,S023,C180,Software Engineering,1,Exam,A-,3.7,PASSED,2025_Fall,I005
-G163,S024,C132,Physics,1,Assignment,A-,3.7,PASSED,2025_Spring,I003
-G164,S024,C132,Physics,1,Exam,B+,3.3,PASSED,2025_Spring,I003
-G165,S024,C175,Physics,1,Assignment,B+,3.3,PASSED,2025_Summer,I003
-G166,S024,C175,Physics,1,Exam,B,3.0,PASSED,2025_Summer,I003
-G167,S024,C200,Physics,1,Assignment,B,3.0,PASSED,2025_Fall,I005
-G168,S024,C200,Physics,1,Exam,B-,2.7,PASSED,2025_Fall,I005
-G169,S025,C170,Statistics,1,Assignment,B+,3.3,PASSED,2025_Spring,I002
-G170,S025,C170,Statistics,1,Exam,B,3.0,PASSED,2025_Spring,I002
-G171,S025,C181,Statistics,1,Assignment,B,3.0,PASSED,2025_Summer,I005
-G172,S025,C181,Statistics,1,Exam,B-,2.7,PASSED,2025_Summer,I005
-G173,S025,C190,Statistics,1,Assignment,B-,2.7,PASSED,2025_Fall,I004
-G174,S025,C190,Statistics,1,Exam,C+,2.3,PASSED,2025_Fall,I004
-G175,S026,C109,Software Engineering,1,Assignment,A,4.0,PASSED,2025_Spring,I002
-G176,S026,C109,Software Engineering,1,Exam,A-,3.7,PASSED,2025_Spring,I002
-G177,S026,C129,Software Engineering,1,Assignment,A-,3.7,PASSED,2025_Summer,I001
-G178,S026,C129,Software Engineering,1,Exam,B+,3.3,PASSED,2025_Summer,I001
-G179,S026,C142,Networking,1,Assignment,B+,3.3,PASSED,2025_Fall,I003
-G180,S026,C142,Networking,1,Exam,B,3.0,PASSED,2025_Fall,I003
-G181,S027,C122,Mathematics,1,Assignment,A,4.0,PASSED,2025_Spring,I003
-G182,S027,C122,Mathematics,1,Exam,A,4.0,PASSED,2025_Spring,I003
-G183,S027,C128,Mathematics,1,Assignment,A,4.0,PASSED,2025_Summer,I002
-G184,S027,C128,Mathematics,1,Exam,A-,3.7,PASSED,2025_Summer,I002
-G185,S027,C144,Mathematics,1,Assignment,A-,3.7,PASSED,2025_Fall,I003
-G186,S027,C144,Mathematics,1,Exam,B+,3.3,PASSED,2025_Fall,I003
-G187,S028,C122,Mathematics,1,Assignment,A-,3.7,PASSED,2025_Spring,I003
-G188,S028,C122,Mathematics,1,Exam,B+,3.3,PASSED,2025_Spring,I003
-G189,S028,C124,Mathematics,1,Assignment,B+,3.3,PASSED,2025_Summer,I002
-G190,S028,C124,Mathematics,1,Exam,B,3.0,PASSED,2025_Summer,I002
-G191,S028,C128,Mathematics,1,Assignment,F,0.0,FAILED,2025_Fall,I002
-G192,S028,C128,Mathematics,1,Exam,D,1.0,TRANSIT,2025_Fall,I002
-G193,S028,C128,Mathematics,2,Assignment,C+,2.3,PASSED,2025_Fall,I002
-G194,S028,C128,Mathematics,2,Exam,C+,2.3,PASSED,2025_Fall,I002
-G195,S029,C108,Literature,1,Assignment,B,3.0,PASSED,2025_Spring,I003
-G196,S029,C108,Literature,1,Exam,B-,2.7,PASSED,2025_Spring,I003
-G197,S029,C150,Literature,1,Assignment,B+,3.3,PASSED,2025_Summer,I003
-G198,S029,C150,Literature,1,Exam,B,3.0,PASSED,2025_Summer,I003
-G199,S029,C159,Literature,1,Assignment,A-,3.7,PASSED,2025_Fall,I003
-G200,S029,C159,Literature,1,Exam,B+,3.3,PASSED,2025_Fall,I003
+GradeID,StudentID,CourseID,CourseName,AttemptNumber,Component,Grade,GradePoint,Status,SemesterID,InstructorID,GradedDate
+G001,S001,C121,Computer Science,1,Assignment,A,4.0,PASSED,202501,I002,2025-03-15
+G002,S001,C121,Computer Science,1,Exam,A,4.0,PASSED,202501,I002,2025-05-10
+G003,S001,C113,Data Structures,1,Assignment,A-,3.7,PASSED,202501,I003,2025-03-20
+G004,S001,C113,Data Structures,1,Exam,B+,3.3,PASSED,202501,I003,2025-05-12
+G005,S001,C101,Algorithms,1,Assignment,A,4.0,PASSED,202505,I001,2025-07-10
+G006,S001,C101,Algorithms,1,Exam,A-,3.7,PASSED,202505,I001,2025-08-05
+G007,S001,C186,Machine Learning,1,Assignment,B+,3.3,PASSED,202509,I004,2025-10-15
+G008,S001,C186,Machine Learning,1,Exam,B,3.0,PASSED,202509,I004,2025-12-10
+G009,S002,C108,Literature,1,Assignment,B+,3.3,PASSED,202501,I003,2025-03-10
+G010,S002,C108,Literature,1,Exam,B,3.0,PASSED,202501,I003,2025-05-08
+G011,S002,C150,Literature,1,Assignment,A,4.0,PASSED,202505,I003,2025-07-12
+G012,S002,C150,Literature,1,Exam,A-,3.7,PASSED,202505,I003,2025-08-10
+G013,S002,C107,English Composition,1,Assignment,B+,3.3,PASSED,202505,I005,2025-07-15
+G014,S002,C107,English Composition,1,Exam,B+,3.3,PASSED,202505,I005,2025-08-12
+G015,S002,C188,Literature,1,Assignment,B,3.0,PASSED,202509,I003,2025-10-20
+G016,S002,C188,Literature,1,Exam,B-,2.7,PASSED,202509,I003,2025-12-15
+G017,S010,C121,Computer Science,1,Assignment,B+,3.3,PASSED,202501,I002,2025-03-15
+G018,S010,C121,Computer Science,1,Exam,B,3.0,PASSED,202501,I002,2025-05-10
+G019,S010,C113,Data Structures,1,Assignment,F,0.0,FAILED,202505,I003,2025-07-10
+G020,S010,C113,Data Structures,1,Exam,D,1.0,TRANSIT,202505,I003,2025-08-05
+G021,S010,C113,Data Structures,2,Assignment,C+,2.3,PASSED,202509,I003,2025-10-15
+G022,S010,C113,Data Structures,2,Exam,C+,2.3,PASSED,202509,I003,2025-12-10
+G023,S010,C152,Computer Science,1,Assignment,B,3.0,PASSED,202509,I005,2025-10-20
+G024,S010,C152,Computer Science,1,Exam,B-,2.7,PASSED,202509,I005,2025-12-12
+G025,S013,C109,Software Engineering,1,Assignment,B,3.0,PASSED,202501,I002,2025-03-18
+G026,S013,C109,Software Engineering,1,Exam,B-,2.7,PASSED,202501,I002,2025-05-11
+G027,S013,C105,Operating Systems,1,Assignment,B-,2.7,PASSED,202505,I001,2025-07-15
+G028,S013,C105,Operating Systems,1,Exam,C+,2.3,PASSED,202505,I001,2025-08-08
+G029,S013,C115,Cybersecurity,1,Assignment,F,0.0,FAILED,202505,I004,2025-07-20
+G030,S013,C115,Cybersecurity,1,Exam,F,0.0,FAILED,202505,I004,2025-08-10
+G031,S013,C115,Cybersecurity,2,Assignment,C,2.0,PASSED,202509,I004,2025-10-25
+G032,S013,C115,Cybersecurity,2,Exam,C,2.0,PASSED,202509,I004,2025-12-15
+G033,S021,C127,History,1,Assignment,B,3.0,PASSED,202501,I002,2025-03-12
+G034,S021,C127,History,1,Exam,B-,2.7,PASSED,202501,I002,2025-05-09
+G035,S021,C161,History,1,Assignment,C+,2.3,PASSED,202505,I005,2025-07-08
+G036,S021,C161,History,1,Exam,C+,2.3,PASSED,202505,I005,2025-08-06
+G037,S021,C166,History,1,Assignment,D,1.0,TRANSIT,202509,I003,2025-10-18
+G038,S021,C166,History,1,Exam,F,0.0,FAILED,202509,I003,2025-12-08
+G039,S021,C166,History,2,Assignment,C,2.0,PASSED,202509,I003,2025-11-15
+G040,S021,C166,History,2,Exam,C,2.0,PASSED,202509,I003,2025-12-18
+G041,S026,C121,Computer Science,1,Assignment,D,1.0,TRANSIT,202501,I002,2025-03-15
+G042,S026,C121,Computer Science,1,Exam,F,0.0,FAILED,202501,I002,2025-05-10
+G043,S026,C113,Data Structures,1,Assignment,F,0.0,FAILED,202501,I003,2025-03-20
+G044,S026,C113,Data Structures,1,Exam,F,0.0,FAILED,202501,I003,2025-05-12
+G045,S026,C109,Software Engineering,1,Assignment,C,2.0,PASSED,202505,I002,2025-07-15
+G046,S026,C109,Software Engineering,1,Exam,C-,1.7,PASSED,202505,I002,2025-08-10
+G047,S028,C128,Mathematics,1,Assignment,F,0.0,FAILED,202501,I002,2025-03-10
+G048,S028,C128,Mathematics,1,Exam,D,1.0,TRANSIT,202501,I002,2025-05-08
+G049,S028,C122,Mathematics,1,Assignment,C+,2.3,PASSED,202505,I003,2025-07-12
+G050,S028,C122,Mathematics,1,Exam,C,2.0,PASSED,202505,I003,2025-08-08
+G051,S032,C161,History,1,Assignment,D+,1.3,TRANSIT,202501,I005,2025-03-18
+G052,S032,C161,History,1,Exam,F,0.0,FAILED,202501,I005,2025-05-10
+G053,S035,C129,Software Engineering,1,Assignment,F,0.0,FAILED,202501,I002,2025-03-15
+G054,S035,C129,Software Engineering,1,Exam,F,0.0,FAILED,202501,I002,2025-05-10
+G055,S039,C162,Philosophy,1,Assignment,D,1.0,TRANSIT,202501,I004,2025-03-20
+G056,S039,C162,Philosophy,1,Exam,F,0.0,FAILED,202501,I004,2025-05-12
+G057,S027,C103,Biology,1,Assignment,A,4.0,PASSED,202501,I002,2025-03-10
+G058,S027,C103,Biology,1,Exam,A-,3.7,PASSED,202501,I002,2025-05-08
+G059,S029,C109,Software Engineering,1,Assignment,B+,3.3,PASSED,202501,I002,2025-03-15
+G060,S029,C109,Software Engineering,1,Exam,B,3.0,PASSED,202501,I002,2025-05-10

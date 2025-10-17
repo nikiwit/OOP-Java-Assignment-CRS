@@ -1,81 +1,10 @@
-CourseID,ActionNumber, ActionDescription,Notes
-History,1,Complete diagnostic assessment to identify knowledge gaps,Student meets with instructor to review failed exam areas and weak topics
-History,2,Attend mandatory tutoring sessions (8 hours minimum),Focus on historical analysis and essay writing techniques
-History,3,Submit makeup research paper on assigned historical period,Minimum 2000 words with proper citations required
-History,4,Pass comprehensive makeup examination,Must achieve minimum 70% to recover course credit
-Data Structures,1,Review fundamental concepts with teaching assistant,Focus on arrays linked lists trees and graphs
-Data Structures,2,Complete 10 coding exercises on weak algorithm areas,Submit via online learning platform with working code
-Data Structures,3,Implement major data structure project,Build and document a complete application using multiple data structures
-Data Structures,4,Pass hands-on practical coding exam,Timed exam requiring implementation of data structures from scratch
-Mathematics,1,Take diagnostic test to identify specific topic weaknesses,Assessment covers algebra calculus and problem-solving skills
-Mathematics,2,Complete online tutorial modules for failed topics,Minimum 15 hours of video lessons and practice problems
-Mathematics,3,Attend peer study group sessions (6 sessions minimum),Collaborative problem-solving with instructor oversight
-Mathematics,4,Pass comprehensive makeup exam covering all course material,Must score 70% or higher to receive course credit
-Cybersecurity,1,Review security fundamentals and failed exam topics,Meet with instructor to clarify misconceptions about security principles
-Cybersecurity,2,Complete hands-on lab exercises in virtual environment,Practice network security vulnerability assessment and mitigation
-Cybersecurity,3,Develop security audit report for case study scenario,Demonstrate understanding of security frameworks and best practices
-Cybersecurity,4,Pass practical security assessment exam,Includes both theoretical questions and hands-on security tasks
-Chemistry,1,Complete safety certification and lab skills review,Mandatory before any lab makeup work can begin
-Chemistry,2,Redo failed laboratory experiments with proper documentation,Submit complete lab reports with analysis and conclusions
-Chemistry,3,Complete supplementary problem sets on weak topics,Focus on stoichiometry equilibrium and reaction mechanisms
-Chemistry,4,Pass comprehensive written and practical exam,Includes lab practical and theoretical chemistry questions
-Artificial Intelligence,1,Review core AI concepts and failed assignments,Focus on machine learning algorithms search and optimization
-Artificial Intelligence,2,Complete tutorial on specific AI implementation techniques,Hands-on coding exercises with popular AI frameworks
-Artificial Intelligence,3,Develop AI project demonstrating learned concepts,Implement working model with documentation and analysis
-Artificial Intelligence,4,Present project and pass technical oral examination,Defend design choices and demonstrate deep understanding
-Philosophy,1,Meet with instructor to discuss conceptual difficulties,Identify specific philosophical arguments and theories that were unclear
-Philosophy,2,Read assigned supplementary texts and critical analyses,Complete reading journal with reflection questions
-Philosophy,3,Write analytical essay on philosophical problem,Minimum 2500 words demonstrating critical thinking skills
-Philosophy,4,Pass comprehensive essay-based final exam,Analyze philosophical arguments and construct logical responses
-Operating Systems,1,Review OS fundamentals and architecture concepts,Study process management memory management and file systems
-Operating Systems,2,Complete programming assignments on OS concepts,Implement process scheduling memory allocation or file system operations
-Operating Systems,3,Participate in debugging workshop for OS programs,Hands-on troubleshooting of system-level code
-Operating Systems,4,Pass comprehensive exam with theory and coding components,Demonstrate understanding of OS design and implementation
-Computer Science,1,Identify weak programming and CS theory areas,Diagnostic assessment covering algorithms data structures and coding
-Computer Science,2,Complete remedial coding assignments and exercises,Practice problem-solving with increasing difficulty levels
-Computer Science,3,Build comprehensive software project,Demonstrate mastery of programming concepts and best practices
-Computer Science,4,Pass practical coding exam and technical interview,Live coding session with algorithm implementation
-English Composition,1,Review essay structure grammar and writing mechanics,One-on-one session with writing center tutor
-English Composition,2,Revise and resubmit all failed writing assignments,Incorporate feedback and demonstrate improvement in writing quality
-English Composition,3,Complete additional writing workshops,Focus on thesis development argumentation and revision strategies
-English Composition,4,Submit final portfolio of polished essays,Must demonstrate college-level writing proficiency
-Networking,1,Review network fundamentals and protocol theory,Study OSI model TCP/IP routing and network architecture
-Networking,2,Complete hands-on lab exercises in network simulation,Configure routers switches and troubleshoot network issues
-Networking,3,Design and document network infrastructure solution,Create network diagram with justification for design choices
-Networking,4,Pass practical networking exam,Configure actual network equipment and solve connectivity problems
-Literature,1,Meet with instructor to discuss literary analysis weaknesses,Review close reading techniques and critical interpretation methods
-Literature,2,Re-read assigned texts with guided reading questions,Focus on themes symbolism and literary devices
-Literature,3,Write analytical essays on previously failed topics,Minimum 1500 words per essay demonstrating deeper understanding
-Literature,4,Pass comprehensive literature exam,Essay-based exam covering all course texts and concepts
-Software Engineering,1,Review software development lifecycle and methodologies,Study requirements analysis design implementation and testing
-Software Engineering,2,Complete missing software design assignments,Create UML diagrams design documents and test plans
-Software Engineering,3,Participate in team-based software project recovery,Contribute to all phases of development with documentation
-Software Engineering,4,Present final project and pass technical review,Demonstrate software engineering principles and practices
-Machine Learning,1,Review ML fundamentals and mathematical foundations,Study linear algebra statistics and core ML algorithms
-Machine Learning,2,Complete coding exercises on failed ML concepts,Implement algorithms using Python and ML libraries
-Machine Learning,3,Develop ML project with real-world dataset,Train test and evaluate model with proper methodology
-Machine Learning,4,Present findings and pass technical examination,Explain model choices performance metrics and results
-Physics,1,Complete diagnostic assessment on physics concepts,Identify weak areas in mechanics electricity magnetism or other topics
-Physics,2,Attend physics help sessions and work through problems,Practice problem-solving with guided examples
-Physics,3,Redo failed laboratory experiments and reports,Complete all lab work with proper data analysis
-Physics,4,Pass comprehensive physics exam,Includes conceptual questions problem-solving and lab component
-Economics,1,Review economic theories and failed exam content,Meet with instructor to clarify supply demand market structures
-Economics,2,Complete supplementary problem sets and case studies,Apply economic principles to real-world scenarios
-Economics,3,Write economic analysis paper on assigned topic,Demonstrate understanding of economic theory and application
-Economics,4,Pass comprehensive economics examination,Test on microeconomics macroeconomics and analytical skills
-Biology,1,Review biological concepts and scientific method,Focus on weak areas such as cell biology genetics or ecology
-Biology,2,Complete makeup laboratory work and reports,Redo failed experiments with proper documentation
-Biology,3,Study supplementary materials and complete practice tests,Use textbook online resources and study guides
-Biology,4,Pass comprehensive written and practical exam,Includes multiple choice short answer and lab practical
-Database Systems,1,Review database fundamentals and relational theory,Study SQL normalization and database design principles
-Database Systems,2,Complete SQL coding exercises and queries,Practice complex queries joins and database operations
-Database Systems,3,Design and implement database project,Create normalized database schema with working application
-Database Systems,4,Pass practical database exam,Write complex SQL queries and explain database design decisions
-Algorithms,1,Review algorithm analysis and complexity theory,Study Big O notation sorting searching and graph algorithms
-Algorithms,2,Complete algorithm implementation exercises,Code key algorithms and analyze their performance
-Algorithms,3,Solve challenging algorithmic problems,Practice competitive programming style problems
-Algorithms,4,Pass comprehensive algorithms exam,Includes algorithm design analysis and coding implementation
-Statistics,1,Complete diagnostic test on statistical concepts,Identify weak areas in probability distributions and hypothesis testing
-Statistics,2,Work through guided problem sets with tutor,Practice statistical calculations and interpretation
-Statistics,3,Complete data analysis project with report,Use statistical software to analyze dataset and draw conclusions
-Statistics,4,Pass comprehensive statistics exam,Includes probability theory statistical tests and data interpretation
+PlanID,StudentID,CourseID,InstructorID,CurrentActionNumber,Status,Notes,StartDate,TargetEndDate,CompletedDate
+RP001,S010,C113,I003,2,ACTIVE,Student is making good progress on reviewing fundamentals,2025-08-10,2025-12-01,
+RP002,S013,C115,I004,4,COMPLETED,Successfully completed all recovery actions,2025-08-15,2025-12-10,2025-12-14
+RP003,S021,C166,I003,2,ACTIVE,Needs additional support with exam preparation,2025-10-20,2025-12-15,
+RP004,S026,C121,I002,1,ACTIVE,Starting recovery for Computer Science fundamentals,2025-05-15,2025-08-01,
+RP005,S026,C113,I003,1,ACTIVE,Recovery plan for Data Structures - needs strong foundation work,2025-05-16,2025-08-05,
+RP006,S028,C128,I002,3,ACTIVE,Mathematics recovery in progress - calculus concepts need work,2025-05-12,2025-08-01,
+RP007,S032,C161,I005,2,ACTIVE,History recovery - focusing on analysis and essay writing,2025-05-15,2025-07-30,
+RP008,S035,C129,I002,1,ACTIVE,Software Engineering recovery - starting with fundamentals,2025-05-12,2025-08-10,
+RP009,S039,C162,I004,2,COMPLETED,Philosophy recovery completed successfully,2025-05-15,2025-07-30,2025-07-28

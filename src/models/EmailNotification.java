@@ -1,6 +1,5 @@
 package models;
 
-import enums.EmailStatus;
 import enums.NotificationType;
 import java.util.Date;
 
@@ -16,7 +15,6 @@ public class EmailNotification {
     private String subject;
     private String body;
     private Date sentDate;
-    private EmailStatus status;
     private NotificationType notificationType;
 
     /**
@@ -27,24 +25,10 @@ public class EmailNotification {
     }
 
     /**
-     * Marks the email as successfully sent.
+     * Gets a formatted message for the email.
+     * @return formatted email message
      */
-    public void markAsSent() {
-        // To be implemented
-    }
-
-    /**
-     * Marks the email as failed to send.
-     */
-    public void markAsFailed() {
-        // To be implemented
-    }
-
-    /**
-     * Gets the User object who will receive this email.
-     * @return the recipient User object
-     */
-    public User getRecipient() {
+    public String getFormattedMessage() {
         // To be implemented
         return null;
     }

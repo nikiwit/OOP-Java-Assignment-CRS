@@ -46,30 +46,10 @@ classDiagram
 
     class NotificationType {
         <<enumeration>>
-        ACCOUNT_ACTIVATION
-        ACCOUNT_DEACTIVATION
+        ACCOUNT_NOTIFICATION
         PASSWORD_RESET
         RECOVERY_PLAN
-        RECOVERY_REMINDER
-        RECOVERY_GRADING
         PERFORMANCE_REPORT
-        ELIGIBILITY_ALERT
-        COURSE_ASSIGNMENT
-        ENROLLMENT_CONFIRMATION
-    }
-
-    class EmailStatus {
-        <<enumeration>>
-        SENT
-        PENDING
-        FAILED
-    }
-
-    class EligibilityStatus {
-        <<enumeration>>
-        ELIGIBLE
-        NOT_ELIGIBLE
-        PROBATION
     }
 
     %% Abstract User Class (Only Admin and Instructor can login)
@@ -77,7 +57,6 @@ classDiagram
         <<abstract>>
         -String userId
         -UserRole role
-        -String roleId
         -String email
         -String password
         -boolean isActive
@@ -92,18 +71,17 @@ classDiagram
 
     %% User Implementations
     class Admin {
-        -String adminId
         +addUser(User user) void
         +updateUser(User user) void
         +deactivateUser(String userId) void
         +viewAllUsers() List~User~
         +generateSystemReports() void
+        +checkEligibility(Student student) boolean
     }
 
     class Instructor {
-        -String instructorId
         -String instructorName
-        +createRecoveryPlan(Student student, Course course, String task) RecoveryPlan
+        +createRecoveryPlan(Student student, Course course) RecoveryPlan
         +updateRecoveryPlan(RecoveryPlan plan) void
         +trackProgress(RecoveryPlan plan) void
         +gradeRecovery(Grade grade) void
@@ -116,6 +94,9 @@ classDiagram
         -String firstName
         -String lastName
         -String major
+        -int year
+        -int semester
+        -boolean retake
         -String email
         -String status
         +calculateCGPA() double
@@ -123,7 +104,6 @@ classDiagram
         +isEligibleForProgression() boolean
         +getFullName() String
         +addGrade(Grade grade) void
-        +getMajorRequiredCourses() List~Course~
         +getGrades() List~Grade~
         +getResults() List~Result~
         +getRecoveryPlans() List~RecoveryPlan~
@@ -134,7 +114,6 @@ classDiagram
         -String courseId
         -String courseName
         -int credits
-        -int semester
         -int capacity
         -String instructorId
         +getCourseDetails() String
@@ -143,35 +122,17 @@ classDiagram
         +getRecoveryActions() List~RecoveryCourseAction~
     }
 
-    %% Semester Class
+    %% Semester Class (YYYYMM format: 202501, 202505, 202509)
     class Semester {
         -String semesterId
         -String semesterName
+        -Date startDate
+        -Date endDate
         +toString() String
+        +isCurrentSemester() boolean
     }
 
-    %% Major Course Mapping
-    class MajorCourse {
-        -String major
-        -int year
-        -int semester
-        -String courseId
-        +getCourse() Course
-        +isRequiredForMajor(String major, int year, int semester) boolean
-    }
-
-    %% Major Student Mapping
-    class MajorStudent {
-        -String studentId
-        -String major
-        -int year
-        -int semester
-        -boolean retake
-        +needsRetake() boolean
-        +getStudent() Student
-    }
-
-    %% Grade Class
+    %% Grade Class (component-level: Assignment or Exam)
     class Grade {
         -String gradeId
         -String studentId
@@ -184,13 +145,14 @@ classDiagram
         -GradeStatus status
         -String semesterId
         -String instructorId
+        -Date gradedDate
         +calculateGradePoint() double
         +isPassed() boolean
         +isFailed() boolean
         +getComponentType() ComponentType
     }
 
-    %% Result Class
+    %% Result Class (course-level: overall result)
     class Result {
         -String resultId
         -String studentId
@@ -203,6 +165,7 @@ classDiagram
         -boolean passedAssignment
         -GradeStatus status
         -String semesterId
+        -Date resultDate
         +isPassed() boolean
         +needsRecovery() boolean
         +getFailedComponents() List~ComponentType~
@@ -210,25 +173,27 @@ classDiagram
 
     %% Recovery Plan
     class RecoveryPlan {
+        -String planId
         -String studentId
         -String courseId
         -String instructorId
-        -String currentTask
+        -int currentActionNumber
         -RecoveryStatus status
         -String notes
         -Date startDate
-        -Date endDate
-        +updateTask(String task) void
+        -Date targetEndDate
+        -Date completedDate
+        +updateActionNumber(int actionNumber) void
         +updateStatus(RecoveryStatus status) void
         +addNotes(String notes) void
-        +getProgress() String
+        +isOverdue() boolean
         +isCompleted() boolean
         +getStudent() Student
         +getCourse() Course
         +getInstructor() Instructor
     }
 
-    %% Recovery Course Action (Templates based on course subject)
+    %% Recovery Course Action (Templates based on course)
     class RecoveryCourseAction {
         -String courseId
         -int actionNumber
@@ -236,19 +201,6 @@ classDiagram
         -String notes
         +getActionDetails() String
         +toString() String
-    }
-
-    %% Eligibility Class
-    class Eligibility {
-        -String studentId
-        -String semesterId
-        -double cgpa
-        -int failedCoursesCount
-        -EligibilityStatus status
-        +checkEligibility() boolean
-        +updateStatus() void
-        +meetsMinimumCGPA() boolean
-        +hasExcessiveFailures() boolean
     }
 
     %% Email Notification
@@ -259,11 +211,9 @@ classDiagram
         -String subject
         -String body
         -Date sentDate
-        -EmailStatus status
         -NotificationType notificationType
         +send() void
-        +markAsSent() void
-        +markAsFailed() void
+        +getFormattedMessage() String
     }
 
     %% Login Log (Binary file storage for timestamps)
@@ -284,7 +234,6 @@ classDiagram
         -String reportId
         -String studentId
         -String semesterId
-        -String year
         -double semesterGPA
         -double cumulativeCGPA
         -Date generatedDate
@@ -321,8 +270,6 @@ classDiagram
         +sendEmail(EmailNotification email) void
         +sendNotification(String recipientId, String email, NotificationType type, String content) void
         +sendRecoveryPlanNotification(Student student, RecoveryPlan plan) void
-        +sendEligibilityNotification(Student student, Eligibility eligibility) void
-        +sendReportNotification(Student student, AcademicReport report) void
         +sendPasswordResetNotification(User user, String token) void
     }
 
@@ -331,27 +278,26 @@ classDiagram
         -static ReportGenerator instance
         -ReportGenerator()
         +static getInstance() ReportGenerator
-        +generateAcademicReport(Student student, String semesterId, String year) AcademicReport
+        +generateAcademicReport(Student student, String semesterId) AcademicReport
         +exportReportToPDF(AcademicReport report) String
-        +generateEligibilityReport(List~Eligibility~ eligibilities) String
     }
 
     class EligibilityChecker {
         <<utility>>
         -static double MIN_CGPA = 2.0
         -static int MAX_FAILED_COURSES = 3
-        +static checkEligibility(Student student, Semester semester) Eligibility
-        +static getFailedCoursesCount(Student student) int
-        +static getIneligibleStudents(List~Student~ students) List~Student~
-        +static calculateCGPA(List~Grade~ grades) double
+        +static boolean checkEligibility(Student student) boolean
+        +static int getFailedCoursesCount(Student student) int
+        +static List~Student~ getIneligibleStudents(List~Student~ students)
+        +static double calculateCGPA(Student student) double
     }
 
     class CGPACalculator {
         <<utility>>
-        +static calculateCGPA(List~Grade~ grades) double
-        +static calculateSemesterGPA(List~Grade~ grades, String semesterId) double
-        +static getTotalCreditHours(List~Grade~ grades) int
-        +static getTotalGradePoints(List~Grade~ grades) double
+        +static double calculateCGPA(List~Grade~ grades) double
+        +static double calculateSemesterGPA(List~Grade~ grades, String semesterId) double
+        +static int getTotalCreditHours(List~Grade~ grades) int
+        +static double getTotalGradePoints(List~Grade~ grades) double
     }
 
     %% Data Access Layer
@@ -422,7 +368,7 @@ classDiagram
     class RecoveryPlanDAO {
         -FileManager fileManager
         +saveRecoveryPlan(RecoveryPlan plan) void
-        +loadRecoveryPlan(String studentId, String courseId) RecoveryPlan
+        +loadRecoveryPlan(String planId) RecoveryPlan
         +loadPlansByStudent(String studentId) List~RecoveryPlan~
         +loadPlansByInstructor(String instructorId) List~RecoveryPlan~
         +updateRecoveryPlan(RecoveryPlan plan) void
@@ -433,14 +379,6 @@ classDiagram
         +saveAction(RecoveryCourseAction action) void
         +loadActionsByCourse(String courseId) List~RecoveryCourseAction~
         +loadAllActions() List~RecoveryCourseAction~
-    }
-
-    class EligibilityDAO {
-        -FileManager fileManager
-        +saveEligibility(Eligibility eligibility) void
-        +loadEligibility(String studentId, String semesterId) Eligibility
-        +loadAllEligibilities() List~Eligibility~
-        +updateEligibility(Eligibility eligibility) void
     }
 
     class EmailNotificationDAO {
@@ -466,21 +404,6 @@ classDiagram
         +loadAllSemesters() List~Semester~
     }
 
-    class MajorCourseDAO {
-        -FileManager fileManager
-        +saveMajorCourse(MajorCourse mc) void
-        +loadCoursesByMajor(String major, int year, int semester) List~Course~
-        +loadAllMajorCourses() List~MajorCourse~
-    }
-
-    class MajorStudentDAO {
-        -FileManager fileManager
-        +saveMajorStudent(MajorStudent ms) void
-        +loadMajorStudent(String studentId) MajorStudent
-        +loadAllMajorStudents() List~MajorStudent~
-        +updateMajorStudent(MajorStudent ms) void
-    }
-
     %% RELATIONSHIPS WITH PROPER UML NOTATION
 
     %% Inheritance (Generalization) - hollow triangle
@@ -494,12 +417,9 @@ classDiagram
     Grade *-- GradeEnum : uses
     Result *-- GradeStatus : has
     RecoveryPlan *-- RecoveryStatus : has
-    EmailNotification *-- EmailStatus : has
     EmailNotification *-- NotificationType : has
-    Eligibility *-- EligibilityStatus : has
 
     %% Aggregation (weak ownership) - hollow diamond
-    Student o-- MajorStudent : profile
     AcademicReport o-- Student : for
     AcademicReport o-- Grade : includes
     AcademicReport o-- Result : includes
@@ -508,11 +428,9 @@ classDiagram
     Student "1" -- "0..*" Grade : earns
     Student "1" -- "0..*" Result : has
     Student "1" -- "0..*" RecoveryPlan : enrolled in
-    Student "1" -- "0..1" Eligibility : evaluated by
 
     Course "1" -- "0..*" Grade : given for
     Course "1" -- "0..*" Result : produces
-    Course "1" -- "0..*" MajorCourse : required by
     Course "1" -- "0..*" RecoveryCourseAction : has templates
     Course "1" -- "1" Instructor : taught by
 
@@ -528,12 +446,6 @@ classDiagram
     RecoveryPlan "1" -- "1" Course : for
     RecoveryPlan "1" -- "1" Instructor : managed by
 
-    Eligibility "1" -- "1" Student : for
-    Eligibility "1" -- "1" Semester : in
-
-    MajorCourse "1" -- "1" Course : maps to
-    MajorStudent "1" -- "1" Student : maps to
-
     %% Dependency (uses) - dashed arrow
     User ..> LoginLog : creates
     Admin ..> User : manages
@@ -547,14 +459,12 @@ classDiagram
     ReportGenerator ..> AcademicReport : generates
     ReportGenerator ..> Student : uses
     EligibilityChecker ..> Student : evaluates
-    EligibilityChecker ..> Eligibility : creates
     CGPACalculator ..> Grade : calculates from
 
     %% Services use EmailNotificationService
     Admin ..> EmailNotificationService : uses
     Instructor ..> EmailNotificationService : uses
     ReportGenerator ..> EmailNotificationService : uses
-    EligibilityChecker ..> EmailNotificationService : uses
 
     %% Data Access Layer - Aggregation (DAOs aggregate FileManager)
     UserDAO o-- FileManager : uses
@@ -565,12 +475,9 @@ classDiagram
     ResultDAO o-- FileManager : uses
     RecoveryPlanDAO o-- FileManager : uses
     RecoveryCourseActionDAO o-- FileManager : uses
-    EligibilityDAO o-- FileManager : uses
     EmailNotificationDAO o-- FileManager : uses
     LoginLogDAO o-- FileManager : uses
     SemesterDAO o-- FileManager : uses
-    MajorCourseDAO o-- FileManager : uses
-    MajorStudentDAO o-- FileManager : uses
 
     %% DAO Dependencies on Domain Objects
     UserDAO ..> User : persists
@@ -581,10 +488,7 @@ classDiagram
     ResultDAO ..> Result : persists
     RecoveryPlanDAO ..> RecoveryPlan : persists
     RecoveryCourseActionDAO ..> RecoveryCourseAction : persists
-    EligibilityDAO ..> Eligibility : persists
     EmailNotificationDAO ..> EmailNotification : persists
     LoginLogDAO ..> LoginLog : persists
     SemesterDAO ..> Semester : persists
-    MajorCourseDAO ..> MajorCourse : persists
-    MajorStudentDAO ..> MajorStudent : persists
 ```

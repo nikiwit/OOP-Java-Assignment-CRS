@@ -4,7 +4,6 @@ import models.User;
 import models.Student;
 import models.EmailNotification;
 import models.RecoveryPlan;
-import models.Eligibility;
 import models.AcademicReport;
 import enums.NotificationType;
 import java.util.List;
@@ -62,15 +61,6 @@ public class EmailNotificationService {
      * @param plan the recovery plan details
      */
     public void sendRecoveryPlanNotification(Student student, RecoveryPlan plan) {
-        // To be implemented
-    }
-
-    /**
-     * Sends an eligibility status notification to a student.
-     * @param student the student
-     * @param eligibility the eligibility information
-     */
-    public void sendEligibilityNotification(Student student, Eligibility eligibility) {
         // To be implemented
     }
 

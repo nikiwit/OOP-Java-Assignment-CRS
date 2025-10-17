@@ -9,6 +9,7 @@ import java.util.List;
  * Handles CRUD operations for login log data stored in binary files.
  * Implements data persistence layer for the LoginLog model.
  * Note: Uses binary file format as required by the assignment.
+ * Data source: login_logs.txt (binary format)
  */
 public class LoginLogDAO {
     private FileManager fileManager;

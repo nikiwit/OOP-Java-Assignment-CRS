@@ -1,7 +1,6 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Represents an academic performance report for a student.
@@ -10,11 +9,8 @@ import java.util.List;
  */
 public class AcademicReport {
     private String reportId;
-    private Student student;
-    private String semester;
-    private String year;
-    private List<Grade> grades;
-    private List<Result> results;
+    private String studentId;
+    private String semesterId;
     private double semesterGPA;
     private double cumulativeCGPA;
     private Date generatedDate;
@@ -55,11 +51,30 @@ public class AcademicReport {
     }
 
     /**
-     * Includes a grade record in the report.
-     * @param grade the grade to include
+     * Gets the student for this report.
+     * @return the Student object
      */
-    public void includeGrade(Grade grade) {
+    public Student getStudent() {
         // To be implemented
+        return null;
+    }
+
+    /**
+     * Gets all grades for this report.
+     * @return list of grades
+     */
+    public java.util.List<Grade> getGrades() {
+        // To be implemented
+        return null;
+    }
+
+    /**
+     * Gets all results for this report.
+     * @return list of results
+     */
+    public java.util.List<Result> getResults() {
+        // To be implemented
+        return null;
     }
 
     // Getters and setters to be implemented

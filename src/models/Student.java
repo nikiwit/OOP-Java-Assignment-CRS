@@ -66,14 +66,5 @@ public class Student {
         // To be implemented
     }
 
-    /**
-     * Retrieves all courses required for the student's major.
-     * @return list of required courses
-     */
-    public List<Course> getMajorRequiredCourses() {
-        // To be implemented
-        return null;
-    }
-
     // Getters and setters to be implemented
 }

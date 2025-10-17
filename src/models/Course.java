@@ -11,7 +11,6 @@ public class Course {
     private String courseId;
     private String courseName;
     private int credits;
-    private int semester;
     private int capacity;
     private String instructorId;
     private List<RecoveryCourseAction> recoveryActions;

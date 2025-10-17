@@ -2,8 +2,6 @@ package services;
 
 import models.Student;
 import models.AcademicReport;
-import models.Eligibility;
-import java.util.List;
 
 /**
  * Singleton service for generating academic reports and exporting them to PDF.
@@ -34,11 +32,10 @@ public class ReportGenerator {
     /**
      * Generates a comprehensive academic report for a student.
      * @param student the student
-     * @param semester the semester identifier
-     * @param year the academic year
+     * @param semesterId the semester identifier (YYYYMM format)
      * @return the generated AcademicReport object
      */
-    public AcademicReport generateAcademicReport(Student student, String semester, String year) {
+    public AcademicReport generateAcademicReport(Student student, String semesterId) {
         // To be implemented
         return null;
     }
@@ -49,16 +46,6 @@ public class ReportGenerator {
      * @return the file path of the generated PDF
      */
     public String exportReportToPDF(AcademicReport report) {
-        // To be implemented
-        return null;
-    }
-
-    /**
-     * Generates an eligibility summary report for multiple students.
-     * @param eligibilities list of eligibility records
-     * @return formatted eligibility report as string
-     */
-    public String generateEligibilityReport(List<Eligibility> eligibilities) {
         // To be implemented
         return null;
     }

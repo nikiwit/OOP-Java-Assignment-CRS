@@ -6,6 +6,7 @@ import java.util.Date;
  * Represents a login session record in the system.
  * Tracks user authentication events including login time, logout time,
  * and session duration. Stored in binary format as per requirements.
+ * Maps to login_logs.txt data file.
  */
 public class LoginLog {
     private String loginId;
@@ -19,8 +20,9 @@ public class LoginLog {
      * @return session duration as a long value
      */
     public long calculateSessionDuration() {
-        // To be implemented
-        return 0L;
+        if (loginTimestamp == null) return 0L;
+        Date endTime = (logoutTimestamp != null) ? logoutTimestamp : new Date();
+        return endTime.getTime() - loginTimestamp.getTime();
     }
 
     /**
@@ -28,7 +30,8 @@ public class LoginLog {
      * @param logoutTime the time the user logged out
      */
     public void logout(Date logoutTime) {
-        // To be implemented
+        this.logoutTimestamp = logoutTime;
+        this.sessionDuration = calculateSessionDuration();
     }
 
     /**
@@ -36,8 +39,7 @@ public class LoginLog {
      * @return true if active, false otherwise
      */
     public boolean isActive() {
-        // To be implemented
-        return false;
+        return logoutTimestamp == null;
     }
 
     /**
@@ -45,7 +47,7 @@ public class LoginLog {
      * @return the User object
      */
     public User getUser() {
-        // To be implemented
+        // To be implemented - will load from DAO
         return null;
     }
 

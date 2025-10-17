@@ -9,21 +9,23 @@ import java.util.Date;
  * Manages the recovery process from initiation to completion.
  */
 public class RecoveryPlan {
+    private String planId;
     private String studentId;
     private String courseId;
     private String instructorId;
-    private String currentTask;
+    private int currentActionNumber;
     private RecoveryStatus status;
     private String notes;
     private Date startDate;
-    private Date endDate;
+    private Date targetEndDate;
+    private Date completedDate;
 
     /**
-     * Updates the current task in the recovery plan.
-     * @param task the new task description
+     * Updates the current action number in the recovery plan.
+     * @param actionNumber the new action number (1-4)
      */
-    public void updateTask(String task) {
-        // To be implemented
+    public void updateActionNumber(int actionNumber) {
+        this.currentActionNumber = actionNumber;
     }
 
     /**
@@ -31,7 +33,10 @@ public class RecoveryPlan {
      * @param status the new RecoveryStatus value
      */
     public void updateStatus(RecoveryStatus status) {
-        // To be implemented
+        this.status = status;
+        if (status == RecoveryStatus.COMPLETED) {
+            this.completedDate = new Date();
+        }
     }
 
     /**
@@ -39,16 +44,23 @@ public class RecoveryPlan {
      * @param notes additional notes to append
      */
     public void addNotes(String notes) {
-        // To be implemented
+        if (this.notes == null || this.notes.isEmpty()) {
+            this.notes = notes;
+        } else {
+            this.notes += "\n" + notes;
+        }
     }
 
     /**
-     * Gets a progress summary of the recovery plan.
-     * @return formatted progress string
+     * Checks if the recovery plan is overdue.
+     * @return true if current date is past target end date and not completed
      */
-    public String getProgress() {
-        // To be implemented
-        return null;
+    public boolean isOverdue() {
+        if (status == RecoveryStatus.COMPLETED) {
+            return false;
+        }
+        Date now = new Date();
+        return now.after(targetEndDate);
     }
 
     /**
@@ -56,8 +68,7 @@ public class RecoveryPlan {
      * @return true if completed, false otherwise
      */
     public boolean isCompleted() {
-        // To be implemented
-        return false;
+        return status == RecoveryStatus.COMPLETED;
     }
 
     /**

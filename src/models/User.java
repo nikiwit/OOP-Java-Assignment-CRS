@@ -12,7 +12,6 @@ import java.util.Date;
 public abstract class User {
     private String userId;
     private UserRole role;
-    private String roleId;
     private String email;
     private String password;
     private boolean isActive;

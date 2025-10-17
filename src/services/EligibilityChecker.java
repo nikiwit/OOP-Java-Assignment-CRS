@@ -1,15 +1,14 @@
 package services;
 
 import models.Student;
-import models.Semester;
-import models.Eligibility;
-import models.Grade;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Utility service for checking student eligibility for academic progression.
  * Validates CGPA requirements (>= 2.0) and failed course limits (<= 3).
  * Contains static utility methods for eligibility calculations.
+ * Eligibility is calculated on-the-fly, not stored.
  */
 public class EligibilityChecker {
     private static final double MIN_CGPA = 2.0;
@@ -18,12 +17,12 @@ public class EligibilityChecker {
     /**
      * Checks if a student is eligible to progress to the next level.
      * @param student the student to check
-     * @param semester the current semester
-     * @return Eligibility object with status and details
+     * @return true if eligible (CGPA >= 2.0 AND failed courses <= 3), false otherwise
      */
-    public static Eligibility checkEligibility(Student student, Semester semester) {
-        // To be implemented
-        return null;
+    public static boolean checkEligibility(Student student) {
+        double cgpa = calculateCGPA(student);
+        int failedCount = getFailedCoursesCount(student);
+        return cgpa >= MIN_CGPA && failedCount <= MAX_FAILED_COURSES;
     }
 
     /**
@@ -32,7 +31,7 @@ public class EligibilityChecker {
      * @return count of failed courses
      */
     public static int getFailedCoursesCount(Student student) {
-        // To be implemented
+        // To be implemented - count courses where status is FAILED
         return 0;
     }
 
@@ -42,17 +41,22 @@ public class EligibilityChecker {
      * @return list of ineligible students
      */
     public static List<Student> getIneligibleStudents(List<Student> students) {
-        // To be implemented
-        return null;
+        List<Student> ineligible = new ArrayList<>();
+        for (Student student : students) {
+            if (!checkEligibility(student)) {
+                ineligible.add(student);
+            }
+        }
+        return ineligible;
     }
 
     /**
-     * Calculates the CGPA from a list of grades.
-     * @param grades list of grade records
+     * Calculates the CGPA for a student.
+     * @param student the student
      * @return calculated CGPA value
      */
-    public static double calculateCGPA(List<Grade> grades) {
-        // To be implemented
+    public static double calculateCGPA(Student student) {
+        // To be implemented - use CGPACalculator
         return 0.0;
     }
 
