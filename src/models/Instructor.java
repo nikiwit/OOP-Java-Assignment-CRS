@@ -1,5 +1,7 @@
 package models;
 
+import enums.UserRole;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,62 +11,112 @@ import java.util.List;
  * Extends the User class demonstrating inheritance.
  */
 public class Instructor extends User {
-    private String instructorId;
+    private static final long serialVersionUID = 1L;
+
     private String instructorName;
-    private List<Course> assignedCourses;
+    private List<String> assignedCourseIds;
+
+    /**
+     * Default constructor.
+     */
+    public Instructor() {
+        super();
+        setRole(UserRole.INSTRUCTOR);
+        this.assignedCourseIds = new ArrayList<>();
+    }
+
+    /**
+     * Constructor with all fields.
+     *
+     * @param userId user unique identifier
+     * @param email instructor email address
+     * @param password instructor password
+     * @param instructorName instructor full name
+     */
+    public Instructor(String userId, String email, String password, String instructorName) {
+        super(userId, UserRole.INSTRUCTOR, email, password);
+        this.instructorName = instructorName;
+        this.assignedCourseIds = new ArrayList<>();
+    }
 
     /**
      * Creates a new recovery plan for a student who failed a course.
+     *
      * @param student the student requiring recovery
      * @param course the course that needs to be recovered
-     * @param task the initial recovery task description
      * @return the created RecoveryPlan object
      */
-    public RecoveryPlan createRecoveryPlan(Student student, Course course, String task) {
-        // To be implemented
+    public RecoveryPlan createRecoveryPlan(Student student, Course course) {
+        // Will be implemented when RecoveryPlan is fully connected
+        System.out.println("Instructor creating recovery plan for student");
         return null;
     }
 
     /**
      * Updates an existing recovery plan with new information.
+     *
      * @param plan the recovery plan to update
      */
     public void updateRecoveryPlan(RecoveryPlan plan) {
-        // To be implemented
+        // Will be implemented when RecoveryPlanDAO is connected
+        System.out.println("Instructor updating recovery plan");
     }
 
     /**
      * Tracks and monitors the progress of a student's recovery plan.
+     *
      * @param plan the recovery plan to track
      */
     public void trackProgress(RecoveryPlan plan) {
-        // To be implemented
+        // Will be implemented when RecoveryPlanDAO is connected
+        System.out.println("Instructor tracking progress for plan");
     }
 
     /**
      * Grades a student's recovery work and updates the grade record.
+     *
      * @param grade the grade object to process
      */
     public void gradeRecovery(Grade grade) {
-        // To be implemented
+        // Will be implemented when GradeDAO is connected
+        System.out.println("Instructor grading recovery work");
     }
 
     /**
      * Retrieves all courses assigned to this instructor.
-     * @return list of assigned courses
+     *
+     * @return list of assigned course IDs
      */
-    public List<Course> getAssignedCourses() {
-        // To be implemented
-        return assignedCourses;
+    public List<String> getAssignedCourses() {
+        return assignedCourseIds;
     }
 
     /**
      * Assigns a new course to this instructor.
-     * @param course the course to assign
+     *
+     * @param courseId the course ID to assign
      */
-    public void assignCourse(Course course) {
-        // To be implemented
+    public void assignCourse(String courseId) {
+        if (courseId != null && !assignedCourseIds.contains(courseId)) {
+            assignedCourseIds.add(courseId);
+        }
     }
 
-    // Getters and setters to be implemented
+    // Getters and Setters
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
+    }
+
+    public List<String> getAssignedCourseIds() {
+        return assignedCourseIds;
+    }
+
+    public void setAssignedCourseIds(List<String> assignedCourseIds) {
+        this.assignedCourseIds = assignedCourseIds;
+    }
 }

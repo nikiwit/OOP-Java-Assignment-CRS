@@ -1,7 +1,2 @@
-UserID,Role,RoleID,Email,Password,IsActive,CreatedAt
-U_I001,INSTRUCTOR,I001,dr.brown@university.edu,Pass123!,TRUE,2024-01-15
-U_I002,INSTRUCTOR,I002,dr.johnson@university.edu,Pass123!,TRUE,2024-01-15
-U_I003,INSTRUCTOR,I003,dr.kumar@university.edu,Pass123!,TRUE,2024-01-15
-U_I004,INSTRUCTOR,I004,dr.lee@university.edu,Pass123!,TRUE,2024-01-15
-U_I005,INSTRUCTOR,I005,dr.miller@university.edu,Pass123!,TRUE,2024-01-15
-Admin,ADMIN,ADMIN,admin@university.edu,Pass123!,TRUE,2024-01-15
+A001,ADMIN,admin@crs.edu,admin123,true,Admin User
+I001,INSTRUCTOR,instructor@crs.edu,instructor123,true,Dr. Smith
