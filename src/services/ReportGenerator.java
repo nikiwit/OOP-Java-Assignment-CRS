@@ -55,6 +55,10 @@ public class ReportGenerator {
 
         report.setStudentId(student.getStudentId());
         report.setSemesterId(semesterId);
+        report.setReportId();
+        report.setGeneratedDate(new java.util.Date());
+        report.calculateSemesterGPA();
+        report.calculateCGPA();
 
         return report;
     }
@@ -65,8 +69,20 @@ public class ReportGenerator {
      * @return the file path of the generated PDF
      */
     public String exportReportToPDF(AcademicReport report) {
-        // To be implemented
-        return null;
+        if (report == null) {
+            System.out.println("Error: Report is null. Cannot export PDF.");
+            return null;
+        }
+
+        try {
+            report.exportToPDF();
+            System.out.println("PDF successfully generated at: " + report.getFilePath());
+            return report.getFilePath();
+        } catch (Exception e) {
+            System.out.println("Error exporting report to PDF: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // Additional helper methods to be implemented

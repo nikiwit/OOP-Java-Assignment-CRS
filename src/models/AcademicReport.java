@@ -4,6 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import dao.StudentDAO;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 /**
  * Represents an academic performance report for a student.
@@ -24,24 +32,87 @@ public class AcademicReport {
      * @return formatted report as a string
      */
     public String generateReport() {
-        // To be implemented
-        Student student =getStudent();
+        Student student = getStudent();
         String name = (student != null) ? student.getFullName() : "undefined";
-        return "Report ID: " + reportId +
-               "\nStudent ID: " + studentId +
-               "\nName: " + name+
-               "\nSemester ID: " + semesterId +
-               "\nSemester GPA: " + semesterGPA +
-               "\nCumulative CGPA: " + cumulativeCGPA;
-        
+
+        StringBuilder report = new StringBuilder();
+        report.append("Report ID: ").append(reportId)
+            .append("\nStudent ID: ").append(studentId)
+            .append("\nName: ").append(name)
+            .append("\nSemester ID: ").append(semesterId)
+            .append("\nSemester GPA: ").append(semesterGPA)
+            .append("\nCumulative CGPA: ").append(cumulativeCGPA)
+            .append("\n\n=== Grade Records ===\n");
+
+        List<Grade> grades = getGrades();
+        if (grades != null && !grades.isEmpty()) {
+            for (int i = 0; i < grades.size(); i++) {
+                Grade g = grades.get(i);
+                report.append("Course: ").append(g.getCourseName())
+                    .append(" | Component: ").append(g.getComponent())
+                    .append(" | Grade: ").append(g.getGrade())
+                    .append(" | GradePoint: ").append(g.getGradePoint())
+                    .append(" | Status: ").append(g.getStatus())
+                    .append("\n");
+            }
+        } else {
+            report.append("No grade records found for this semester.\n");
+        }
+
+        report.append("\n=== Result Records ===\n");
+
+        List<Result> results = getResults();
+        if (results != null && !results.isEmpty()) {
+            for (int i = 0; i < results.size(); i++) {
+                Result r = results.get(i);
+                report.append("Course: ").append(r.getCourseName())
+                    .append(" | Grade: ").append(r.getGrade())
+                    .append(" | GradePoint: ").append(r.getGradePoint())
+                    .append(" | PassedExam: ").append(r.getPassedExam())
+                    .append(" | PassedAssignment: ").append(r.getPassedAssignment())
+                    .append(" | Status: ").append(r.getStatus())
+                    .append("\n");
+            }
+        } else {
+            report.append("No result records found for this semester.\n");
+        }
+
+        return report.toString();
     }
+
 
     /**
      * Exports the academic report to a PDF file using iText library.
      */
     public void exportToPDF() {
-        // To be implemented
+        Document document = new Document();
+
+        try {
+            String defaultDir = "C:\\Users\\Public\\Downloads";
+            String path = (getFilePath() != null && !getFilePath().isEmpty())
+                ? getFilePath(): defaultDir + File.separator + "AcademicReport_"
+                + getStudentId() + "_" + getSemesterId() + ".pdf";
+
+            PdfWriter.getInstance(document, new FileOutputStream(path));
+            document.open();
+
+            String reportContent = generateReport();
+            document.add(new Paragraph(reportContent));
+
+            String formattedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(getGeneratedDate());
+            document.add(new Paragraph("\nReport generated on: " + formattedDate));
+
+            setFilePath(path);
+            System.out.println("PDF successfully exported to: " + path);
+
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+        }
     }
+
+
 
     /**
      * Calculates the GPA for a specific semester.
@@ -139,7 +210,11 @@ public class AcademicReport {
 
     // Getters and setters to be implemented
     public String getReportId() { return reportId; }
-    public void setReportId(String reportId) { this.reportId = reportId; }
+    //report id will not set from other class
+    public void setReportId() {
+            String randomDigits = String.format("%04d", (int)(Math.random() * 10000));
+            this.reportId = getStudentId() + "_" + getSemesterId() + "_" + randomDigits;
+    }
     
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
