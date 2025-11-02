@@ -2,6 +2,10 @@ package services;
 
 import models.Student;
 import models.AcademicReport;
+import dao.CourseDao;
+import dao.ResultDao;
+import dao.SemesterDao;
+import dao.StudentDao;
 
 /**
  * Singleton service for generating academic reports and exporting them to PDF.
@@ -10,13 +14,20 @@ import models.AcademicReport;
  */
 public class ReportGenerator {
     private static ReportGenerator instance;
-
+    private CourseDao courseDao;
+    private ResultDao resultDao;
+    private SemesterDao semesterDao;
+    private StudentDao studentDao;
     /**
      * Private constructor to prevent direct instantiation.
      * Part of the Singleton pattern implementation.
      */
     private ReportGenerator() {
         // To be implemented
+        this.courseDao=new CourseDao();
+        this.resultDao=new ResultDao();
+        this.semesterDao=new SemesterDao();
+        this.studentDao=new StudentDao();
     }
 
     /**
@@ -26,6 +37,9 @@ public class ReportGenerator {
      */
     public static ReportGenerator getInstance() {
         // To be implemented
+            if (instance == null) {
+            instance = new ReportGenerator();
+        }
         return instance;
     }
 
@@ -37,7 +51,12 @@ public class ReportGenerator {
      */
     public AcademicReport generateAcademicReport(Student student, String semesterId) {
         // To be implemented
-        return null;
+        AcademicReport report = new AcademicReport();
+
+        report.setStudentId(student.getStudentId());
+        report.setSemesterId(semesterId);
+
+        return report;
     }
 
     /**
