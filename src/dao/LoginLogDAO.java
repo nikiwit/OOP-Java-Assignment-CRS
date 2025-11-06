@@ -5,6 +5,7 @@ import utils.FileManager;
 import java.util.ArrayList;
 import java.util.List;
 
+// FFFFFF
 /**
  * Data Access Object for LoginLog entities.
  * Handles CRUD operations for login log data stored in binary files.
