@@ -121,3 +121,8 @@ docs/Screenshots/*
 
 # Keep docs directory structure
 !docs/.gitkeep
+
+
+
+# Python virtual environments
+venv/
