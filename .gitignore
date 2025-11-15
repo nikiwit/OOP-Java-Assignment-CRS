@@ -122,9 +122,5 @@ docs/Screenshots/*
 # Keep docs directory structure
 !docs/.gitkeep
 
-
-
-# addind new line 
-
-
-# $gkgjghdfgidfhdfkdf
+# Python virtual environments
+venv/
