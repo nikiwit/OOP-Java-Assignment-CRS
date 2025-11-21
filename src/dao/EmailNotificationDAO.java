@@ -50,4 +50,15 @@ public class EmailNotificationDAO {
     }
 
     // Additional helper methods to be implemented
+    public void sendPasswordResetEmail(String email, String code) {
+
+    // This is only for assignment output (simulation)
+    System.out.println("=== PASSWORD RESET EMAIL ===");
+    System.out.println("To: " + email);
+    System.out.println("Your reset code is: " + code);
+    System.out.println("============================");
+
+    // In real system you would integrate JavaMail here
+}
+
 }
