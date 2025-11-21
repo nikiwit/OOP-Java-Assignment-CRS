@@ -1,2 +1,16 @@
+UserID,Role,Email,Password,Active,Name
 A001,ADMIN,admin@crs.edu,admin123,true,Admin User
-I001,INSTRUCTOR,instructor@crs.edu,instructor123,true,Dr. Smith
+I001,INSTRUCTOR,dr.brown@crs.edu,instructor123,true,Dr. Brown
+I003,INSTRUCTOR,dr.kumar@crs.edu,instructor123,true,Dr. Kumar
+I004,INSTRUCTOR,dr.lee@crs.edu,instructor123,true,Dr. Lee
+I005,INSTRUCTOR,dr.miller@crs.edu,instructor123,true,Dr. Miller
+I006,INSTRUCTOR,dr.kuan@crs.edu,kuan123,true,Dr. Kuan
+I008,INSTRUCTOR,ms.sara@crs.edu,instructor123,true,Ms. Sara
+I012,INSTRUCTOR,dr.ezra@crs.edu,instructor123,true,Dr. Ezra
+I013,INSTRUCTOR,dr.lim@crs.edu,instructor123,true,Dr. Lim
+I014,INSTRUCTOR,dr.yuna@crs.edu,yuna123,true,Dr. Yuna
+I002,INSTRUCTOR,dr.johnson@crs.edu,instructor123,false,Dr. Johnson
+I007,INSTRUCTOR,mr.kulo@crs.edu,instructor123,false,Mr. Kulo
+I009,INSTRUCTOR,dr.bava@crs.edu,bava123,false,Dr. Bava
+I010,INSTRUCTOR,dr.kim@crs.edu,instructor123,false,Dr. Kim
+I011,INSTRUCTOR,dr.evan@crs.edu,evan123,false,Dr. Evan

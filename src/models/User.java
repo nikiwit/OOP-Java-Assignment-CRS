@@ -5,16 +5,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Abstract base class representing a user in the Course Recovery System.
- * Provides common attributes and functionality for all user types including
- * authentication, profile management, and account status control.
- * This class demonstrates inheritance and abstraction principles.
+ * Base user class shared by Admin and Instructor.
+ * Contains common authentication and profile fields.
  */
 public abstract class User implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private String userId;
     private UserRole role;
+    private String name;      
     private String email;
     private String password;
     private boolean isActive;
@@ -30,72 +30,47 @@ public abstract class User implements Serializable {
 
     /**
      * Constructor with basic fields.
-     *
-     * @param userId user unique identifier
-     * @param role user role (ADMIN or INSTRUCTOR)
-     * @param email user email address
-     * @param password user password
      */
-    public User(String userId, UserRole role, String email, String password) {
+    public User(String userId, UserRole role, String name, String email, String password, boolean active) {
         this.userId = userId;
         this.role = role;
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.isActive = true;
+        this.isActive = active;
         this.createdAt = new Date();
     }
 
     /**
-     * Authenticates a user with email and password credentials.
-     *
-     * @param email the user's email address
-     * @param password the user's password
-     * @return true if authentication is successful, false otherwise
+     * Simple login check.
      */
     public boolean login(String email, String password) {
-        return this.email.equals(email) && this.password.equals(password) && this.isActive;
+        return this.email.equals(email) &&
+               this.password.equals(password) &&
+               this.isActive;
     }
 
-    /**
-     * Logs out the current user and ends their session.
-     */
     public void logout() {
-        // Logout logic handled by AuthenticationService
+        // Session logout handled elsewhere
     }
 
-    /**
-     * Resets the user's password to a new value.
-     *
-     * @param newPassword the new password to set
-     */
     public void resetPassword(String newPassword) {
         if (newPassword != null && !newPassword.trim().isEmpty()) {
             this.password = newPassword;
         }
     }
 
-    /**
-     * Updates the user's profile information.
-     */
-    public void updateProfile() {
-        // Override in subclasses for specific profile update logic
-    }
-
-    /**
-     * Activates the user account, allowing login and system access.
-     */
     public void activate() {
         this.isActive = true;
     }
 
-    /**
-     * Deactivates the user account, preventing login and system access.
-     */
     public void deactivate() {
         this.isActive = false;
     }
 
-    // Getters and Setters
+    // ============================
+    // Getters & Setters
+    // ============================
 
     public String getUserId() {
         return userId;
@@ -111,6 +86,14 @@ public abstract class User implements Serializable {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public String getName() {          // Required by DAO + Admin + Instructor
+        return name;
+    }
+
+    public void setName(String name) { // Required by DAO + Admin + Instructor
+        this.name = name;
     }
 
     public String getEmail() {
@@ -134,7 +117,7 @@ public abstract class User implements Serializable {
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.isActive = active;
     }
 
     public Date getCreatedAt() {

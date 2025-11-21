@@ -1,38 +1,35 @@
 package gui;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Login frame for user authentication.
- * Provides GUI interface for users to log into the Course Recovery System.
- * Supports role-based login for Admin and Instructor users.
- */
+import services.AuthenticationService;
+import models.User;
+import models.Admin;
+import models.Instructor;
+
 public class LoginFrame extends JFrame {
 
     private static final int FRAME_WIDTH = 450;
     private static final int FRAME_HEIGHT = 550;
+
     private static final Color PRIMARY_COLOR = new Color(41, 128, 185);
     private static final Color BACKGROUND_COLOR = new Color(236, 240, 241);
     private static final Color TEXT_COLOR = new Color(44, 62, 80);
 
     private JTextField emailField;
     private JPasswordField passwordField;
-    private JButton loginButton;
     private JLabel messageLabel;
 
-    /**
-     * Constructor to initialize the login frame.
-     */
     public LoginFrame() {
         initializeFrame();
         initializeComponents();
         setVisible(true);
     }
 
-    /**
-     * Initializes the main frame settings.
-     */
+    // ------------------- WINDOW SETTINGS -------------------
     private void initializeFrame() {
         setTitle("CRS - Course Registration System");
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -42,24 +39,18 @@ public class LoginFrame extends JFrame {
         getContentPane().setBackground(BACKGROUND_COLOR);
     }
 
-    /**
-     * Initializes and arranges GUI components.
-     */
+    // ------------------- MAIN UI SETUP -------------------
     private void initializeComponents() {
         setLayout(new BorderLayout());
 
-        // Header Panel
         JPanel headerPanel = createHeaderPanel();
         add(headerPanel, BorderLayout.NORTH);
 
-        // Center Panel with Login Form
         JPanel centerPanel = createCenterPanel();
         add(centerPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * Creates the header panel with title.
-     */
+    // ------------------- HEADER PANEL -------------------
     private JPanel createHeaderPanel() {
         JPanel panel = new JPanel();
         panel.setBackground(PRIMARY_COLOR);
@@ -74,7 +65,8 @@ public class LoginFrame extends JFrame {
         return panel;
     }
 
-    /**
+    // ------------------- LOGIN FORM -------------------
+        /**
      * Creates the center panel with login form.
      */
     private JPanel createCenterPanel() {
@@ -95,6 +87,7 @@ public class LoginFrame extends JFrame {
         gbc.gridwidth = 2;
         gbc.insets = new Insets(20, 20, 30, 20);
         panel.add(welcomeLabel, gbc);
+        
 
         // Email Label
         gbc.gridwidth = 1;
@@ -131,6 +124,9 @@ public class LoginFrame extends JFrame {
         // Login Button
         gbc.gridy = 5;
         gbc.insets = new Insets(25, 20, 10, 20);
+
+        JButton loginButton = new JButton("Login");  
+        
         loginButton = new JButton("Login");
         loginButton.setFont(new Font("Arial", Font.BOLD, 16));
         loginButton.setBackground(PRIMARY_COLOR);
@@ -141,11 +137,33 @@ public class LoginFrame extends JFrame {
         loginButton.setOpaque(true);
         loginButton.setContentAreaFilled(true);
         loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        loginButton.addActionListener(e -> authenticate());
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                authenticate();
+            }
+        });
         panel.add(loginButton, gbc);
 
-        // Message Label
+        // "Forgot Password?" Button
         gbc.gridy = 6;
+        gbc.insets = new Insets(5, 20, 5, 20);
+        JButton forgotButton = new JButton("Forgot Password?");
+        forgotButton.setFont(new Font("Arial", Font.PLAIN, 12));
+        forgotButton.setForeground(PRIMARY_COLOR);
+        forgotButton.setBorderPainted(false);
+        forgotButton.setContentAreaFilled(false);
+        forgotButton.setFocusPainted(false);
+
+        forgotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new ForgotPasswordFrame();
+            }
+        });
+
+        panel.add(forgotButton, gbc);
+
+        // Message Label
+        gbc.gridy = 7;
         gbc.insets = new Insets(15, 20, 10, 20);
         messageLabel = new JLabel("");
         messageLabel.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -153,72 +171,85 @@ public class LoginFrame extends JFrame {
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(messageLabel, gbc);
 
-        // Add Enter key listener for password field
-        passwordField.addActionListener(e -> authenticate());
+        // Press Enter to login
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                authenticate();
+            }
+        });
 
         return panel;
     }
 
-    /**
-     * Validates user credentials and authenticates the user.
-     */
+
+    // ------------------- AUTHENTICATION LOGIC -------------------
     private void authenticate() {
+
         String email = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
 
-        // Clear previous messages
+        // Clear old message
         messageLabel.setText("");
 
-        // Validation
+        // Basic Validation
         if (email.isEmpty() || password.isEmpty()) {
             showMessage("Please enter both email and password.", Color.RED);
             return;
         }
 
-        // Call AuthenticationService to authenticate
-        services.AuthenticationService authService = services.AuthenticationService.getInstance();
-        models.User user = authService.authenticate(email, password);
+        AuthenticationService authService = AuthenticationService.getInstance();
 
+        User user;
+
+        try {
+            user = authService.authenticate(email, password);
+        } catch (Exception e) {
+            showMessage("An error occurred during login.", Color.RED);
+            return;
+        }
+
+        // Incorrect Email or Password
         if (user == null) {
             showMessage("Invalid email or password.", Color.RED);
             return;
         }
 
-        // Check if user is active
+        // User Exists BUT Account is Inactive
         if (!user.isActive()) {
-            showMessage("Your account has been deactivated.", Color.RED);
+            showMessage("Your account is deactivated. Please contact Admin.", Color.RED);
             return;
         }
 
-        // Open appropriate dashboard based on user role
-        if (user instanceof models.Admin) {
-            models.Admin admin = (models.Admin) user;
+        // Admin Login
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
             new AdminDashboard(admin.getAdminName(), admin.getUserId());
             dispose();
-        } else if (user instanceof models.Instructor) {
-            models.Instructor instructor = (models.Instructor) user;
+        }
+        // Instructor Login
+        else if (user instanceof Instructor) {
+            Instructor instructor = (Instructor) user;
             new InstructorDashboard(instructor.getInstructorName(), instructor.getUserId());
             dispose();
-        } else {
+        }
+        // Unknown Role
+        else {
             showMessage("Invalid user role.", Color.RED);
         }
     }
 
-    /**
-     * Displays a message to the user.
-     *
-     * @param message the message to display
-     * @param color the color of the message
-     */
-    private void showMessage(String message, Color color) {
-        messageLabel.setText(message);
+    // ------------------- UTILITY MESSAGE METHOD -------------------
+    private void showMessage(String text, Color color) {
+        messageLabel.setText(text);
         messageLabel.setForeground(color);
     }
 
-    /**
-     * Main method to run the login frame.
-     */
+    // ------------------- MAIN METHOD -------------------
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new LoginFrame());
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            new LoginFrame();
+            }
+        });
     }
 }

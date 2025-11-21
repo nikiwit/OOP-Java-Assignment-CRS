@@ -4,25 +4,40 @@ import models.User;
 import models.LoginLog;
 import dao.UserDAO;
 import dao.LoginLogDAO;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Singleton service for handling user authentication and session management.
- * Manages login/logout operations, session validation, and login history tracking.
- * Implements the Singleton design pattern to ensure only one instance exists.
+ * AuthenticationService
+ * ----------------------
+ * This class handles:
+ *  - User login
+ *  - Checking password
+ *  - Checking ACTIVE / INACTIVE status
+ *  - Creating login logs
+ *  - Logout handling
+ *
+ * It uses the Singleton pattern → only ONE instance is ever created.
+ * Beginner-friendly design: no lambdas, simple logic, clear comments.
  */
 public class AuthenticationService {
+
+    // ---------- Singleton Instance ----------
     private static AuthenticationService instance;
-    private UserDAO userDAO;
-    private LoginLogDAO loginLogDAO;
+
+    // ---------- Data Access Objects ----------
+    private UserDAO userDAO;               // Reads/writes users.txt
+    private LoginLogDAO loginLogDAO;       // Reads/writes login_logs.txt
+
+    // Stores currently logged-in sessions
     private Map<String, User> activeSessions;
 
     /**
-     * Private constructor to prevent direct instantiation.
-     * Part of the Singleton pattern implementation.
+     * PRIVATE constructor (Singleton pattern)
+     * Prevents other classes from creating an object.
      */
     private AuthenticationService() {
         this.userDAO = new UserDAO();
@@ -31,10 +46,7 @@ public class AuthenticationService {
     }
 
     /**
-     * Gets the single instance of AuthenticationService.
-     * Creates the instance if it doesn't exist (lazy initialization).
-     *
-     * @return the singleton instance
+     * Returns the SINGLE instance (lazy initialization).
      */
     public static AuthenticationService getInstance() {
         if (instance == null) {
@@ -43,98 +55,107 @@ public class AuthenticationService {
         return instance;
     }
 
+
+    // =========================================================================
+    //                       USER AUTHENTICATION LOGIC
+    // =========================================================================
+
     /**
-     * Authenticates a user with email and password credentials.
-     * Creates a login log entry for successful authentication.
-     *
-     * @param email the user's email
-     * @param password the user's password
-     * @return the authenticated User object, or null if authentication fails
+     * Authenticates a user by email and password.
+     * Returns:
+     *   - null  =  email not found OR wrong password
+     *   - User object (active) = successful login
+     *   - User object (inactive) = LoginFrame will detect inactive status
      */
+
     public User authenticate(String email, String password) {
-        // Validate input
+
+        // ----------- Basic input validation -----------
         if (email == null || email.trim().isEmpty() ||
             password == null || password.trim().isEmpty()) {
             return null;
         }
 
-        // Find user by email
+        // ----------- Find user in file -----------
         User user = userDAO.findByEmail(email);
 
-        // Check if user exists and credentials match
-        if (user != null && user.login(email, password)) {
-            // Create session
-            activeSessions.put(user.getUserId(), user);
+        if (user == null) {
+            // No user with this email
+            return null;
+        }
 
-            // Create login log entry
-            LoginLog loginLog = new LoginLog(user.getUserId());
-            loginLogDAO.saveLoginLog(loginLog);
-
+        // ----------- Check inactive status -----------
+        if (!user.isActive()) {
+            // Returns user as-is; LoginFrame will show "account deactivated"
             return user;
         }
 
-        return null;
+        // ----------- Check password correctness -----------
+        if (!user.login(email, password)) {
+            return null;   // wrong password
+        }
+
+        // ----------- Successful Login -----------
+        activeSessions.put(user.getUserId(), user);
+
+        // Record login log
+        LoginLog log = new LoginLog(user.getUserId());
+        loginLogDAO.saveLoginLog(log);
+
+        return user;
     }
 
-    /**
-     * Creates a new login log entry for a user session.
-     *
-     * @param user the user who logged in
-     * @return the created LoginLog object
-     */
-    public LoginLog createLoginLog(User user) {
-        LoginLog loginLog = new LoginLog(user.getUserId());
-        loginLogDAO.saveLoginLog(loginLog);
-        return loginLog;
-    }
+
+
+    // =========================================================================
+    //                               LOGOUT
+    // =========================================================================
 
     /**
-     * Logs out a user and ends their session.
-     * Updates the active login log with logout timestamp.
-     *
-     * @param userId the user ID to logout
+     * Logs out the user and updates login log with logout timestamp.
      */
     public void logout(String userId) {
-        if (userId != null) {
-            // Find active login log and update it with logout timestamp
-            LoginLog activeLog = loginLogDAO.getActiveLoginLog(userId);
-            if (activeLog != null) {
-                activeLog.logout(new Date());
-                loginLogDAO.updateLoginLog(activeLog);
-            }
 
-            // Remove from active sessions
-            activeSessions.remove(userId);
+        if (userId == null) {
+            return;
         }
+
+        // Get latest active login record
+        LoginLog activeLog = loginLogDAO.getActiveLoginLog(userId);
+
+        if (activeLog != null) {
+            activeLog.logout(new Date());           // record logout time
+            loginLogDAO.updateLoginLog(activeLog);  // save updated log
+        }
+
+        // Remove from active session map
+        activeSessions.remove(userId);
     }
 
+
+    // =========================================================================
+    //                     HELPER / SESSION MANAGEMENT
+    // =========================================================================
+
     /**
-     * Validates if a user's session is still active.
-     *
-     * @param userId the user ID to validate
-     * @return true if session is valid, false otherwise
+     * Checks if a user currently has an active session.
      */
     public boolean validateSession(String userId) {
         return activeSessions.containsKey(userId);
     }
 
     /**
-     * Retrieves the login history for a specific user.
-     *
-     * @param userId the user ID
-     * @return list of LoginLog objects
+     * Returns login history of the user.
      */
     public List<LoginLog> getLoginHistory(String userId) {
         return loginLogDAO.loadLogsByUser(userId);
     }
 
     /**
-     * Gets the currently logged in user by user ID.
-     *
-     * @param userId the user ID
-     * @return the User object if logged in, null otherwise
+     * Returns the user object stored in active session.
      */
     public User getLoggedInUser(String userId) {
         return activeSessions.get(userId);
     }
+
 }

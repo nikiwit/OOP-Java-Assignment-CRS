@@ -5,12 +5,26 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Represents a login session record in the system.
- * Tracks user authentication events including login time, logout time,
- * and session duration. Stored in binary format as per requirements.
- * Maps to login_logs.dat binary file.
+ * LoginLog Class
+ * ------------------------------
+ * OOP Concepts Used:
+ * 1. Encapsulation >>  private fields + getters/setters
+ * 2. Abstraction >> hiding how timestamps are converted to binary
+ * 3. Modularity >> this class ONLY handles login log data
+ *
+ * This class stores a single login session:
+ * - Login time
+ * - Logout time
+ * - Session duration
+ *
+ * Now includes:
+ *  - convertDateToBinary() >> converts a Date into a binary number string
+ *  - convertLongToBinary() >> converts duration into a binary number string
+ *
+ * These methods will be used when writing login data into binary files.
  */
 public class LoginLog implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private String loginId;
@@ -19,40 +33,36 @@ public class LoginLog implements Serializable {
     private Date logoutTimestamp;
     private long sessionDuration;
 
-    /**
-     * Default constructor.
-     */
+    // ---------------------- CONSTRUCTORS ----------------------
+
     public LoginLog() {
         this.loginId = UUID.randomUUID().toString();
         this.loginTimestamp = new Date();
     }
 
-    /**
-     * Constructor with userId.
-     *
-     * @param userId the ID of the user logging in
-     */
     public LoginLog(String userId) {
         this.loginId = UUID.randomUUID().toString();
         this.userId = userId;
         this.loginTimestamp = new Date();
     }
 
+    // ---------------------- SESSION LOGIC ----------------------
+
     /**
-     * Calculates the duration of the session in milliseconds.
-     *
-     * @return session duration as a long value
+     * Calculates the session duration (milliseconds).
      */
     public long calculateSessionDuration() {
         if (loginTimestamp == null) return 0L;
-        Date endTime = (logoutTimestamp != null) ? logoutTimestamp : new Date();
+
+        Date endTime = (logoutTimestamp != null)
+                ? logoutTimestamp
+                : new Date();
+
         return endTime.getTime() - loginTimestamp.getTime();
     }
 
     /**
-     * Records the logout time and calculates session duration.
-     *
-     * @param logoutTime the time the user logged out
+     * Records the logout time and calculates duration.
      */
     public void logout(Date logoutTime) {
         this.logoutTimestamp = logoutTime;
@@ -60,25 +70,71 @@ public class LoginLog implements Serializable {
     }
 
     /**
-     * Checks if the session is still active (no logout recorded).
-     *
-     * @return true if active, false otherwise
+     * Returns true if logoutTimestamp is still empty.
      */
     public boolean isActive() {
         return logoutTimestamp == null;
     }
 
+    // ---------------------- NEW BINARY HELPERS ----------------------
+
     /**
-     * Gets the User associated with this login log.
+     * Converts a Date timestamp into a binary string.
+     * 
+     * Example:
+     *   loginTime.getTime() = 1705992000000 (milliseconds)
+     *   returns binary string representation of that number.
      *
-     * @return the User object
+     * @param date the timestamp (Date object)
+     * @return binary string OR "0" if null
      */
-    public User getUser() {
-        // Will be implemented when needed - loads user from UserDAO
-        return null;
+    public String convertDateToBinary(Date date) {
+        if (date == null) return "0";
+
+        long millis = date.getTime();     // convert Date to long (milliseconds)
+        return Long.toBinaryString(millis);  // convert long to binary string
     }
 
-    // Getters and Setters
+    /**
+     * Converts a long duration value into a binary string.
+     *
+     * Example:
+     *   duration = 3600000 (1 hour)
+     *   returns binary string of that number.
+     *
+     * @param value long number to convert
+     * @return binary number string
+     */
+    public String convertLongToBinary(long value) {
+        return Long.toBinaryString(value);
+    }
+
+        /**
+     * Converts login timestamp to a binary string.
+     * If null then returns "-".
+     */
+    public String getBinaryLoginTimestamp() {
+        if (loginTimestamp == null) {
+            return "-";
+        }
+        long millis = loginTimestamp.getTime();  // convert date → milliseconds
+        return Long.toBinaryString(millis);      // convert milliseconds → binary
+    }
+
+    /**
+     * Converts logout timestamp to a binary string.
+     * If null then returns "-".
+     */
+    public String getBinaryLogoutTimestamp() {
+        if (logoutTimestamp == null) {
+            return "-";
+        }
+        long millis = logoutTimestamp.getTime();
+        return Long.toBinaryString(millis);
+    }
+
+
+    // ---------------------- GETTERS & SETTERS ----------------------
 
     public String getLoginId() {
         return loginId;
