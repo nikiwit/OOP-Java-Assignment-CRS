@@ -12,7 +12,8 @@ import java.awt.event.ActionListener;
 public class AddUserFrame extends JFrame {
 
     private AdminDashboard parent;
-    private JTextField idField, nameField, emailField, passwordField;
+    private JTextField idField, nameField, emailField;
+    private JPasswordField passwordField;   // changed to JPasswordField
     private JComboBox<UserRole> roleBox;
     private UserService userService;
 
@@ -22,26 +23,24 @@ public class AddUserFrame extends JFrame {
         this.userService = new UserService();
 
         setTitle("Add User");
-        setSize(400, 350);
+        setSize(430, 380);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(8, 2, 10, 10));
+        setLayout(new GridLayout(9, 2, 10, 10));
 
-
-        // ---- USER ID FIELD (blurred style) ----
+        // ---- USER ID FIELD (non-editable style) ----
         idField = new JTextField();
-        idField.setEditable(false);                          // cannot edit
-        idField.setEnabled(false);                           // show blurred style
-        idField.setDisabledTextColor(Color.DARK_GRAY);       // text readable but dim
-        idField.setBackground(new Color(240, 240, 240));     // light gray background
-
-
+        idField.setEditable(false);
+        idField.setEnabled(false);
+        idField.setDisabledTextColor(Color.DARK_GRAY);
+        idField.setBackground(new Color(240, 240, 240));
 
         nameField = new JTextField();
         emailField = new JTextField();
-        passwordField = new JTextField();
+
+        // ---- PASSWORD FIELD (masked) ----
+        passwordField = new JPasswordField();
 
         // ---- ROLE DROPDOWN ----
-        // Only INSTRUCTOR allowed (ADMIN removed)
         roleBox = new JComboBox<UserRole>();
         roleBox.addItem(UserRole.INSTRUCTOR);
 
@@ -50,7 +49,7 @@ public class AddUserFrame extends JFrame {
         String nextId = userDAO.generateNextUserId(UserRole.INSTRUCTOR);
         idField.setText(nextId);
 
-        // ---- Update ID if role changes (even though only INSTRUCTOR exists) ----
+        // ---- Update ID when role changes (future-proof) ----
         roleBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 UserRole selectedRole = (UserRole) roleBox.getSelectedItem();
@@ -60,7 +59,10 @@ public class AddUserFrame extends JFrame {
             }
         });
 
-        // Add UI components
+        // ----------------------------
+        // ADD UI COMPONENTS TO FRAME
+        // ----------------------------
+
         add(new JLabel("User ID:"));
         add(idField);
 
@@ -73,18 +75,37 @@ public class AddUserFrame extends JFrame {
         add(new JLabel("Password:"));
         add(passwordField);
 
+        // ----------------------------
+        // SHOW PASSWORD CHECKBOX
+        // ----------------------------
+        add(new JLabel("Show Password:"));
+
+        JCheckBox showPass = new JCheckBox();
+        showPass.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (showPass.isSelected()) {
+                    passwordField.setEchoChar((char) 0);  // Show characters
+                } else {
+                    passwordField.setEchoChar('•');      // Mask characters
+                }
+            }
+        });
+        add(showPass);
+
+        // ----------------------------
+        // ROLE DROPDOWN
+        // ----------------------------
         add(new JLabel("Role:"));
         add(roleBox);
 
-        // ---- EMPTY ROW FOR SPACING ----
+        // ----- SPACING ROW -----
         add(new JLabel(""));
         add(new JLabel(""));
 
-        // ---- BUTTONS ----
+        // ----------------------------
+        // CLEAR BUTTON
+        // ----------------------------
         JButton clearBtn = new JButton("Clear Changes");
-        JButton saveBtn = new JButton("Save");
-
-        // CLEAR BUTTON LOGIC
         clearBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 nameField.setText("");
@@ -93,7 +114,10 @@ public class AddUserFrame extends JFrame {
             }
         });
 
-        // SAVE BUTTON LOGIC
+        // ----------------------------
+        // SAVE BUTTON
+        // ----------------------------
+        JButton saveBtn = new JButton("Save");
         saveBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveUser();
@@ -106,8 +130,9 @@ public class AddUserFrame extends JFrame {
         setVisible(true);
     }
 
-    
-    // ---------------- SAVE USER LOGIC ----------------
+    // ============================================================
+    // SAVE USER LOGIC (with password validation + email rules)
+    // ============================================================
     private void saveUser() {
 
     String id = idField.getText().trim();
@@ -116,7 +141,6 @@ public class AddUserFrame extends JFrame {
     String password = passwordField.getText().trim();
     UserRole role = (UserRole) roleBox.getSelectedItem();
 
-    // ---- 1) CHECK FOR EMPTY FIELDS ----
     if (id.length() == 0 || name.length() == 0 ||
             email.length() == 0 || password.length() == 0) {
 
@@ -129,7 +153,6 @@ public class AddUserFrame extends JFrame {
         return;
     }
 
-    // ---- 2) EMAIL MUST END WITH @crs.edu ----
     if (!email.endsWith("@crs.edu")) {
         JOptionPane.showMessageDialog(
                 this,
@@ -140,18 +163,47 @@ public class AddUserFrame extends JFrame {
         return;
     }
 
-    // ---- 3) CREATE USER ----
+    // ---- PASSWORD CHECK ----
+    if (!isPasswordStrong(password)) {
+        showWeakPasswordPopup();
+        return;
+    }
+
     boolean success = userService.createUser(id, email, password, name, role);
 
     if (success) {
-        JOptionPane.showMessageDialog(this,
-                "User added successfully!");
+        JOptionPane.showMessageDialog(this, "User added successfully!");
         parent.refreshUserTable();
         dispose();
     } else {
-        JOptionPane.showMessageDialog(this,
-                "Failed to add user.");
+        JOptionPane.showMessageDialog(this, "Failed to add user.");
     }
 }
+
+
+    // ---------------- PASSWORD VALIDATION ----------------
+    private boolean isPasswordStrong(String password) {
+        if (password.length() < 8) return false;
+        if (!password.matches(".*[A-Z].*")) return false;  // uppercase
+        if (!password.matches(".*[a-z].*")) return false;  // lowercase
+        if (!password.matches(".*\\d.*")) return false;     // number
+        if (!password.matches(".*[@#$%^&+=!?.*_-].*")) return false; // special char
+        return true;
+    }
+
+    // POPUP MESSAGE FOR WEAK PASSWORD
+    private void showWeakPasswordPopup() {
+        JOptionPane.showMessageDialog(
+                this,
+                "Password must contain:\n"
+                + "- At least 8 characters\n"
+                + "- One uppercase letter\n"
+                + "- One lowercase letter\n"
+                + "- One number\n"
+                + "- One special symbol",
+                "Weak Password",
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
 
 }

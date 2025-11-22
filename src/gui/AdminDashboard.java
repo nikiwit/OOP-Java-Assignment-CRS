@@ -295,43 +295,90 @@ public class AdminDashboard extends JFrame {
         return box;
     }
 
-
     //  User Management Panel
     private JPanel createUserManagementPanel() {
+
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(BACKGROUND_COLOR);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // -------------------- TITLE ROW + FILTER --------------------
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(BACKGROUND_COLOR);
 
         JLabel titleLabel = new JLabel("User Management");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setForeground(TEXT_COLOR);
 
-        panel.add(titleLabel, BorderLayout.NORTH);
+        topPanel.add(titleLabel, BorderLayout.WEST);
 
-        // Table setup
-        String[] columnNames = { "User ID", "Name", "Email", "Role", "Status" };
+        // ---------------- STATUS FILTER ONLY ----------------
+        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        filterPanel.setBackground(BACKGROUND_COLOR);
+
+        JLabel statusFilterLabel = new JLabel("Status:");
+        JComboBox<String> statusFilterBox = new JComboBox<String>();
+        statusFilterBox.addItem("ALL");
+        statusFilterBox.addItem("Active");
+        statusFilterBox.addItem("Inactive");
+
+        filterPanel.add(statusFilterLabel);
+        filterPanel.add(statusFilterBox);
+
+        topPanel.add(filterPanel, BorderLayout.EAST);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+
+        // ---------------- TABLE SETUP ------------------
+        String[] columnNames = {"User ID", "Name", "Email", "Role", "Status"};
         userTableModel = new DefaultTableModel(columnNames, 0);
         userTable = new JTable(userTableModel);
+
         userTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         userTable.setRowHeight(35);
-        // Apply color renderer to the "Status" column (the 5th column index = 4)
+
+        // Set color renderer for Status column
         userTable.getColumnModel().getColumn(4).setCellRenderer(new StatusColorRenderer());
-
-
 
         JScrollPane scrollPane = new JScrollPane(userTable);
         panel.add(scrollPane, BorderLayout.CENTER);
 
+        // Load user data initially
         loadUserData();
         utils.TableUtils.centerAlignTable(userTable);
 
-        
+        // ---------------- FILTER LOGIC -----------------
+        statusFilterBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-        // Buttons row
+                // First load all users
+                loadUserData();
+
+                String selectedStatus = (String) statusFilterBox.getSelectedItem();
+
+                // Loop backwards while removing rows
+                for (int i = userTableModel.getRowCount() - 1; i >= 0; i--) {
+
+                    String rowStatus = (String) userTableModel.getValueAt(i, 4);
+
+                    boolean remove = false;
+
+                    if (!selectedStatus.equals("ALL") && !rowStatus.equals(selectedStatus)) {
+                        remove = true;
+                    }
+
+                    if (remove) {
+                        userTableModel.removeRow(i);
+                    }
+                }
+            }
+        });
+
+        // ---------------- BOTTOM BUTTONS -----------------
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonPanel.setBackground(BACKGROUND_COLOR);
 
-        // ---------- Add User button ----------
+        // Add User Button
         JButton addButton = new JButton("Add User");
         addButton.setBackground(PRIMARY_COLOR);
         addButton.setForeground(Color.WHITE);
@@ -342,11 +389,10 @@ public class AdminDashboard extends JFrame {
         });
         buttonPanel.add(addButton);
 
-        // ---------- Update User button ----------
+        // Update User Button
         JButton updateButton = new JButton("Update User");
         updateButton.setBackground(SECONDARY_COLOR);
         updateButton.setForeground(Color.WHITE);
-
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateUserAction();
@@ -354,7 +400,7 @@ public class AdminDashboard extends JFrame {
         });
         buttonPanel.add(updateButton);
 
-        // ---------- Deactivate User button ----------
+        // Deactivate User Button
         JButton deactivateButton = new JButton("Deactivate User");
         deactivateButton.setBackground(new Color(231, 76, 60));
         deactivateButton.setForeground(Color.WHITE);
@@ -367,10 +413,9 @@ public class AdminDashboard extends JFrame {
 
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
-        return panel;   
-    }  
+        return panel;
+    }
 
-    
 
     // Loads all users into table
     private void loadUserData() {

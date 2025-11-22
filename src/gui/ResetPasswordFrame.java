@@ -26,54 +26,72 @@ public class ResetPasswordFrame extends JFrame {
 
     public ResetPasswordFrame(String emailFromForgot) {
 
-        setTitle("Reset Password");
-        setSize(450, 250);
-        setLocationRelativeTo(null);
-        setLayout(new GridLayout(5, 2, 10, 10));
+    setTitle("Reset Password");
+    setSize(450, 280);
+    setLocationRelativeTo(null);
+    setLayout(new GridLayout(6, 2, 10, 10));
 
-        emailField = new JTextField(emailFromForgot);
-        emailField.setEditable(false);   // user cannot change email
+    emailField = new JTextField(emailFromForgot);
+    emailField.setEditable(false);
 
-        codeField = new JTextField();
-        newPassField = new JPasswordField();
-        confirmPassField = new JPasswordField();
+    codeField = new JTextField();
+    newPassField = new JPasswordField();
+    confirmPassField = new JPasswordField();
 
-        JButton resetBtn = new JButton("Reset Password");
-        JButton clearBtn = new JButton("Clear Changes");
+    // ---- Show Password Checkbox ----
+    JCheckBox showPass = new JCheckBox("Show Password");
 
-        // Reset button action
-        resetBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                resetPassword();
+    showPass.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            if (showPass.isSelected()) {
+                newPassField.setEchoChar((char) 0);
+                confirmPassField.setEchoChar((char) 0);
+            } else {
+                newPassField.setEchoChar('•');
+                confirmPassField.setEchoChar('•');
             }
-        });
+        }
+    });
 
-        // Clear button action
-        clearBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                codeField.setText("");
-                newPassField.setText("");
-                confirmPassField.setText("");
-            }
-        });
+    JButton resetBtn = new JButton("Reset Password");
+    JButton clearBtn = new JButton("Clear Changes");
 
-        // Add UI components
-        add(new JLabel("Email:"));
-        add(emailField);
+    // Reset button
+    resetBtn.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            resetPassword();
+        }
+    });
 
-        add(new JLabel("Reset Code:"));
-        add(codeField);
+    // Clear button
+    clearBtn.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            codeField.setText("");
+            newPassField.setText("");
+            confirmPassField.setText("");
+        }
+    });
 
-        add(new JLabel("New Password:"));
-        add(newPassField);
+    // ---- Add UI Components ----
+    add(new JLabel("Email:"));
+    add(emailField);
 
-        add(new JLabel("Confirm Password:"));
-        add(confirmPassField);
+    add(new JLabel("Reset Code:"));
+    add(codeField);
 
-        add(clearBtn);
-        add(resetBtn);
+    add(new JLabel("New Password:"));
+    add(newPassField);
 
-        setVisible(true);
+    add(new JLabel("Confirm Password:"));
+    add(confirmPassField);
+
+    add(showPass);        
+    add(new JLabel(""));  // empty cell
+
+    add(clearBtn);
+    add(resetBtn);
+
+    setVisible(true);
 }
 
         
@@ -86,6 +104,44 @@ public class ResetPasswordFrame extends JFrame {
     newPassField.setText("");
     confirmPassField.setText("");
 }
+
+
+    /**
+     * This Method validates the password strength.
+     * Requirements:
+     *  - At least 8 characters
+     *  - At least 1 uppercase letter
+     *  - At least 1 lowercase letter
+     *  - At least 1 number
+     *  - At least 1 special symbol
+     */
+    private boolean isStrongPassword(String password) {
+
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+
+        boolean hasUpper = false;
+        boolean hasLower = false;
+        boolean hasDigit = false;
+        boolean hasSpecial = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+
+            if (Character.isUpperCase(c)) {
+                hasUpper = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLower = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else {
+                hasSpecial = true;  // any non-letter/digit
+            }
+        }
+
+        return hasUpper && hasLower && hasDigit && hasSpecial;
+    }
 
 
     /**
@@ -122,6 +178,22 @@ public class ResetPasswordFrame extends JFrame {
         // Check password match
         if (!newPass.equals(confirm)) {
             JOptionPane.showMessageDialog(this, "Passwords do not match.");
+            return;
+        }
+
+        // Password strength validation
+        if (!isStrongPassword(newPass)) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Password must contain:\n" +
+                            "- At least 8 characters\n" +
+                            "- One uppercase letter\n" +
+                            "- One lowercase letter\n" +
+                            "- One number\n" +
+                            "- One special symbol",
+                    "Weak Password",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
 
