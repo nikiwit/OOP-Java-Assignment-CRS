@@ -37,43 +37,49 @@ public class UserDAO {
     // 2. Within each group, users are sorted by UserID (A001, A002, I001, etc.)
 
     public void saveUser(User user) {
-        if (user == null) return;
+    if (user == null) return;
 
-        java.util.List<User> users = loadAllUsers();
-        users.add(user);
+    List<User> users = loadAllUsers();
+    users.add(user);
 
-        // ---- Sorting logic ----
-        for (int i = 0; i < users.size() - 1; i++) {
-            for (int j = i + 1; j < users.size(); j++) {
+    // ---- Sorting logic ----
+    for (int i = 0; i < users.size() - 1; i++) {
+        for (int j = i + 1; j < users.size(); j++) {
 
-                User a = users.get(i);
-                User b = users.get(j);
+            User a = users.get(i);
+            User b = users.get(j);
 
-                // Active users first
-                if (!a.isActive() && b.isActive()) {
-                    User temp = a;
+            // Active users first
+            if (!a.isActive() && b.isActive()) {
+                users.set(i, b);
+                users.set(j, a);
+            }
+            // If both same status: sort by ID
+            else if (a.isActive() == b.isActive()) {
+                if (a.getUserId().compareTo(b.getUserId()) > 0) {
                     users.set(i, b);
-                    users.set(j, temp);
-                }
-                // If both are same active/inactive, sort by UserID
-                else if (a.isActive() == b.isActive()) {
-                    if (a.getUserId().compareTo(b.getUserId()) > 0) {
-                        User temp = a;
-                        users.set(i, b);
-                        users.set(j, temp);
-                    }
+                    users.set(j, a);
                 }
             }
         }
-
-        // Save sorted list back to file
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < users.size(); i++) {
-            builder.append(userToCSV(users.get(i))).append("\n");
-        }
-
-        fileManager.saveToTextFile(USER_FILE, builder.toString());
     }
+
+    // ---- WRITE TO FILE WITHOUT EXTRA NEWLINE ----
+    StringBuilder builder = new StringBuilder();
+    builder.append(HEADER).append("\n");   // KEEP HEADER
+
+    for (int i = 0; i < users.size(); i++) {
+        builder.append(userToCSV(users.get(i)));
+
+        if (i < users.size() - 1) {
+            builder.append("\n");   // ONLY add newline BETWEEN rows
+        }
+    }
+
+    fileManager.saveToTextFile(USER_FILE, builder.toString());
+}
+
+
 
    
     // Load a single user by ID
@@ -119,10 +125,10 @@ public class UserDAO {
 
     // Update user info
     public void updateUser(User updatedUser) {
-    java.util.List<User> users = loadAllUsers();
+    List<User> users = loadAllUsers();
 
-    // Replace existing record
-    java.util.List<User> newList = new java.util.ArrayList<User>();
+    // Replace old record
+    List<User> newList = new ArrayList<User>();
     for (int i = 0; i < users.size(); i++) {
         User u = users.get(i);
         if (!u.getUserId().equals(updatedUser.getUserId())) {
@@ -131,40 +137,41 @@ public class UserDAO {
     }
     newList.add(updatedUser);
 
-    // In "Add User" Button, To get the UserID automatically generated:
-    // ---------------- SORT: Active users first, then by User ID ----------------------
+    // Sort (active first, then by ID)
     for (int i = 0; i < newList.size() - 1; i++) {
         for (int j = i + 1; j < newList.size(); j++) {
 
             User a = newList.get(i);
             User b = newList.get(j);
 
-            // Active first
             if (!a.isActive() && b.isActive()) {
-                User temp = a;
                 newList.set(i, b);
-                newList.set(j, temp);
-            }
-
-            // If both same status then sort by ID
-            else if (a.isActive() == b.isActive()) {
+                newList.set(j, a);
+            } else if (a.isActive() == b.isActive()) {
                 if (a.getUserId().compareTo(b.getUserId()) > 0) {
-                    User temp = a;
                     newList.set(i, b);
-                    newList.set(j, temp);
+                    newList.set(j, a);
                 }
             }
         }
     }
 
-    // Save sorted list
+    // Write file WITHOUT extra blank line
     StringBuilder builder = new StringBuilder();
+    builder.append(HEADER).append("\n");
+
     for (int i = 0; i < newList.size(); i++) {
-        builder.append(userToCSV(newList.get(i))).append("\n");
+        builder.append(userToCSV(newList.get(i)));
+
+        if (i < newList.size() - 1) {
+            builder.append("\n");
+        }
     }
 
     fileManager.saveToTextFile(USER_FILE, builder.toString());
 }
+
+       
   
 
     // Delete a user (rewrites file)

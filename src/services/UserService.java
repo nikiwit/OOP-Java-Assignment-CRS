@@ -1,5 +1,6 @@
 package services;
 
+import dao.InstructorDAO;
 import dao.UserDAO;
 import enums.UserRole;
 import models.Admin;
@@ -10,24 +11,51 @@ public class UserService {
 
     private UserDAO userDAO = new UserDAO();
 
-    // ------------------ CREATE USER ------------------
-    public boolean createUser(String id, String email, String password, String name, UserRole role) {
+   
+    // ------------------ CREATE USER (will update instrcutors.txt + users.txt) ------------------
+    // ------------------------------------------------------
+    // Create User (Admin or Instructor)
+    // Also save instructor into instructors.txt if needed
+    // ------------------------------------------------------
+    public boolean createUser(String id, String email, String password, 
+                            String name, UserRole role) {
 
-        User user;
+        try {
+            // ----------- 1) Create User object ----------
+            User newUser;
 
-        if (role == UserRole.ADMIN) {
-            user = new Admin(id, email, password, name);
-        }
-        else if (role == UserRole.INSTRUCTOR) {
-            user = new Instructor(id, email, password, name);
-        }
-        else {
+            if (role == UserRole.ADMIN) {
+                newUser = new Admin(id, email, password, name);
+            } else {
+                newUser = new Instructor(id, email, password, name);
+            }
+
+            // ----------- 2) SAVE inside users.txt ----------
+            // saveUser() does NOT return boolean → so we mark success manually
+            userDAO.saveUser(newUser);
+            boolean saved = true;
+
+            if (!saved) {
+                return false;   // stop if users.txt failed
+            }
+
+            // ----------- 3) If INSTRUCTOR → also save to instructors.txt ----------
+            if (role == UserRole.INSTRUCTOR) {
+                InstructorDAO instructorDAO = new InstructorDAO();
+
+                // Add ID + Name only → instructors.txt uses 2-column format
+                instructorDAO.addInstructor(id, name);
+            }
+
+            return true;
+
+        } catch (Exception ex) {
+            System.err.println("Error creating user: " + ex.getMessage());
+            ex.printStackTrace();
             return false;
         }
-
-        userDAO.saveUser(user);
-        return true;
     }
+
 
     // ------------------ SIMPLE UPDATE ------------------ //
     // --------- Only Name and Active status ------------ //
