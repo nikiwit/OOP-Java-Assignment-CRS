@@ -158,10 +158,15 @@ public class AdminDashboard extends JFrame {
         rightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         JButton logoutButton = new JButton("Logout");
-        logoutButton.setForeground(Color.WHITE);
-        logoutButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        logoutButton.setBackground(Color.WHITE); // Red logout button
+        logoutButton.setForeground(Color.BLACK);
+        logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
         logoutButton.setFocusPainted(false);
-        logoutButton.setContentAreaFilled(false);
+        // Force UI rendering for cross-platform compatibility (Mac/Windows)
+        logoutButton.setOpaque(true);
+        logoutButton.setContentAreaFilled(true);
+        logoutButton.setBorderPainted(true);
+        logoutButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +219,11 @@ public class AdminDashboard extends JFrame {
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setFocusPainted(false);
+        // Force UI rendering for cross-platform compatibility (Mac/Windows)
+        button.setOpaque(true);
+        button.setContentAreaFilled(true);
+        button.setBorderPainted(true);
+        button.setBorder(BorderFactory.createLineBorder(new Color(52, 73, 94), 2));
 
         button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -68,8 +68,8 @@ public class AcademicReport {
                 report.append("Course: ").append(r.getCourseName())
                     .append(" | Grade: ").append(r.getGrade())
                     .append(" | GradePoint: ").append(r.getGradePoint())
-                    .append(" | PassedExam: ").append(r.getPassedExam())
-                    .append(" | PassedAssignment: ").append(r.getPassedAssignment())
+                    .append(" | PassedExam: ").append(r.isPassedExam())
+                    .append(" | PassedAssignment: ").append(r.isPassedAssignment())
                     .append(" | Status: ").append(r.getStatus())
                     .append("\n");
             }

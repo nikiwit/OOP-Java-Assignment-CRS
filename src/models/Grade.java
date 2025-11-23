@@ -24,6 +24,7 @@ public class Grade implements Serializable {
     private String semesterId;
     private String instructorId;
     private Date gradedDate;
+    private int creditHours;
 
     /**
      * Default constructor.
@@ -212,5 +213,13 @@ public class Grade implements Serializable {
 
     public void setGradedDate(Date gradedDate) {
         this.gradedDate = gradedDate;
+    }
+
+    public int getCreditHours() {
+        return creditHours;
+    }
+
+    public void setCreditHours(int creditHours) {
+        this.creditHours = creditHours;
     }
 }
