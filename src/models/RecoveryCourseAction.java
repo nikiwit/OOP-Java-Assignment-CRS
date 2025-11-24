@@ -1,15 +1,9 @@
 package models;
 
-import java.io.Serializable;
 
-/**
- * Represents a specific action or task in a course recovery plan.
- * Contains structured recovery steps with action numbers, descriptions, and notes.
- * Defines the template for recovery tasks that students must complete.
- */
-public class RecoveryCourseAction implements Serializable {
-    private static final long serialVersionUID = 1L;
 
+
+public class RecoveryCourseAction {
     private String id;
     private String courseId;
     private String instructorId;
@@ -19,29 +13,23 @@ public class RecoveryCourseAction implements Serializable {
     private boolean isActive;
     private boolean hasGrade;
 
-    /**
-     * Default constructor.
-     */
+
     public RecoveryCourseAction() {
         this.isActive = true;
         this.hasGrade = false;
     }
 
-    /**
-     * Constructor with all fields.
-     *
-     * @param id action ID
-     * @param courseId course ID
-     * @param instructorId instructor ID
-     * @param actionNumber sequence number
-     * @param title action title
-     * @param description detailed description
-     * @param isActive whether action is currently active
-     * @param hasGrade whether action requires grading
-     */
-    public RecoveryCourseAction(String id, String courseId, String instructorId,
-                               int actionNumber, String title, String description,
-                               boolean isActive, boolean hasGrade) {
+
+    // Full constructor with all fields.
+
+    public RecoveryCourseAction(String id,
+                                String courseId,
+                                String instructorId,
+                                int actionNumber,
+                                String title,
+                                String description,
+                                boolean isActive,
+                                boolean hasGrade) {
         this.id = id;
         this.courseId = courseId;
         this.instructorId = instructorId;
@@ -52,10 +40,7 @@ public class RecoveryCourseAction implements Serializable {
         this.hasGrade = hasGrade;
     }
 
-    /**
-     * Gets detailed information about the recovery action.
-     * @return formatted action details string
-     */
+   
     public String getActionDetails() {
         StringBuilder details = new StringBuilder();
         details.append("=== Recovery Action ===\n");
@@ -68,24 +53,18 @@ public class RecoveryCourseAction implements Serializable {
         return details.toString();
     }
 
-    /**
-     * Checks if this action is a prerequisite for the next action.
-     * @return true if action must be completed before progressing
-     */
+
     public boolean isPrerequisite() {
         return isActive;
     }
 
-    /**
-     * Returns a string representation of the recovery action.
-     * @return formatted string describing the action
-     */
     @Override
     public String toString() {
         return "Action " + actionNumber + ": " + title +
                (hasGrade ? " [Graded]" : " [Not Graded]");
     }
 
+    
     // Getters and Setters
 
     public String getId() {
@@ -144,6 +123,7 @@ public class RecoveryCourseAction implements Serializable {
         isActive = active;
     }
 
+    // kept original getter name for compatibility
     public boolean isHasGrade() {
         return hasGrade;
     }

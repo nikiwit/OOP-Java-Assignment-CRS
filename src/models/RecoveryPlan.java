@@ -7,11 +7,8 @@ import enums.RecoveryStatus;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Represents a course recovery plan for a student who failed a course.
- * Contains recovery tasks, timeline, status tracking, and instructor notes.
- * Manages the recovery process from initiation to completion.
- */
+// Represents a course recovery plan for a student who failed a course.
+
 public class RecoveryPlan implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,22 +23,15 @@ public class RecoveryPlan implements Serializable {
     private Date targetEndDate;
     private Date completedDate;
 
-    /**
-     * Default constructor.
-     */
+
     public RecoveryPlan() {
         this.currentActionNumber = 1;
         this.status = RecoveryStatus.PENDING;
     }
 
-    /**
-     * Constructor with all required fields.
-     *
-     * @param planId unique plan identifier
-     * @param studentId student ID
-     * @param courseId course ID
-     * @param instructorId instructor ID
-     */
+
+    // Constructor with all required fields.
+
     public RecoveryPlan(String planId, String studentId, String courseId, String instructorId) {
         this.planId = planId;
         this.studentId = studentId;
@@ -52,10 +42,7 @@ public class RecoveryPlan implements Serializable {
         this.startDate = new Date();
     }
 
-    /**
-     * Updates the current action number in the recovery plan.
-     * @param actionNumber the new action number (1-4)
-     */
+    
     public void updateActionNumber(int actionNumber) {
         if (actionNumber < 1 || actionNumber > 4) {
             throw new IllegalArgumentException("Action number must be between 1 and 4");
@@ -63,10 +50,6 @@ public class RecoveryPlan implements Serializable {
         this.currentActionNumber = actionNumber;
     }
 
-    /**
-     * Updates the status of the recovery plan.
-     * @param status the new RecoveryStatus value
-     */
     public void updateStatus(RecoveryStatus status) {
         this.status = status;
         if (status == RecoveryStatus.COMPLETED) {
@@ -74,10 +57,6 @@ public class RecoveryPlan implements Serializable {
         }
     }
 
-    /**
-     * Adds instructor notes to the recovery plan.
-     * @param notes additional notes to append
-     */
     public void addNotes(String notes) {
         if (this.notes == null || this.notes.isEmpty()) {
             this.notes = notes;
@@ -86,10 +65,6 @@ public class RecoveryPlan implements Serializable {
         }
     }
 
-    /**
-     * Checks if the recovery plan is overdue.
-     * @return true if current date is past target end date and not completed
-     */
     public boolean isOverdue() {
         if (status == RecoveryStatus.COMPLETED || targetEndDate == null) {
             return false;
@@ -98,18 +73,10 @@ public class RecoveryPlan implements Serializable {
         return now.after(targetEndDate);
     }
 
-    /**
-     * Checks if the recovery plan has been completed.
-     * @return true if completed, false otherwise
-     */
     public boolean isCompleted() {
         return status == RecoveryStatus.COMPLETED;
     }
 
-    /**
-     * Gets the student associated with this recovery plan.
-     * @return the Student object
-     */
     public Student getStudent() {
         if (studentId == null) {
             return null;
@@ -118,10 +85,6 @@ public class RecoveryPlan implements Serializable {
         return studentDAO.loadStudent(studentId);
     }
 
-    /**
-     * Gets the course associated with this recovery plan.
-     * @return the Course object
-     */
     public Course getCourse() {
         if (courseId == null) {
             return null;
@@ -130,10 +93,6 @@ public class RecoveryPlan implements Serializable {
         return courseDAO.loadCourse(courseId);
     }
 
-    /**
-     * Gets the instructor managing this recovery plan.
-     * @return the Instructor object
-     */
     public Instructor getInstructor() {
         if (instructorId == null) {
             return null;
