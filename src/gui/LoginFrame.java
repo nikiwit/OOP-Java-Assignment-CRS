@@ -131,8 +131,11 @@ public class LoginFrame extends JFrame {
         gbc.gridy = 6;
         JButton loginButton = new JButton("Login");
         loginButton.setFont(new Font("Arial", Font.BOLD, 16));
-        loginButton.setBackground(PRIMARY_COLOR);
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setBackground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
+        loginButton.setOpaque(true);
+        loginButton.setBorderPainted(true);
+        loginButton.setContentAreaFilled(true);
         loginButton.setPreferredSize(new Dimension(300, 45));
 
         loginButton.addActionListener(new java.awt.event.ActionListener() {
