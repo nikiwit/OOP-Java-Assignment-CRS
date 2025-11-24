@@ -7,32 +7,22 @@ import java.util.List;
 
 /**
  * Data Access Object for RecoveryCourseAction entities.
- * Handles CRUD operations for recovery action data stored in text files.
- * Implements data persistence layer for the RecoveryCourseAction model.
  */
 public class RecoveryCourseActionDAO {
     private static final String ACTIONS_FILE = "recovery_courses_actions.txt";
-    private static final String DELIMITER = ",";
+    private static final String PUNCTUATION = ",";
     private FileManager fileManager;
 
-    /**
-     * Constructor initializing FileManager.
-     */
     public RecoveryCourseActionDAO() {
         this.fileManager = new FileManager();
     }
 
-    /**
-     * Constructor with custom FileManager.
-     * @param fileManager the FileManager instance
-     */
     public RecoveryCourseActionDAO(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 
     /**
      * Saves a recovery action to the data file.
-     * @param action the recovery action to save
      */
     public void saveAction(RecoveryCourseAction action) {
         if (action == null || action.getId() == null) {
@@ -46,28 +36,34 @@ public class RecoveryCourseActionDAO {
             return;
         }
 
-        // Format: id,course_id,instructor_id,action_number,title,description,is_active,have_grade
-        String title = action.getTitle() != null ? action.getTitle().replace(",", "\\,") : "";
-        String description = action.getDescription() != null ? action.getDescription().replace(",", "\\,").replace("\n", "\\n") : "";
+       String title = (action.getTitle() != null)
+        ? action.getTitle().replace(",", "\\,")
+        : "";
 
-        String data = String.format("%s%s%s%s%s%s%d%s%s%s%s%s%b%s%b",
-                action.getId(), DELIMITER,
-                action.getCourseId(), DELIMITER,
-                action.getInstructorId(), DELIMITER,
-                action.getActionNumber(), DELIMITER,
-                title, DELIMITER,
-                description, DELIMITER,
-                action.isActive(), DELIMITER,
-                action.isHasGrade());
+        String description = (action.getDescription() != null)
+                ? action.getDescription().replace(",", "\\,").replace("\n", "\\n")
+                : "";
 
+        // Build the data line step by step (MUCH easier to understand)
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(action.getId()).append(PUNCTUATION);
+        sb.append(action.getCourseId()).append(PUNCTUATION);
+        sb.append(action.getInstructorId()).append(PUNCTUATION);
+        sb.append(action.getActionNumber()).append(PUNCTUATION);
+        sb.append(title).append(PUNCTUATION);
+        sb.append(description).append(PUNCTUATION);
+        sb.append(action.isActive()).append(PUNCTUATION);
+        sb.append(action.isHasGrade());
+
+        // Convert to string
+        String data = sb.toString();
+
+        // Save to file
         fileManager.appendToFile(ACTIONS_FILE, data);
+
     }
 
-    /**
-     * Loads a specific action by ID.
-     * @param actionId the action ID
-     * @return the RecoveryCourseAction object, or null if not found
-     */
     public RecoveryCourseAction loadAction(String actionId) {
         if (actionId == null || actionId.trim().isEmpty()) {
             return null;
@@ -91,7 +87,7 @@ public class RecoveryCourseActionDAO {
                 continue;
             }
 
-            String[] parts = line.split(DELIMITER);
+            String[] parts = line.split(PUNCTUATION);
             if (parts.length >= 8 && parts[0].equals(actionId)) {
                 return parseAction(parts);
             }
@@ -100,11 +96,7 @@ public class RecoveryCourseActionDAO {
         return null;
     }
 
-    /**
-     * Loads all recovery actions for a specific course.
-     * @param courseId the course ID
-     * @return list of recovery actions
-     */
+
     public List<RecoveryCourseAction> loadActionsByCourse(String courseId) {
         List<RecoveryCourseAction> allActions = loadAllActions();
         List<RecoveryCourseAction> courseActions = new ArrayList<>();
@@ -121,10 +113,7 @@ public class RecoveryCourseActionDAO {
         return courseActions;
     }
 
-    /**
-     * Loads all recovery actions from the data file.
-     * @return list of all recovery actions
-     */
+    // Loads all recovery actions from the data file.
     public List<RecoveryCourseAction> loadAllActions() {
         List<RecoveryCourseAction> actions = new ArrayList<>();
         String content = fileManager.loadFromTextFile(ACTIONS_FILE);
@@ -146,7 +135,7 @@ public class RecoveryCourseActionDAO {
                 continue;
             }
 
-            String[] parts = line.split(DELIMITER);
+            String[] parts = line.split(PUNCTUATION);
             if (parts.length >= 8) {
                 RecoveryCourseAction action = parseAction(parts);
                 if (action != null) {
@@ -158,10 +147,7 @@ public class RecoveryCourseActionDAO {
         return actions;
     }
 
-    /**
-     * Updates an existing recovery action.
-     * @param action the action with updated data
-     */
+    // Updates an existing recovery action.
     public void updateAction(RecoveryCourseAction action) {
         if (action == null || action.getId() == null) {
             throw new IllegalArgumentException("Action and action ID cannot be null");
@@ -170,7 +156,6 @@ public class RecoveryCourseActionDAO {
         List<RecoveryCourseAction> actions = loadAllActions();
         StringBuilder updatedContent = new StringBuilder();
 
-        // Write header
         updatedContent.append("id,course_id,instructor_id,action_number,title,description,is_active,have_grade\n");
 
         boolean found = false;
@@ -190,10 +175,7 @@ public class RecoveryCourseActionDAO {
         fileManager.saveToTextFile(ACTIONS_FILE, updatedContent.toString());
     }
 
-    /**
-     * Deletes a recovery action from the data file.
-     * @param actionId the action ID to delete
-     */
+    // Deletes a recovery action from the data file.
     public void deleteAction(String actionId) {
         if (actionId == null || actionId.trim().isEmpty()) {
             throw new IllegalArgumentException("Action ID cannot be null or empty");
@@ -202,7 +184,6 @@ public class RecoveryCourseActionDAO {
         List<RecoveryCourseAction> actions = loadAllActions();
         StringBuilder updatedContent = new StringBuilder();
 
-        // Write header
         updatedContent.append("id,course_id,instructor_id,action_number,title,description,is_active,have_grade\n");
 
         boolean found = false;
@@ -221,32 +202,35 @@ public class RecoveryCourseActionDAO {
         fileManager.saveToTextFile(ACTIONS_FILE, updatedContent.toString());
     }
 
-    /**
-     * Formats an action for file storage.
-     * @param action action to format
-     * @return CSV formatted string
-     */
-    private String formatAction(RecoveryCourseAction action) {
-        String title = action.getTitle() != null ? action.getTitle().replace(",", "\\,") : "";
-        String description = action.getDescription() != null ? action.getDescription().replace(",", "\\,").replace("\n", "\\n") : "";
+   private String formatAction(RecoveryCourseAction action) {
 
-        return String.format("%s%s%s%s%s%s%d%s%s%s%s%s%b%s%b\n",
-                action.getId(), DELIMITER,
-                action.getCourseId(), DELIMITER,
-                action.getInstructorId(), DELIMITER,
-                action.getActionNumber(), DELIMITER,
-                title, DELIMITER,
-                description, DELIMITER,
-                action.isActive(), DELIMITER,
-                action.isHasGrade());
+        String title = action.getTitle() != null
+                ? action.getTitle().replace(",", "\\,")
+                : "";
+
+        String description = action.getDescription() != null
+                ? action.getDescription().replace(",", "\\,").replace("\n", "\\n")
+                : "";
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(action.getId()).append(PUNCTUATION);
+        sb.append(action.getCourseId()).append(PUNCTUATION);
+        sb.append(action.getInstructorId()).append(PUNCTUATION);
+        sb.append(action.getActionNumber()).append(PUNCTUATION);
+        sb.append(title).append(PUNCTUATION);
+        sb.append(description).append(PUNCTUATION);
+        sb.append(action.isActive()).append(PUNCTUATION);
+        sb.append(action.isHasGrade());
+
+        sb.append("\n");
+
+        return sb.toString();
     }
 
-    /**
-     * Parses a CSV line into a RecoveryCourseAction object.
-     * Format: id,course_id,instructor_id,action_number,title,description,is_active,have_grade
-     * @param parts the CSV parts
-     * @return the action object
-     */
+
+     // Parses a CSV line into a RecoveryCourseAction object.
+     
     private RecoveryCourseAction parseAction(String[] parts) {
         try {
             RecoveryCourseAction action = new RecoveryCourseAction();
@@ -255,7 +239,6 @@ public class RecoveryCourseActionDAO {
             action.setInstructorId(parts[2].trim());
             action.setActionNumber(Integer.parseInt(parts[3].trim()));
 
-            // Unescape title and description
             String title = parts.length > 4 ? parts[4].replace("\\,", ",") : "";
             action.setTitle(title);
 

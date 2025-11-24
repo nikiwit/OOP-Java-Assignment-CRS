@@ -6,13 +6,8 @@ import dao.RecoveryPlanDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-/**
- * Represents a student in the Course Recovery System.
- * Contains student information, academic records, and methods for
- * calculating academic performance and eligibility for progression.
- */
+// Student Class
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,25 +21,10 @@ public class Student implements Serializable {
     private int semester;
     private boolean retake;
 
-    /**
-     * Default constructor.
-     */
     public Student() {
     }
 
-    /**
-     * Constructor with all required fields.
-     *
-     * @param studentId unique student identifier
-     * @param firstName student's first name
-     * @param lastName student's last name
-     * @param major student's major/program
-     * @param email student's email address
-     * @param status student's current status
-     * @param year current year of study
-     * @param semester current semester
-     * @param retake whether student is retaking courses
-     */
+    //  Constructor with all required fields.
     public Student(String studentId, String firstName, String lastName, String major,
                    String email, String status, int year, int semester, boolean retake) {
         this.studentId = studentId;
@@ -58,10 +38,6 @@ public class Student implements Serializable {
         this.retake = retake;
     }
 
-    /**
-     * Calculates the student's Cumulative Grade Point Average (CGPA).
-     * @return the calculated CGPA value
-     */
     public double calculateCGPA() {
         List<Grade> allGrades = getGrades();
         if (allGrades == null || allGrades.isEmpty()) {
@@ -81,10 +57,6 @@ public class Student implements Serializable {
         return count > 0 ? totalGradePoints / count : 0.0;
     }
 
-    /**
-     * Retrieves all courses that the student has failed.
-     * @return list of failed courses
-     */
     public List<Course> getFailedCourses() {
         List<Result> allResults = getResults();
         List<Course> failedCourses = new ArrayList<>();
@@ -103,11 +75,7 @@ public class Student implements Serializable {
         return failedCourses;
     }
 
-    /**
-     * Checks if the student is eligible to progress to the next level of study.
-     * Eligibility requires CGPA >= 2.0 and no more than 3 failed courses.
-     * @return true if eligible, false otherwise
-     */
+    
     public boolean isEligibleForProgression() {
         double cgpa = calculateCGPA();
         int failedCoursesCount = getFailedCourses().size();
@@ -115,18 +83,10 @@ public class Student implements Serializable {
         return cgpa >= 2.0 && failedCoursesCount <= 3;
     }
 
-    /**
-     * Returns the student's full name (first name + last name).
-     * @return the full name as a string
-     */
     public String getFullName() {
         return firstName + " " + lastName;
     }
 
-    /**
-     * Adds a grade record to the student's academic history.
-     * @param grade the grade to add
-     */
     public void addGrade(Grade grade) {
         if (grade != null) {
             GradeDAO gradeDAO = new GradeDAO();
@@ -134,28 +94,16 @@ public class Student implements Serializable {
         }
     }
 
-    /**
-     * Gets all grades for this student from the database.
-     * @return list of grades
-     */
     public List<Grade> getGrades() {
         GradeDAO gradeDAO = new GradeDAO();
         return gradeDAO.loadGradesByStudent(this.studentId);
     }
 
-    /**
-     * Gets all results for this student from the database.
-     * @return list of results
-     */
     public List<Result> getResults() {
         ResultDAO resultDAO = new ResultDAO();
         return resultDAO.loadResultsByStudent(this.studentId);
     }
 
-    /**
-     * Gets all recovery plans for this student from the database.
-     * @return list of recovery plans
-     */
     public List<RecoveryPlan> getRecoveryPlans() {
         RecoveryPlanDAO recoveryPlanDAO = new RecoveryPlanDAO();
         return recoveryPlanDAO.loadPlansByStudent(this.studentId);
@@ -234,35 +182,18 @@ public class Student implements Serializable {
     public void setRetake(boolean retake) {
         this.retake = retake;
     }
-
-    /**
-     * Gets all recovery course enrollments for this student.
-     * @return list of recovery enrollments
-     */
     public List<RecoveryCourseEnrollment> getRecoveryCourseEnrollments() {
         dao.RecoveryCourseEnrollmentDAO enrollmentDAO = new dao.RecoveryCourseEnrollmentDAO();
         return enrollmentDAO.loadEnrollmentsByStudent(this.studentId);
     }
 
-    /**
-     * Gets recovery enrollments for a specific course.
-     * @param courseId course ID
-     * @return list of enrollments for the course
-     */
+   
     public List<RecoveryCourseEnrollment> getRecoveryCourseEnrollmentsByCourse(String courseId) {
         dao.RecoveryCourseEnrollmentDAO enrollmentDAO = new dao.RecoveryCourseEnrollmentDAO();
         return enrollmentDAO.loadEnrollmentsByStudentAndCourse(this.studentId, courseId);
     }
 
-    /**
-     * Adds a note to a specific recovery task enrollment.
-     * Students can add their own notes about progress or questions.
-     *
-     * @param courseId course ID
-     * @param actionNumber action number
-     * @param note note to add
-     * @return true if successful
-     */
+   
     public boolean addNoteToRecoveryTask(String courseId, int actionNumber, String note) {
         dao.RecoveryCourseEnrollmentDAO enrollmentDAO = new dao.RecoveryCourseEnrollmentDAO();
 
@@ -302,13 +233,6 @@ public class Student implements Serializable {
         return success;
     }
 
-    /**
-     * Submits a recovery task for grading (changes status from IN_PROGRESS to SUBMITTED).
-     *
-     * @param courseId course ID
-     * @param actionNumber action number to submit
-     * @return true if successful
-     */
     public boolean submitRecoveryTask(String courseId, int actionNumber) {
         dao.RecoveryCourseEnrollmentDAO enrollmentDAO = new dao.RecoveryCourseEnrollmentDAO();
 
@@ -357,10 +281,6 @@ public class Student implements Serializable {
         return success;
     }
 
-    /**
-     * Gets a summary of recovery progress across all courses.
-     * @return formatted progress summary
-     */
     public String getRecoveryProgressSummary() {
         List<RecoveryCourseEnrollment> allEnrollments = getRecoveryCourseEnrollments();
 

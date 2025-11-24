@@ -16,22 +16,19 @@ import java.util.List;
 public class InstructorDAO {
 
     private static final String INSTRUCTORS_FILE = "instructors.txt";
-    private static final String DELIMITER = ",";
+    private static final String PUNCTUATION = ",";
     private FileManager fileManager;
 
-    /** Constructor */
+    // Constructor 
     public InstructorDAO() {
         this.fileManager = new FileManager();
     }
 
-    /** Constructor (custom FileManager) */
+    // Constructor (custom FileManager) 
     public InstructorDAO(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 
-    // ===========================================================
-    //          SAVE NEW INSTRUCTOR  (APPEND TO FILE)
-    // ===========================================================
     public void saveInstructor(Instructor instructor) {
 
         if (instructor == null || instructor.getUserId() == null) {
@@ -39,16 +36,13 @@ public class InstructorDAO {
         }
 
         try {
-            String line = instructor.getUserId() + DELIMITER + instructor.getInstructorName() + "\n";
+            String line = instructor.getUserId() + PUNCTUATION + instructor.getInstructorName() + "\n";
             fileManager.appendToFile(INSTRUCTORS_FILE, line);
         } catch (Exception ex) {
             System.err.println("Error saving instructor: " + ex.getMessage());
         }
     }
 
-    // ===========================================================
-    //                   LOAD ONE INSTRUCTOR
-    // ===========================================================
     public Instructor loadInstructor(String instructorId) {
 
         if (instructorId == null || instructorId.trim().isEmpty()) {
@@ -78,7 +72,7 @@ public class InstructorDAO {
                     continue;
                 }
 
-                String[] parts = line.split(DELIMITER);
+                String[] parts = line.split(PUNCTUATION);
                 if (parts.length < 2) {
                     continue;
                 }
@@ -96,10 +90,6 @@ public class InstructorDAO {
 
         return null;
     }
-
-    // ===========================================================
-    //                  LOAD ALL INSTRUCTORS
-    // ===========================================================
     public List<Instructor> loadAllInstructors() {
 
         List<Instructor> instructors = new ArrayList<Instructor>();
@@ -127,7 +117,7 @@ public class InstructorDAO {
                     continue;
                 }
 
-                String[] parts = line.split(DELIMITER);
+                String[] parts = line.split(PUNCTUATION);
                 if (parts.length >= 2) {
 
                     String id = parts[0].trim();
@@ -145,9 +135,6 @@ public class InstructorDAO {
         return instructors;
     }
 
-    // ===========================================================
-    // UPDATE INSTRUCTOR NAME (IF NEEDED)
-    // ===========================================================
     public void updateInstructor(Instructor instructor) {
 
         if (instructor == null || instructor.getUserId() == null) {
@@ -166,12 +153,12 @@ public class InstructorDAO {
 
             if (existing.getUserId().equals(instructor.getUserId())) {
                 builder.append(instructor.getUserId())
-                       .append(DELIMITER)
+                       .append(PUNCTUATION)
                        .append(instructor.getInstructorName())
                        .append("\n");
             } else {
                 builder.append(existing.getUserId())
-                       .append(DELIMITER)
+                       .append(PUNCTUATION)
                        .append(existing.getInstructorName())
                        .append("\n");
             }
@@ -180,9 +167,6 @@ public class InstructorDAO {
         fileManager.saveToTextFile(INSTRUCTORS_FILE, builder.toString());
     }
 
-    // ===========================================================
-    // DELETE INSTRUCTOR (RARELY NEEDED)
-    // ===========================================================
     public void deleteInstructor(String instructorId) {
 
         if (instructorId == null || instructorId.trim().isEmpty()) {
@@ -200,7 +184,7 @@ public class InstructorDAO {
 
             if (!inst.getUserId().equals(instructorId)) {
                 builder.append(inst.getUserId())
-                       .append(DELIMITER)
+                       .append(PUNCTUATION)
                        .append(inst.getInstructorName())
                        .append("\n");
             }
@@ -208,9 +192,7 @@ public class InstructorDAO {
 
         fileManager.saveToTextFile(INSTRUCTORS_FILE, builder.toString());
     }
-    // ===========================================================
-    //               ADD NEW INSTRUCTOR (IF NOT EXISTS) 
-    
+
     public void addInstructor(String instructorId, String instructorName) {
 
     if (instructorId == null || instructorId.trim().isEmpty()
@@ -221,12 +203,11 @@ public class InstructorDAO {
     try {
         String content = fileManager.loadFromTextFile(INSTRUCTORS_FILE);
 
-        // If file is empty → write header + first row
         if (content == null || content.trim().isEmpty()) {
 
             StringBuilder builder = new StringBuilder();
             builder.append("InstructorID,InstructorName\n");
-            builder.append(instructorId).append(DELIMITER).append(instructorName);
+            builder.append(instructorId).append(PUNCTUATION).append(instructorName);
 
             fileManager.saveToTextFile(INSTRUCTORS_FILE, builder.toString());
             return;
@@ -237,19 +218,18 @@ public class InstructorDAO {
         for (int i = 0; i < existing.size(); i++) {
             Instructor ins = existing.get(i);
             if (ins.getUserId().equals(instructorId)) {
-                return;  // already exists → do nothing
+                return;  
             }
         }
 
         // Append new instructor WITHOUT leading blank line
         StringBuilder sb = new StringBuilder();
 
-        // Only add newline if file does NOT already end with one
         if (!content.endsWith("\n")) {
             sb.append("\n");
         }
 
-        sb.append(instructorId).append(DELIMITER).append(instructorName);
+        sb.append(instructorId).append(PUNCTUATION).append(instructorName);
 
         fileManager.appendToFile(INSTRUCTORS_FILE, sb.toString());
 

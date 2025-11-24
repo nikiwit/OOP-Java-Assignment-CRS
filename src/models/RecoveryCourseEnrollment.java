@@ -2,10 +2,7 @@ package models;
 
 import java.io.Serializable;
 
-/**
- * Represents a student's enrollment in a specific recovery course action.
- * Tracks progress, status, grades, and notes for each recovery task.
- */
+// Represents a student's enrollment in a specific recovery course action.
 public class RecoveryCourseEnrollment implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -13,31 +10,21 @@ public class RecoveryCourseEnrollment implements Serializable {
     private String studentId;
     private String courseId;
     private String planStepId;
-    private String templateId;  // Reference to CourseRecoveryPlanTemplate
     private int actionNumber;
     private String title;
     private String description;
     private RecoveryEnrollmentStatus status;
-    private Integer grade;  // Nullable for tasks without grades
+    private Integer grade; 
     private String notes;
 
-    /**
-     * Default constructor.
-     */
+
     public RecoveryCourseEnrollment() {
         this.status = RecoveryEnrollmentStatus.IN_PROGRESS;
     }
 
-    /**
-     * Constructor with essential fields.
-     *
-     * @param id enrollment ID
-     * @param studentId student ID
-     * @param courseId course ID
-     * @param actionNumber action number in sequence
-     * @param title task title
-     * @param description task description
-     */
+    
+    // Constructor with essential fields.
+    
     public RecoveryCourseEnrollment(String id, String studentId, String courseId,
                                    int actionNumber, String title, String description) {
         this.id = id;
@@ -49,42 +36,23 @@ public class RecoveryCourseEnrollment implements Serializable {
         this.status = RecoveryEnrollmentStatus.IN_PROGRESS;
     }
 
-    /**
-     * Checks if this task requires a grade.
-     * @return true if grade is required
-     */
+    
     public boolean requiresGrade() {
         return grade != null || status == RecoveryEnrollmentStatus.SUBMITTED;
     }
 
-    /**
-     * Checks if the task has been completed successfully.
-     * @return true if submitted or completed
-     */
     public boolean isCompleted() {
         return status == RecoveryEnrollmentStatus.SUBMITTED;
     }
 
-    /**
-     * Checks if the task has failed.
-     * @return true if failed
-     */
     public boolean isFailed() {
         return status == RecoveryEnrollmentStatus.FAILED;
     }
 
-    /**
-     * Checks if the task is currently in progress.
-     * @return true if in progress
-     */
     public boolean isInProgress() {
         return status == RecoveryEnrollmentStatus.IN_PROGRESS;
     }
 
-    /**
-     * Gets a formatted status string for display.
-     * @return formatted status description
-     */
     public String getStatusDisplay() {
         StringBuilder display = new StringBuilder();
         display.append("Task ").append(actionNumber).append(": ").append(title).append("\n");
@@ -183,14 +151,6 @@ public class RecoveryCourseEnrollment implements Serializable {
         this.notes = notes;
     }
 
-    public String getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId;
-    }
-
     /**
      * Enum for recovery enrollment status.
      */
@@ -214,11 +174,7 @@ public class RecoveryCourseEnrollment implements Serializable {
             return displayName;
         }
 
-        /**
-         * Parse status from string (handles hyphenated format).
-         * @param status string representation
-         * @return corresponding enum value
-         */
+
         public static RecoveryEnrollmentStatus fromString(String status) {
             if (status == null) {
                 return IN_PROGRESS;
