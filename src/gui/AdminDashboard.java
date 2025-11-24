@@ -390,8 +390,12 @@ public class AdminDashboard extends JFrame {
 
         // Add User Button
         JButton addButton = new JButton("Add User");
-        addButton.setBackground(PRIMARY_COLOR);
-        addButton.setForeground(Color.WHITE);
+        addButton.setBackground(Color.WHITE);
+        addButton.setForeground(Color.BLACK);
+        addButton.setOpaque(true);
+        addButton.setContentAreaFilled(true);
+        addButton.setBorderPainted(true);
+        addButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 new AddUserFrame(AdminDashboard.this);
@@ -401,8 +405,12 @@ public class AdminDashboard extends JFrame {
 
         // Update User Button
         JButton updateButton = new JButton("Update User");
-        updateButton.setBackground(SECONDARY_COLOR);
-        updateButton.setForeground(Color.WHITE);
+        updateButton.setBackground(Color.WHITE);
+        updateButton.setForeground(Color.BLACK);
+        updateButton.setOpaque(true);
+        updateButton.setContentAreaFilled(true);
+        updateButton.setBorderPainted(true);
+        updateButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateUserAction();
@@ -412,8 +420,12 @@ public class AdminDashboard extends JFrame {
 
         // Deactivate User Button
         JButton deactivateButton = new JButton("Deactivate User");
-        deactivateButton.setBackground(new Color(231, 76, 60));
-        deactivateButton.setForeground(Color.WHITE);
+        deactivateButton.setBackground(Color.WHITE);
+        deactivateButton.setForeground(Color.BLACK);
+        deactivateButton.setOpaque(true);
+        deactivateButton.setContentAreaFilled(true);
+        deactivateButton.setBorderPainted(true);
+        deactivateButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         deactivateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deactivateUserAction();
