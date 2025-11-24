@@ -174,11 +174,7 @@ public class RecoveryCourseEnrollment implements Serializable {
             return displayName;
         }
 
-        /**
-         * Parse status from string (handles hyphenated format).
-         * @param status string representation
-         * @return corresponding enum value
-         */
+
         public static RecoveryEnrollmentStatus fromString(String status) {
             if (status == null) {
                 return IN_PROGRESS;

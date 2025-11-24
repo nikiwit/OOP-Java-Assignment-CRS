@@ -157,7 +157,6 @@ public class CourseDAO {
             String courseId = parts[0].trim();
             String courseName = parts[1].trim();
             int credits = Integer.parseInt(parts[2].trim());
-            // Skip semester (parts[3]) as it's not in Course model
             int capacity = Integer.parseInt(parts[4].trim());
             String instructorId = parts[5].trim();
 
