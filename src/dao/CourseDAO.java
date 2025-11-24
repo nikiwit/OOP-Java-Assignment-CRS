@@ -5,41 +5,24 @@ import utils.FileManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Data Access Object for Course entities.
- * Handles CRUD operations for course data stored in text files.
- * Implements data persistence layer for the Course model.
- */
 public class CourseDAO {
     private static final String COURSES_FILE = "courses.txt";
     private static final String DELIMITER = ",";
     private FileManager fileManager;
 
-    /**
-     * Constructor initializing FileManager.
-     */
     public CourseDAO() {
         this.fileManager = new FileManager();
     }
 
-    /**
-     * Constructor with custom FileManager.
-     * @param fileManager the FileManager instance
-     */
     public CourseDAO(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 
-    /**
-     * Saves a course to the data file.
-     * @param course the course to save
-     */
     public void saveCourse(Course course) {
         if (course == null || course.getCourseId() == null) {
             throw new IllegalArgumentException("Course and course ID cannot be null");
         }
 
-        // Format: CourseID,CourseName,Credits,Semester,Capacity,InstructorID
         String data = String.format("%s%s%s%s%d%s%d%s%s",
                 course.getCourseId(), DELIMITER,
                 course.getCourseName(), DELIMITER,
@@ -50,11 +33,6 @@ public class CourseDAO {
         fileManager.appendToFile(COURSES_FILE, data);
     }
 
-    /**
-     * Loads a course by ID from the data file.
-     * @param courseId the course ID
-     * @return the Course object, or null if not found
-     */
     public Course loadCourse(String courseId) {
         if (courseId == null || courseId.trim().isEmpty()) {
             return null;
@@ -66,7 +44,7 @@ public class CourseDAO {
         }
 
         String[] lines = content.split("\n");
-        for (int i = 1; i < lines.length; i++) { // Skip header line
+        for (int i = 1; i < lines.length; i++) { 
             String line = lines[i];
             if (line.trim().isEmpty()) {
                 continue;
@@ -82,8 +60,7 @@ public class CourseDAO {
     }
 
     /**
-     * Loads all courses from the data file.
-     * @return list of all courses
+     Loads all courses from the data file.
      */
     public List<Course> loadAllCourses() {
         List<Course> courses = new ArrayList<>();
@@ -94,7 +71,7 @@ public class CourseDAO {
         }
 
         String[] lines = content.split("\n");
-        for (int i = 1; i < lines.length; i++) { // Skip header line
+        for (int i = 1; i < lines.length; i++) { 
             String line = lines[i];
             if (line.trim().isEmpty()) {
                 continue;
@@ -113,8 +90,7 @@ public class CourseDAO {
     }
 
     /**
-     * Updates an existing course's information.
-     * @param course the course with updated data
+      Updates an existing course's information.
      */
     public void updateCourse(Course course) {
         if (course == null || course.getCourseId() == null) {
@@ -154,8 +130,6 @@ public class CourseDAO {
 
     /**
      * Loads all courses assigned to a specific instructor.
-     * @param instructorId the instructor ID
-     * @return list of courses
      */
     public List<Course> loadCoursesByInstructor(String instructorId) {
         List<Course> instructorCourses = new ArrayList<>();
@@ -177,8 +151,6 @@ public class CourseDAO {
     /**
      * Parses a CSV line into a Course object.
      * Format: CourseID,CourseName,Credits,Semester,Capacity,InstructorID
-     * @param parts the CSV parts
-     * @return the Course object
      */
     private Course parseCourse(String[] parts) {
         try {
