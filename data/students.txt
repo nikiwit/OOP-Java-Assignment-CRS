@@ -39,3 +39,18 @@ S037,Patricia,White,Statistics,1,2,0,patricia.white@university.edu,Active
 S038,Richard,Martin,Database Systems,2,1,0,richard.martin@university.edu,Active
 S039,Barbara,Thompson,Philosophy,3,2,1,barbara.thompson@university.edu,Active
 S040,Joseph,Harris,Networking,4,3,0,joseph.harris@university.edu,Active
+S041,Alex,Turner,Computer Science,3,1,0,alex.turner@university.edu,Active
+S042,Maya,Patel,Engineering,2,2,0,maya.patel@university.edu,Active
+S043,Jordan,Lee,Mathematics,3,1,0,jordan.lee@university.edu,Active
+S044,Emma,Rodriguez,Physics,2,2,0,emma.rodriguez@university.edu,Active
+S045,Liam,Chen,Computer Science,2,1,0,liam.chen@university.edu,Active
+S046,Olivia,Martinez,Statistics,3,1,0,olivia.martinez@university.edu,Active
+S047,Noah,Anderson,Physics,2,2,0,noah.anderson@university.edu,Active
+S048,Sophia,Thomas,Engineering,3,1,0,sophia.thomas@university.edu,Active
+S049,Mason,Jackson,Physics,2,3,0,mason.jackson@university.edu,Active
+S050,Isabella,White,Economics,1,2,0,isabella.white@university.edu,Active
+S051,Ethan,Harris,Engineering,3,2,0,ethan.harris@university.edu,Active
+S052,Ava,Martin,Computer Science,2,1,0,ava.martin@university.edu,Active
+S053,Lucas,Thompson,Mathematics,3,2,0,lucas.thompson@university.edu,Active
+S054,Mia,Garcia,Literature,2,1,0,mia.garcia@university.edu,Active
+S055,Aiden,Lewis,Engineering,4,1,0,aiden.lewis@university.edu,Active

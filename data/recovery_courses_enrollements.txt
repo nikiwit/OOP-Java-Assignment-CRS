@@ -1,41 +1,41 @@
 id,student_id,course_id,plan_step_id,action_number,title,description,status,grade,notes
-1,S001,C101,1,2,Complete Practice Problems,""Solve 20 practice problems from the textbook chapters 1-3. Focus on sorting algorithms and searching techniques"",IN-PROGRESS,,Completed on 2025-09-15. Student showed good understanding in follow-up discussion. Faced big issues [Action switched by instructor on 2025-11-08 17:18] Changed from Action #1 to Action #3 [Action switched by instructor on 2025-11-08 17:18] Changed from 8 18:51] Changed from Action #2 t [Action switched by instructor on 2025-11-24 20:44] Changed from Action #3 to Action #5 [Action switched by instructor on 2025-11-24 20:44] Changed from Action #5 to Action #2 [Action switched by instructor on 2025-11-24 20:45] Changed from Action #2 to Action #5 [Action switched by instructor on 2025-11-24 20:45] Changed from Action #5 to Action #2
-9,S010,C101,4,5,Final Assessment Quiz,"Take the comprehensive quiz covering all recovered material. Must score at least 75% to complete recovery",SUBMITTED,,this
-11,S037,C102,1,1,Review AI Fundamentals,"Review recorded lectures on machine learning basics, neural networks introduction, and search algorithms",IN-PROGRESS,,All lectures viewed. Completion verified through platform analytics.
-15,S073,C152,1,1,Programming Fundamentals,"Review Python/Java basics: variables, loops, conditionals, and functions",IN-PROGRESS,,Completed review materials. Passed concept check quiz with 90%.
-20,S096,C152,1,1,Programming Fundamentals,"Review Python/Java basics: variables, loops, conditionals, and functions",IN-PROGRESS,,Review completed but struggled with function concepts. Additional resources recommended.
-25,S020,C103,1,1,Lecture Review - Cell Biology,"Watch lectures 6-10 on cell structure, organelles, and cellular processes. Complete viewing log",IN-PROGRESS,,Viewing log IN-PROGRESS. Comprehensive notes taken.
-30,S040,C103,1,1,Lecture Review - Cell Biology,"Watch lectures 6-10 on cell structure, organelles, and cellular processes. Complete viewing log",IN-PROGRESS,,Lectures viewed. Some confusion noted on mitochondria function.
-35,S071,C103,1,1,Lecture Review - Cell Biology,"Watch lectures 6-10 on cell structure, organelles, and cellular processes. Complete viewing log",FAILED,,Student withdrew from recovery program on 2025-09-20. Will retake course next semester.
-40,S011,C109,1,1,SDLC Fundamentals,"Review software development lifecycle lectures including Agile, Waterfall, and DevOps methodologies",IN-PROGRESS,,Good understanding of different methodologies demonstrated in discussion.
-45,S023,C109,1,1,SDLC Fundamentals,"Review software development lifecycle lectures including Agile, Waterfall, and DevOps methodologies",IN-PROGRESS,,Completed review. Attended clarification session on Agile practices.
-50,S005,C170,1,1,Descriptive Statistics,"Review measures of central tendency, dispersion, and data visualization techniques",IN-PROGRESS,,Strong grasp of descriptive statistics concepts. Quiz score: 94%.
-60,S046,C170,1,1,Descriptive Statistics,"Review measures of central tendency, dispersion, and data visualization techniques",IN-PROGRESS,,Review completed. Strong understanding of concepts.
-65,S003,C122,1,1,Calculus Review,"Review differential and integral calculus concepts from chapters 8-12",IN-PROGRESS,,Review completed. Student met with TA for clarification on integration techniques.
-69,S018,C122,1,1,Calculus Review,"Review differential and integral calculus concepts from chapters 8-12",IN-PROGRESS,,Comprehensive review completed. Strong foundation in derivatives.
-73,S027,C122,1,1,Calculus Review,"Review differential and integral calculus concepts from chapters 8-12",IN-PROGRESS,,Currently reviewing chapters 8-10. Scheduled for completion by 2025-11-01.
-77,S034,C122,1,1,Calculus Review,"Review differential and integral calculus concepts from chapters 8-12",IN-PROGRESS,,Review completed but struggling with integration by parts.
-81,S099,C122,1,1,Calculus Review,"Review differential and integral calculus concepts from chapters 8-12",IN-PROGRESS,,Review materials accessed but limited engagement noted.
-85,S019,C127,1,1,Historical Period Review,"Read assigned chapters on Renaissance, Enlightenment, and Industrial Revolution",IN-PROGRESS,,All readings completed. Discussion notes IN-PROGRESS show good comprehension.
-89,S032,C127,1,1,Historical Period Review,"Read assigned chapters on Renaissance, Enlightenment, and Industrial Revolution",IN-PROGRESS,,Readings completed. Participated actively in discussion forum.
-93,S036,C127,1,1,Historical Period Review,"Read assigned chapters on Renaissance, Enlightenment, and Industrial Revolution",IN-PROGRESS,,Completed readings. Requested additional resources on Enlightenment philosophy.
-97,S054,C127,1,1,Historical Period Review,"Read assigned chapters on Renaissance, Enlightenment, and Industrial Revolution",IN-PROGRESS,,Completed with difficulty. Recommend using study group for future readings.
-101,S009,C132,1,1,Physics Fundamentals,"Review mechanics, thermodynamics, and electromagnetism lecture recordings",IN-PROGRESS,,All lecture recordings reviewed. Created comprehensive study notes.
-106,S041,C132,1,1,Physics Fundamentals,"Review mechanics, thermodynamics, and electromagnetism lecture recordings",IN-PROGRESS,,Lectures reviewed. Struggled with electromagnetism concepts - additional resources provided.
-113,S047,C132,3,3,Lab Report Submissions,"Submit makeup lab reports for 4 missed experiments with data analysis and conclusions",IN-PROGRESS,93,Outstanding lab reports. Thorough analysis with insightful conclusions.
-116,S049,C132,1,1,Physics Fundamentals,"Review mechanics, thermodynamics, and electromagnetism lecture recordings",IN-PROGRESS,,Currently reviewing thermodynamics section. 70% complete. Target: 2025-11-02.
-122,S060,C132,2,2,Problem Solving Practice,"Complete 40 physics problems covering all missed topics. Show detailed solutions",FAILED,65,Below threshold. Significant difficulties with force and motion problems. Tutoring strongly recommended.
-126,S014,C139,1,1,Microeconomics Review,"Study supply/demand, market structures, and consumer behavior from chapters 1-6",IN-PROGRESS,,Review completed. Demonstrated strong understanding in comprehension check.
-130,S033,C139,1,1,Microeconomics Review,"Study supply/demand, market structures, and consumer behavior from chapters 1-6",IN-PROGRESS,,All chapters reviewed. Attended supplementary workshop on market structures.
-134,S043,C139,1,1,Microeconomics Review,"Study supply/demand, market structures, and consumer behavior from chapters 1-6",IN-PROGRESS,,Review completed. Strong foundation in microeconomic concepts.
-138,S044,C139,1,1,Microeconomics Review,"Study supply/demand, market structures, and consumer behavior from chapters 1-6",IN-PROGRESS,,Completed review with some difficulty on oligopoly concepts.
-142,S050,C139,1,1,Microeconomics Review,"Study supply/demand, market structures, and consumer behavior from chapters 1-6",IN-PROGRESS,,Review materials completed. Quiz score: 85%.
-146,S086,C139,1,1,Microeconomics Review,"Study supply/demand, market structures, and consumer behavior from chapters 1-6",IN-PROGRESS,,Review completed but limited engagement with materials noted.
-150,S006,C111,1,1,SQL Fundamentals Review,"Complete online SQL tutorial covering SELECT, JOIN, subqueries, and aggregation functions",IN-PROGRESS,,Tutorial completed. All module quizzes passed with 90%+ scores.
-154,S012,C111,1,1,SQL Fundamentals Review,"Complete online SQL tutorial covering SELECT, JOIN, subqueries, and aggregation functions",IN-PROGRESS,,Tutorial completed. Needed clarification on subquery concepts.
-158,S090,C111,1,1,SQL Fundamentals Review,"Complete online SQL tutorial covering SELECT, JOIN, subqueries, and aggregation functions",IN-PROGRESS,,All tutorials completed. Strong grasp of JOIN operations demonstrated.
-162,S013,C113,1,1,Data Structures Basics,"Review lectures on arrays, linked lists, stacks, and queues. Complete concept check questions",IN-PROGRESS,,Solid understanding of basic structures. All concept checks passed.
-167,S015,C113,1,1,Data Structures Basics,"Review lectures on arrays, linked lists, stacks, and queues. Complete concept check questions",IN-PROGRESS,,Review completed. Strong foundation demonstrated.
-172,S026,C113,1,1,Data Structures Basics,"Review lectures on arrays, linked lists, stacks, and queues. Complete concept check questions",IN-PROGRESS,,Basic concepts understood but struggled with stack operations.
-177,S051,C113,1,1,Data Structures Basics,"Review lectures on arrays, linked lists, stacks, and queues. Complete concept check questions",IN-PROGRESS,,All materials reviewed. Strong conceptual understanding.
-182,S064,C113,1,1,Data Structures Basics,"Review lectures on arrays, linked lists, stacks, and queues. Complete concept check questions",IN-PROGRESS,,70% complete. Paused due to personal reasons. Resuming 2025-11-01.
+1,S001,C101,1,2,Complete Practice Problems,Solve 20 practice problems from the textbook chapters 1-3. Focus on sorting algorithms and searching techniques,IN-PROGRESS,,"Completed on 2025-09-15. Student showed good understanding in follow-up discussion. Faced big issues [Action switched by instructor on 2025-11-08 17:18] Changed from Action #1 to Action #3 [Action switched by instructor on 2025-11-08 17:18] Changed from 8 18:51] Changed from Action #2 t [Action switched by instructor on 2025-11-24 20:44] Changed from Action #3 to Action #5 [Action switched by instructor on 2025-11-24 20:44] Changed from Action #5 to Action #2 [Action switched by instructor on 2025-11-24 20:45] Changed from Action #2 to Action #5 [Action switched by instructor on 2025-11-24 20:45] Changed from Action #5 to Action #2"
+9,S010,C101,4,5,Final Assessment Quiz,Take the comprehensive quiz covering all recovered material. Must score at least 75% to complete recovery,SUBMITTED,,"this"
+11,S037,C102,1,1,Review AI Fundamentals,Review recorded lectures on machine learning basics,IN-PROGRESS,,"IN-PROGRESS"
+15,S073,C152,1,1,Programming Fundamentals,Review Python/Java basics: variables,IN-PROGRESS,,"and functions"
+20,S096,C152,1,1,Programming Fundamentals,Review Python/Java basics: variables,IN-PROGRESS,,"and functions"
+25,S020,C103,1,1,Lecture Review - Cell Biology,Watch lectures 6-10 on cell structure,IN-PROGRESS,,"IN-PROGRESS"
+30,S040,C103,1,1,Lecture Review - Cell Biology,Watch lectures 6-10 on cell structure,IN-PROGRESS,,"IN-PROGRESS"
+35,S071,C103,1,1,Lecture Review - Cell Biology,Watch lectures 6-10 on cell structure,IN-PROGRESS,,"FAILED"
+40,S011,C109,1,1,SDLC Fundamentals,Review software development lifecycle lectures including Agile,IN-PROGRESS,,"IN-PROGRESS"
+45,S023,C109,1,1,SDLC Fundamentals,Review software development lifecycle lectures including Agile,IN-PROGRESS,,"IN-PROGRESS"
+50,S005,C170,1,1,Descriptive Statistics,Review measures of central tendency,IN-PROGRESS,,"IN-PROGRESS"
+60,S046,C170,1,1,Descriptive Statistics,Review measures of central tendency,IN-PROGRESS,,"IN-PROGRESS"
+65,S003,C122,1,1,Calculus Review,Review differential and integral calculus concepts from chapters 8-12,IN-PROGRESS,,"Review completed. Student met with TA for clarification on integration techniques."
+69,S018,C122,1,1,Calculus Review,Review differential and integral calculus concepts from chapters 8-12,IN-PROGRESS,,"Comprehensive review completed. Strong foundation in derivatives."
+73,S027,C122,1,1,Calculus Review,Review differential and integral calculus concepts from chapters 8-12,IN-PROGRESS,,"Currently reviewing chapters 8-10. Scheduled for completion by 2025-11-01."
+77,S034,C122,1,1,Calculus Review,Review differential and integral calculus concepts from chapters 8-12,IN-PROGRESS,,"Review completed but struggling with integration by parts."
+81,S099,C122,1,1,Calculus Review,Review differential and integral calculus concepts from chapters 8-12,IN-PROGRESS,,"Review materials accessed but limited engagement noted."
+85,S019,C127,1,1,Historical Period Review,Read assigned chapters on Renaissance,IN-PROGRESS,,"IN-PROGRESS"
+89,S032,C127,1,1,Historical Period Review,Read assigned chapters on Renaissance,IN-PROGRESS,,"IN-PROGRESS"
+93,S036,C127,1,1,Historical Period Review,Read assigned chapters on Renaissance,IN-PROGRESS,,"IN-PROGRESS"
+97,S054,C127,1,1,Historical Period Review,Read assigned chapters on Renaissance,IN-PROGRESS,,"IN-PROGRESS"
+101,S009,C132,1,1,Physics Fundamentals,Review mechanics,IN-PROGRESS,,"IN-PROGRESS"
+106,S041,C132,1,1,Physics Fundamentals,Review mechanics,IN-PROGRESS,,"IN-PROGRESS"
+113,S047,C132,3,3,Lab Report Submissions,Submit makeup lab reports for 4 missed experiments with data analysis and conclusions,IN-PROGRESS,93,"Outstanding lab reports. Thorough analysis with insightful conclusions."
+116,S049,C132,1,1,Physics Fundamentals,Review mechanics,IN-PROGRESS,,"IN-PROGRESS"
+122,S060,C132,2,2,Problem Solving Practice,Complete 40 physics problems covering all missed topics. Show detailed solutions,FAILED,65,"Below threshold. Significant difficulties with force and motion problems. Tutoring strongly recommended."
+126,S014,C139,1,1,Microeconomics Review,Study supply/demand,IN-PROGRESS,,"IN-PROGRESS"
+130,S033,C139,1,1,Microeconomics Review,Study supply/demand,IN-PROGRESS,,"IN-PROGRESS"
+134,S043,C139,1,1,Microeconomics Review,Study supply/demand,IN-PROGRESS,,"IN-PROGRESS"
+138,S044,C139,1,1,Microeconomics Review,Study supply/demand,IN-PROGRESS,,"IN-PROGRESS"
+142,S050,C139,1,1,Microeconomics Review,Study supply/demand,IN-PROGRESS,,"IN-PROGRESS"
+146,S086,C139,1,1,Microeconomics Review,Study supply/demand,IN-PROGRESS,,"IN-PROGRESS"
+150,S006,C111,1,1,SQL Fundamentals Review,Complete online SQL tutorial covering SELECT,IN-PROGRESS,,"and aggregation functions"
+154,S012,C111,1,1,SQL Fundamentals Review,Complete online SQL tutorial covering SELECT,IN-PROGRESS,,"and aggregation functions"
+158,S090,C111,1,1,SQL Fundamentals Review,Complete online SQL tutorial covering SELECT,IN-PROGRESS,,"and aggregation functions"
+162,S013,C113,1,1,Data Structures Basics,Review lectures on arrays,IN-PROGRESS,,"and queues. Complete concept check questions"
+167,S015,C113,1,1,Data Structures Basics,Review lectures on arrays,IN-PROGRESS,,"and queues. Complete concept check questions"
+172,S026,C113,1,1,Data Structures Basics,Review lectures on arrays,IN-PROGRESS,,"and queues. Complete concept check questions"
+177,S051,C113,1,1,Data Structures Basics,Review lectures on arrays,IN-PROGRESS,,"and queues. Complete concept check questions"
+182,S064,C113,1,1,Data Structures Basics,Review lectures on arrays,IN-PROGRESS,,"and queues. Complete concept check questions"

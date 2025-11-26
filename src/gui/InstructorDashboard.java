@@ -78,6 +78,7 @@ public class InstructorDashboard extends JFrame {
         mainContentPanel.add(createCoursesPanel(), "Courses");
         mainContentPanel.add(createRecoveryPlansPanel(), "RecoveryPlans");
         mainContentPanel.add(createFailedComponentsPanel(), "Grading");
+        mainContentPanel.add(createEligibilityCheckPanel(), "EligibilityCheck");
 
         add(mainContentPanel, BorderLayout.CENTER);
     }
@@ -135,9 +136,9 @@ public class InstructorDashboard extends JFrame {
         // panel.add(Box.createVerticalStrut(SPACING_LG));
 
         // Navigation Buttons with keyboard shortcuts
-        String[] menuItems = {"Dashboard", "My Courses", "Recovery Plans", "Grading"};
-        String[] cardNames = {"Dashboard", "Courses", "RecoveryPlans", "Grading"};
-        int[] mnemonics = {KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
+        String[] menuItems = {"Dashboard", "My Courses", "Recovery Plans", "Grading", "Eligibility Check"};
+        String[] cardNames = {"Dashboard", "Courses", "RecoveryPlans", "Grading", "EligibilityCheck"};
+        int[] mnemonics = {KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5};
 
         for (int i = 0; i < menuItems.length; i++) {
             JButton button = createSidebarButton(menuItems[i], cardNames[i], mnemonics[i]);
@@ -1359,6 +1360,10 @@ public class InstructorDashboard extends JFrame {
     private JButton createPrimaryButton(String text) {
         return createActionButton(text, PRIMARY);
     }
+
+    private JButton createSuccessButton(String text) {
+        return createActionButton(text, new Color(46, 204, 113));
+    }
     private void showCourseRecoveryActionsDialog(String courseId, String courseName) {
         JDialog actionsDialog = new JDialog(this, "Recovery Actions - " + courseName, true);
         actionsDialog.setSize(1000, 650);
@@ -1820,7 +1825,456 @@ public class InstructorDashboard extends JFrame {
         loadCourseActionsData(courseId, actionsTableModel);
     }
 
-    
+    private JPanel createEligibilityCheckPanel() {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBackground(BACKGROUND_COLOR);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(BACKGROUND_COLOR);
+
+        JLabel titleLabel = new JLabel("Eligibility Check & Enrollment");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(TEXT_PRIMARY);
+        topPanel.add(titleLabel, BorderLayout.WEST);
+
+        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        filterPanel.setBackground(BACKGROUND_COLOR);
+
+        JLabel eligibilityLabel = new JLabel("Eligibility:");
+        JComboBox<String> eligibilityFilterBox = new JComboBox<>();
+        eligibilityFilterBox.addItem("All Students");
+        eligibilityFilterBox.addItem("Eligible");
+        eligibilityFilterBox.addItem("Ineligible");
+
+        JLabel majorLabel = new JLabel("Major:");
+        JComboBox<String> majorFilterBox = new JComboBox<>();
+        majorFilterBox.addItem("All Majors");
+
+        JLabel yearLabel = new JLabel("Year:");
+        JComboBox<String> yearFilterBox = new JComboBox<>();
+        yearFilterBox.addItem("All Years");
+        yearFilterBox.addItem("1");
+        yearFilterBox.addItem("2");
+        yearFilterBox.addItem("3");
+        yearFilterBox.addItem("4");
+
+        JCheckBox showRecoveryEligibleBox = new JCheckBox("Recovery Eligible Only");
+        showRecoveryEligibleBox.setBackground(BACKGROUND_COLOR);
+        showRecoveryEligibleBox.setToolTipText("Show only students eligible for recovery (CGPA >= 2.0 and 1-3 failed courses)");
+
+        filterPanel.add(eligibilityLabel);
+        filterPanel.add(eligibilityFilterBox);
+        filterPanel.add(Box.createHorizontalStrut(10));
+        filterPanel.add(majorLabel);
+        filterPanel.add(majorFilterBox);
+        filterPanel.add(Box.createHorizontalStrut(10));
+        filterPanel.add(yearLabel);
+        filterPanel.add(yearFilterBox);
+        filterPanel.add(Box.createHorizontalStrut(10));
+        filterPanel.add(showRecoveryEligibleBox);
+
+        topPanel.add(filterPanel, BorderLayout.EAST);
+        panel.add(topPanel, BorderLayout.NORTH);
+
+        String[] columns = {"Student ID", "Name", "Major", "Year", "Semester", "CGPA", "Failed Courses", "Failed Course Names", "Eligibility"};
+        DefaultTableModel eligibilityTableModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        JTable eligibilityTable = new JTable(eligibilityTableModel);
+        eligibilityTable.setFont(FONT_BODY);
+        eligibilityTable.setRowHeight(35);
+        eligibilityTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        eligibilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        eligibilityTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        eligibilityTable.getColumnModel().getColumn(1).setPreferredWidth(120);
+        eligibilityTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        eligibilityTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+        eligibilityTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+        eligibilityTable.getColumnModel().getColumn(5).setPreferredWidth(60);
+        eligibilityTable.getColumnModel().getColumn(6).setPreferredWidth(100);
+        eligibilityTable.getColumnModel().getColumn(7).setPreferredWidth(150);
+        eligibilityTable.getColumnModel().getColumn(8).setPreferredWidth(90);
+
+        eligibilityTable.getColumnModel().getColumn(8).setCellRenderer(
+            new javax.swing.table.DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    JLabel label = (JLabel) c;
+                    label.setHorizontalAlignment(JLabel.CENTER);
+
+                    if (!isSelected) {
+                        String status = value.toString();
+                        if (status.contains("✓")) {
+                            label.setBackground(new Color(198, 239, 206));
+                            label.setForeground(new Color(0, 128, 0));
+                        } else {
+                            label.setBackground(new Color(255, 199, 206));
+                            label.setForeground(new Color(192, 0, 0));
+                        }
+                    }
+                    label.setOpaque(true);
+                    return label;
+                }
+            }
+        );
+
+        // Center-align table column headers and make them bold
+        javax.swing.table.DefaultTableCellRenderer centerHeaderRenderer = new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setFont(new Font("Arial", Font.BOLD, 12));
+                return c;
+            }
+        };
+        centerHeaderRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        eligibilityTable.getTableHeader().setDefaultRenderer(centerHeaderRenderer);
+
+        JScrollPane scrollPane = new JScrollPane(eligibilityTable);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.setBackground(BACKGROUND_COLOR);
+
+        JButton refreshButton = new JButton("Refresh Data");
+        refreshButton.setBackground(SECONDARY_COLOR);
+        refreshButton.setForeground(Color.BLACK);
+        refreshButton.setFont(new Font("Arial", Font.BOLD, 14));
+        refreshButton.setFocusPainted(false);
+        refreshButton.addActionListener(e -> {
+            resetInstructorEligibilityFilters(eligibilityFilterBox, majorFilterBox, yearFilterBox, showRecoveryEligibleBox);
+            loadInstructorEligibilityData(eligibilityTableModel, majorFilterBox);
+        });
+
+        JButton enrollButton = new JButton("Enroll for Recovery");
+        enrollButton.setBackground(new Color(46, 204, 113));
+        enrollButton.setForeground(Color.BLACK);
+        enrollButton.setFont(new Font("Arial", Font.BOLD, 14));
+        enrollButton.setFocusPainted(false);
+        enrollButton.addActionListener(e -> {
+            enrollSelectedStudentForInstructor(eligibilityTable);
+            resetInstructorEligibilityFilters(eligibilityFilterBox, majorFilterBox, yearFilterBox, showRecoveryEligibleBox);
+            loadInstructorEligibilityData(eligibilityTableModel, majorFilterBox);
+        });
+
+        buttonPanel.add(refreshButton);
+        buttonPanel.add(enrollButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        eligibilityFilterBox.addActionListener(e -> filterInstructorEligibilityData(
+            eligibilityTableModel, eligibilityFilterBox, majorFilterBox, yearFilterBox, showRecoveryEligibleBox));
+
+        majorFilterBox.addActionListener(e -> {
+            if (majorFilterBox.getSelectedItem() != null) {
+                filterInstructorEligibilityData(eligibilityTableModel, eligibilityFilterBox, majorFilterBox, yearFilterBox, showRecoveryEligibleBox);
+            }
+        });
+
+        yearFilterBox.addActionListener(e -> {
+            if (yearFilterBox.getSelectedItem() != null) {
+                filterInstructorEligibilityData(eligibilityTableModel, eligibilityFilterBox, majorFilterBox, yearFilterBox, showRecoveryEligibleBox);
+            }
+        });
+
+        showRecoveryEligibleBox.addActionListener(e -> filterInstructorEligibilityData(
+            eligibilityTableModel, eligibilityFilterBox, majorFilterBox, yearFilterBox, showRecoveryEligibleBox));
+
+        loadInstructorEligibilityData(eligibilityTableModel, majorFilterBox);
+        utils.TableUtils.centerAlignTable(eligibilityTable);
+
+        return panel;
+    }
+
+    /**
+     * Resets all eligibility filters to their default values.
+     */
+    private void resetInstructorEligibilityFilters(JComboBox<String> eligibilityFilterBox,
+            JComboBox<String> majorFilterBox, JComboBox<String> yearFilterBox,
+            JCheckBox showRecoveryEligibleBox) {
+        eligibilityFilterBox.setSelectedItem("All Students");
+        majorFilterBox.setSelectedItem("All Majors");
+        yearFilterBox.setSelectedItem("All Years");
+        showRecoveryEligibleBox.setSelected(false);
+    }
+
+    /**
+     * Checks if student has active recovery enrollments for ALL their failed courses.
+     * @param studentId the student ID
+     * @param failedCourses list of failed courses needing recovery
+     * @return true if all failed courses have active enrollments
+     */
+    private boolean hasActiveRecoveryEnrollmentForAllCourses(
+            String studentId, java.util.List<models.Course> failedCourses) {
+
+        dao.RecoveryCourseEnrollmentDAO enrollmentDAO = new dao.RecoveryCourseEnrollmentDAO();
+        java.util.List<models.RecoveryCourseEnrollment> studentEnrollments =
+            enrollmentDAO.loadEnrollmentsByStudent(studentId);
+
+        java.util.Set<String> enrolledCourseIds = new java.util.HashSet<>();
+
+        for (models.RecoveryCourseEnrollment enrollment : studentEnrollments) {
+            if (enrollment.getStatus() == models.RecoveryCourseEnrollment.RecoveryEnrollmentStatus.IN_PROGRESS ||
+                enrollment.getStatus() == models.RecoveryCourseEnrollment.RecoveryEnrollmentStatus.SUBMITTED) {
+                enrolledCourseIds.add(enrollment.getCourseId());
+            }
+        }
+
+        if (!enrolledCourseIds.isEmpty() && (failedCourses == null || failedCourses.isEmpty())) {
+            return true;
+        }
+
+        if (failedCourses == null || failedCourses.isEmpty()) {
+            return false;
+        }
+
+        for (models.Course course : failedCourses) {
+            if (!enrolledCourseIds.contains(course.getCourseId())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void loadInstructorEligibilityData(DefaultTableModel tableModel, JComboBox<String> majorFilterBox) {
+        tableModel.setRowCount(0);
+        majorFilterBox.removeAllItems();
+        majorFilterBox.addItem("All Majors");
+
+        dao.StudentDAO studentDAO = new dao.StudentDAO();
+        dao.ResultDAO resultDAO = new dao.ResultDAO();
+        services.EligibilityChecker eligibilityChecker = new services.EligibilityChecker();
+
+        java.util.Set<String> instructorStudentIds = new java.util.HashSet<>();
+        for (Course course : instructorCourses) {
+            java.util.List<models.Result> courseResults = resultDAO.loadResultsByCourse(course.getCourseId());
+            for (models.Result result : courseResults) {
+                instructorStudentIds.add(result.getStudentId());
+            }
+        }
+
+        java.util.List<models.Student> allStudents = studentDAO.loadAllStudents();
+        java.util.Set<String> majors = new java.util.HashSet<>();
+
+        for (models.Student student : allStudents) {
+            if (!instructorStudentIds.contains(student.getStudentId())) {
+                continue;
+            }
+
+            double cgpa = eligibilityChecker.calculateCGPA(student);
+            int failedCount = eligibilityChecker.getFailedCoursesCount(student);
+            java.util.List<models.Course> failedCourses = eligibilityChecker.getFailedCourses(student);
+            boolean eligible = eligibilityChecker.checkEligibility(student);
+
+            if (hasActiveRecoveryEnrollmentForAllCourses(student.getStudentId(), failedCourses)) {
+                majors.add(student.getMajor());
+                continue;
+            }
+
+            StringBuilder failedNames = new StringBuilder();
+            for (int i = 0; i < failedCourses.size(); i++) {
+                if (i > 0) failedNames.append(", ");
+                failedNames.append(failedCourses.get(i).getCourseId());
+            }
+
+            String eligibilityStatus = eligible ? "✓ Eligible" : "✗ Ineligible";
+
+            Object[] row = {
+                student.getStudentId(),
+                student.getFullName(),
+                student.getMajor(),
+                student.getYear(),
+                student.getSemester(),
+                String.format("%.2f", cgpa),
+                failedCount,
+                failedNames.toString(),
+                eligibilityStatus
+            };
+
+            tableModel.addRow(row);
+            majors.add(student.getMajor());
+        }
+
+        for (String major : majors) {
+            majorFilterBox.addItem(major);
+        }
+    }
+
+    private void filterInstructorEligibilityData(DefaultTableModel tableModel, JComboBox<String> eligibilityFilterBox,
+            JComboBox<String> majorFilterBox, JComboBox<String> yearFilterBox, JCheckBox showRecoveryEligibleBox) {
+        String selectedEligibility = (String) eligibilityFilterBox.getSelectedItem();
+        String selectedMajor = (String) majorFilterBox.getSelectedItem();
+        String selectedYear = (String) yearFilterBox.getSelectedItem();
+
+        if (selectedEligibility == null || selectedMajor == null || selectedYear == null) {
+            return;
+        }
+
+        dao.StudentDAO studentDAO = new dao.StudentDAO();
+        dao.ResultDAO resultDAO = new dao.ResultDAO();
+        services.EligibilityChecker eligibilityChecker = new services.EligibilityChecker();
+
+        // Get unique student IDs enrolled in instructor's courses
+        java.util.Set<String> instructorStudentIds = new java.util.HashSet<>();
+        for (Course course : instructorCourses) {
+            java.util.List<models.Result> courseResults = resultDAO.loadResultsByCourse(course.getCourseId());
+            for (models.Result result : courseResults) {
+                instructorStudentIds.add(result.getStudentId());
+            }
+        }
+
+        java.util.List<models.Student> allStudents = studentDAO.loadAllStudents();
+        tableModel.setRowCount(0);
+
+        for (models.Student student : allStudents) {
+            // Only show students enrolled in this instructor's courses
+            if (!instructorStudentIds.contains(student.getStudentId())) {
+                continue;
+            }
+
+            if (!selectedMajor.equals("All Majors") && !student.getMajor().equals(selectedMajor)) {
+                continue;
+            }
+
+            if (!selectedYear.equals("All Years") && student.getYear() != Integer.parseInt(selectedYear)) {
+                continue;
+            }
+
+            boolean eligible = eligibilityChecker.checkEligibility(student);
+            int failedCount = eligibilityChecker.getFailedCoursesCount(student);
+
+            // Apply eligibility filter
+            if (selectedEligibility.equals("Eligible") && !eligible) {
+                continue;
+            }
+            if (selectedEligibility.equals("Ineligible") && eligible) {
+                continue;
+            }
+
+            // Apply recovery eligible filter (eligible AND 1-3 failed courses)
+            boolean recoveryEligible = eligible && failedCount >= 1 && failedCount <= 3;
+            if (showRecoveryEligibleBox.isSelected() && !recoveryEligible) {
+                continue;
+            }
+
+            double cgpa = eligibilityChecker.calculateCGPA(student);
+            java.util.List<models.Course> failedCourses = eligibilityChecker.getFailedCourses(student);
+
+            // SKIP students already enrolled in recovery for all failed courses
+            if (hasActiveRecoveryEnrollmentForAllCourses(student.getStudentId(), failedCourses)) {
+                continue;
+            }
+
+            StringBuilder failedNames = new StringBuilder();
+            for (int i = 0; i < failedCourses.size(); i++) {
+                if (i > 0) failedNames.append(", ");
+                failedNames.append(failedCourses.get(i).getCourseId());
+            }
+
+            String eligibilityStatus = eligible ? "✓ Eligible" : "✗ Ineligible";
+
+            Object[] row = {
+                student.getStudentId(),
+                student.getFullName(),
+                student.getMajor(),
+                student.getYear(),
+                student.getSemester(),
+                String.format("%.2f", cgpa),
+                failedCount,
+                failedNames.toString(),
+                eligibilityStatus
+            };
+
+            tableModel.addRow(row);
+        }
+    }
+
+    private void enrollSelectedStudentForInstructor(JTable eligibilityTable) {
+        int selectedRow = eligibilityTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Please select a student to enroll for recovery.",
+                "No Selection",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String studentId = (String) eligibilityTable.getValueAt(selectedRow, 0);
+        String studentName = (String) eligibilityTable.getValueAt(selectedRow, 1);
+        String eligibilityStatus = (String) eligibilityTable.getValueAt(selectedRow, 8);
+        int failedCount = (int) eligibilityTable.getValueAt(selectedRow, 6);
+        String cgpaStr = (String) eligibilityTable.getValueAt(selectedRow, 5);
+
+        // Validate enrollment eligibility
+        if (!eligibilityStatus.contains("✓")) {
+            JOptionPane.showMessageDialog(this,
+                "Cannot enroll for recovery.\n\n" +
+                studentName + " is not eligible for progression.\n" +
+                "CGPA: " + cgpaStr + " | Failed Courses: " + failedCount + "\n\n" +
+                "Students who are ineligible must repeat the year.\n" +
+                "Recovery enrollment is only for eligible students with 1-3 failed courses.",
+                "Ineligible for Recovery",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (failedCount == 0) {
+            JOptionPane.showMessageDialog(this,
+                "No recovery needed.\n\n" +
+                studentName + " has no failed courses.\n" +
+                "CGPA: " + cgpaStr + " | Failed Courses: 0\n\n" +
+                "This student can progress normally without recovery enrollment.",
+                "No Recovery Needed",
+                JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Student is eligible AND has 1-3 failed courses - check if instructor has eligible courses
+        dao.StudentDAO studentDAO = new dao.StudentDAO();
+        models.Student student = studentDAO.loadStudent(studentId);
+
+        if (student != null) {
+            // Check if student has any failed courses taught by this instructor
+            services.EligibilityChecker eligibilityChecker = new services.EligibilityChecker();
+            java.util.List<models.Course> allFailedCourses = eligibilityChecker.getFailedCourses(student);
+
+            // Filter to only courses taught by this instructor
+            java.util.List<models.Course> instructorFailedCourses = new java.util.ArrayList<>();
+            for (models.Course course : allFailedCourses) {
+                if (userId.equals(course.getInstructorId())) {
+                    instructorFailedCourses.add(course);
+                }
+            }
+
+            // If no failed courses belong to this instructor, show message and return
+            if (instructorFailedCourses.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                    "No recovery enrollment available.\n\n" +
+                    studentName + " has not failed any courses you teach.\n\n" +
+                    "This student has failed courses taught by other instructors.\n" +
+                    "Only the admin can enroll students\n" +
+                    "in recovery for those courses.",
+                    "No Courses Available",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Pass instructorId to restrict enrollment to instructor's courses only
+            EnrollmentDialog dialog = new EnrollmentDialog(this, student, userId);
+            dialog.setVisible(true);
+        }
+    }
+
+
     private void logout() {
         int confirm = JOptionPane.showConfirmDialog(
             this,
