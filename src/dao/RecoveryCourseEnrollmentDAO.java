@@ -260,4 +260,29 @@ public class RecoveryCourseEnrollmentDAO {
         result.add(current.toString());
         return result;
     }
+
+    /**
+     * Generates the next sequential enrollment ID.
+     * @return the next enrollment ID as a String
+     */
+    public String generateNextEnrollmentId() {
+        List<RecoveryCourseEnrollment> enrollments = loadAllEnrollments();
+
+        int maxId = 0;
+
+        for (RecoveryCourseEnrollment enrollment : enrollments) {
+            String id = enrollment.getId();
+
+            try {
+                int idValue = Integer.parseInt(id);
+                if (idValue > maxId) {
+                    maxId = idValue;
+                }
+            } catch (NumberFormatException e) {
+                // Skip legacy timestamp-based IDs
+            }
+        }
+
+        return String.valueOf(maxId + 1);
+    }
 }

@@ -1,57 +1,153 @@
 package services;
 
-import models.Grade;
+import models.Result;
+import models.Course;
+import dao.CourseDAO;
+import enums.GradeStatus;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Utility service for calculating GPA and CGPA values.
- * Provides static methods for academic performance calculations
- * based on the Credit Hour System.
+ * Service for calculating GPA and CGPA values.
+ * Implements academic performance calculations based on Credit Hour System.
  */
-public class CGPACalculator {
+public class CGPACalculator extends AbstractService {
+
+    private final CourseDAO courseDAO;
+
+    public CGPACalculator() {
+        this.courseDAO = new CourseDAO();
+    }
+
+    @Override
+    protected String getServiceName() {
+        return "CGPACalculator";
+    }
 
     /**
-     * Calculates the cumulative GPA (CGPA) from all grades.
+     * Calculates the cumulative GPA (CGPA) from course results.
      * Formula: (Total Grade Points) / (Total Credit Hours)
-     * @param grades list of all grade records
-     * @return calculated CGPA value
+     * Uses most recent attempt for each course. Includes failed courses.
+     * @param results list of course result records
+     * @return calculated CGPA value (0.0 if no valid courses)
      */
-    public static double calculateCGPA(List<Grade> grades) {
-        // To be implemented
-        return 0.0;
+    public double calculateCGPA(List<Result> results) {
+        if (results == null || results.isEmpty()) {
+            return 0.0;
+        }
+
+        // Group results by courseId to handle multiple attempts
+        Map<String, List<Result>> resultsByCourse = new HashMap<>();
+        for (Result result : results) {
+            String courseId = result.getCourseId();
+            resultsByCourse.putIfAbsent(courseId, new ArrayList<>());
+            resultsByCourse.get(courseId).add(result);
+        }
+
+        double totalWeightedPoints = 0.0;
+        int totalCreditHours = 0;
+
+        for (List<Result> courseResults : resultsByCourse.values()) {
+            Result mostRecent = courseResults.get(0);
+            for (Result r : courseResults) {
+                if (r.getAttemptNumber() > mostRecent.getAttemptNumber()) {
+                    mostRecent = r;
+                }
+            }
+
+            if (mostRecent.getStatus() == GradeStatus.INCOMPLETE) {
+                continue;
+            }
+
+            Course course = courseDAO.loadCourse(mostRecent.getCourseId());
+            if (course == null) {
+                logError("Course not found: " + mostRecent.getCourseId());
+                continue;
+            }
+
+            int creditHours = course.getCredits();
+            double gradePoint = mostRecent.getGradePoint();
+
+            totalWeightedPoints += gradePoint * creditHours;
+            totalCreditHours += creditHours;
+        }
+
+        return totalCreditHours > 0 ? totalWeightedPoints / totalCreditHours : 0.0;
     }
 
     /**
      * Calculates the GPA for a specific semester.
-     * @param grades list of grade records
+     * @param results list of result records
      * @param semesterId the semester to calculate for
      * @return semester GPA value
      */
-    public static double calculateSemesterGPA(List<Grade> grades, String semesterId) {
-        // To be implemented
-        return 0.0;
+    public double calculateSemesterGPA(List<Result> results, String semesterId) {
+        if (results == null || results.isEmpty() || semesterId == null) {
+            return 0.0;
+        }
+
+        double totalWeightedPoints = 0.0;
+        int totalCreditHours = 0;
+
+        for (Result result : results) {
+            if (!semesterId.equals(result.getSemesterId())) {
+                continue;
+            }
+
+            if (result.getStatus() == GradeStatus.INCOMPLETE) {
+                continue;
+            }
+
+            Course course = courseDAO.loadCourse(result.getCourseId());
+            if (course == null) {
+                continue;
+            }
+
+            int creditHours = course.getCredits();
+            double gradePoint = result.getGradePoint();
+
+            totalWeightedPoints += gradePoint * creditHours;
+            totalCreditHours += creditHours;
+        }
+
+        return totalCreditHours > 0 ? totalWeightedPoints / totalCreditHours : 0.0;
     }
 
     /**
-     * Calculates the total credit hours from a list of grades.
-     * @param grades list of grade records
+     * Calculates the total credit hours completed from results.
+     * @param results list of result records
      * @return total credit hours
      */
-    public static int getTotalCreditHours(List<Grade> grades) {
-        // To be implemented
-        return 0;
-    }
+    public int getTotalCreditHours(List<Result> results) {
+        if (results == null || results.isEmpty()) {
+            return 0;
+        }
 
-    /**
-     * Calculates the total grade points from a list of grades.
-     * Grade points = (Grade Point Value × Credit Hours) for each course
-     * @param grades list of grade records
-     * @return total grade points
-     */
-    public static double getTotalGradePoints(List<Grade> grades) {
-        // To be implemented
-        return 0.0;
-    }
+        int totalCredits = 0;
+        Set<String> processedCourses = new HashSet<>();
 
-    // Additional helper methods to be implemented
+        for (Result result : results) {
+            if (result.getStatus() == GradeStatus.INCOMPLETE) {
+                continue;
+            }
+
+            String courseKey = result.getCourseId();
+            if (processedCourses.contains(courseKey)) {
+                continue;
+            }
+
+            Course course = courseDAO.loadCourse(result.getCourseId());
+            if (course != null) {
+                totalCredits += course.getCredits();
+                processedCourses.add(courseKey);
+            }
+        }
+
+        return totalCredits;
+    }
 }
+

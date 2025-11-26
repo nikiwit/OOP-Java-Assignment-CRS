@@ -4,11 +4,11 @@ id,course_id,instructor_id,action_number,title,description,is_active,have_grade
 3,C101,I001,3,Attend Makeup Lab Session,"Participate in the scheduled makeup lab session to practice implementing algorithms in Python. Bring questions about unclear concepts",true,false
 4,C101,I001,4,Submit Recovery Assignment,"Complete and submit the recovery assignment covering algorithm design and analysis. Minimum passing grade: 70%",true,true
 5,C101,I001,5,Final Assessment Quiz,"Take the comprehensive quiz covering all recovered material. Must score at least 75% to complete recovery",true,false
-6,C102,I004,1,Review AI Fundamentals,"Review recorded lectures on machine learning basics,false,false
+6,C102,I004,1,Review AI Fundamentals,"Review recorded lectures on machine learning basics,true,false
 7,C102,I004,2,Complete Online Modules,"Finish interactive online modules on supervised and unsupervised learning. Complete all embedded quizzes",true,true
 8,C102,I004,3,Coding Assignment,"Implement a basic neural network using provided template. Submit working code with documentation",true,true
 9,C102,I004,4,Group Discussion Session,"Attend mandatory group discussion to review AI ethics and applications. Active participation required",true,false
-10,C103,I002,1,Lecture Review - Cell Biology,"Watch lectures 6-10 on cell structure,false,false
+10,C103,I002,1,Lecture Review - Cell Biology,"Watch lectures 6-10 on cell structure,true,false
 11,C103,I002,2,Lab Work Makeup,"Complete three missed lab experiments: microscopy,false,false
 12,C103,I002,3,Reading Assignments,"Read textbook chapters 4-7 and complete comprehension questions at the end of each chapter",true,false
 13,C103,I002,4,Research Paper Summary,"Write a 1000-word summary of an assigned research paper on cellular biology. Include critical analysis",true,true
@@ -17,16 +17,16 @@ id,course_id,instructor_id,action_number,title,description,is_active,have_grade
 16,C105,I001,2,Virtual Lab Sessions,"Complete 4 virtual lab sessions on Linux commands,false,false
 17,C105,I001,3,Programming Projects,"Complete two programming projects: process scheduler simulation and memory allocator implementation",true,true
 18,C105,I001,4,Technical Report,"Write technical report explaining your implementation choices and performance analysis of projects",true,true
-19,C109,I002,1,SDLC Fundamentals,"Review software development lifecycle lectures including Agile,false,false
+19,C109,I002,1,SDLC Fundamentals,"Review software development lifecycle lectures including Agile,true,false
 20,C109,I002,2,Requirements Documentation,"Create requirements document for a sample project including functional and non-functional requirements",true,true
 21,C109,I002,3,Design Patterns Study,"Study and document 5 common design patterns with real-world examples and implementation code",true,false
 22,C109,I002,4,Group Project Recovery,"Join recovery group to complete scaled-down version of main class project. Document contributions",true,true
 23,C109,I002,5,Presentation,"Present your group project to instructor and explain your role,false,false
-24,C111,I005,1,SQL Fundamentals Review,"Complete online SQL tutorial covering SELECT,false,false
+24,C111,I005,1,SQL Fundamentals Review,"Complete online SQL tutorial covering SELECT,true,false
 25,C111,I005,2,Database Design Exercise,"Design normalized database schema for given business scenario. Submit ERD and normalization explanation",true,true
 26,C111,I005,3,Query Writing Practice,"Complete 30 SQL query exercises of increasing difficulty. Must achieve 80% accuracy",true,true
 27,C111,I005,4,Practical Project,"Build small database application with CRUD operations. Submit code and demonstration video",true,true
-28,C113,I003,1,Data Structures Basics,"Review lectures on arrays,false,false
+28,C113,I003,1,Data Structures Basics,"Review lectures on arrays,true,false
 29,C113,I003,2,Implementation Exercises,"Implement each basic data structure from scratch in Java. Include unit tests",true,true
 30,C113,I003,3,Advanced Structures,"Study and implement trees,false,false
 31,C113,I003,4,Algorithm Practice,"Solve 25 LeetCode-style problems using appropriate data structures. Document approach",true,true
@@ -40,16 +40,16 @@ id,course_id,instructor_id,action_number,title,description,is_active,have_grade
 39,C122,I003,2,Problem Sets,"Complete 5 problem sets covering derivatives,false,false
 40,C122,I003,3,Tutoring Sessions,"Attend 3 one-on-one tutoring sessions to address specific problem areas",true,false
 41,C122,I003,4,Makeup Midterm,"Take makeup examination covering all review material. 2-hour timed exam",true,true
-42,C127,I002,1,Historical Period Review,"Read assigned chapters on Renaissance,false,false
+42,C127,I002,1,Historical Period Review,"Read assigned chapters on Renaissance,true,false
 43,C127,I002,2,Primary Source Analysis,"Analyze 5 primary source documents and write analytical essays for each (500 words minimum)",true,true
 44,C127,I002,3,Documentary Series,"Watch assigned documentary series and complete viewing guides with critical reflections",true,false
 45,C127,I002,4,Research Essay,"Write 2000-word research essay on assigned historical topic. Include minimum 8 academic sources",true,true
-46,C132,I003,1,Physics Fundamentals,"Review mechanics,false,false
+46,C132,I003,1,Physics Fundamentals,"Review mechanics,true,false
 47,C132,I003,2,Problem Solving Practice,"Complete 40 physics problems covering all missed topics. Show detailed solutions",true,true
 48,C132,I003,3,Lab Report Submissions,"Submit makeup lab reports for 4 missed experiments with data analysis and conclusions",true,true
 49,C132,I003,4,Concept Demonstrations,"Create video demonstrations explaining 3 complex physics concepts to peers",true,false
 50,C132,I003,5,Comprehensive Assessment,"Take comprehensive recovery exam covering all physics topics. Minimum 75% required",true,true
-51,C139,I005,1,Microeconomics Review,"Study supply/demand,false,false
+51,C139,I005,1,Microeconomics Review,"Study supply/demand,true,false
 52,C139,I005,2,Economic Analysis Problems,"Complete 15 economic analysis problems including graphing and calculations",true,true
 53,C139,I005,3,Case Study Analysis,"Analyze real-world economic case study and write 1500-word analysis paper",true,true
 54,C139,I005,4,Policy Brief,"Prepare economic policy brief on assigned topic. Include data visualization and recommendations",true,true
@@ -57,12 +57,12 @@ id,course_id,instructor_id,action_number,title,description,is_active,have_grade
 56,C142,I003,2,Packet Tracer Labs,"Complete 5 Cisco Packet Tracer simulation labs on routing and switching",true,true
 57,C142,I003,3,Network Design Project,"Design network architecture for small business scenario. Submit network diagram and documentation",true,true
 58,C142,I003,4,Security Implementation,"Implement basic network security measures in simulation. Document configuration steps",true,true
-59,C152,I005,1,Programming Fundamentals,"Review Python/Java basics: variables,false,false
+59,C152,I005,1,Programming Fundamentals,"Review Python/Java basics: variables,true,false
 60,C152,I005,2,Coding Exercises,"Complete 30 coding exercises on HackerRank covering basic programming concepts",true,true
 61,C152,I005,3,Mini Projects,"Build 3 mini projects: calculator app,false,false
 62,C152,I005,4,Code Review Session,"Participate in code review session. Present one project and review two peer projects",true,false
 63,C152,I005,5,Final Programming Challenge,"Complete timed programming challenge with multiple problem-solving tasks",true,true
-64,C170,I002,1,Descriptive Statistics,"Review measures of central tendency,false,false
+64,C170,I002,1,Descriptive Statistics,"Review measures of central tendency,true,false
 65,C170,I002,2,Probability Theory,"Complete probability exercises including conditional probability and Bayes' theorem",true,true
 66,C170,I002,3,Statistical Inference,"Study hypothesis testing,false,false
 67,C170,I002,4,R Programming,"Learn R for statistical analysis. Complete 4 guided tutorials and exercises",true,true
@@ -78,6 +78,13 @@ id,course_id,instructor_id,action_number,title,description,is_active,have_grade
 77,C186,I004,5,Final Presentation,"Present your ML project results including methodology,false,false
 79,C102,,5,Ethics Discussion Paper,"Write reflection paper on AI ethics topics discussed in class. Optional for extra credit",false,true
 80,C122,,5,Applied Calculus Project,"Complete applied calculus project demonstrating real-world applications. Extra credit opportunity",false,false
-1762665468925,C187,I001,1,FFF,ffff,true,false
-1762669632547,C105,I001,2,ddd,dddd,true,false
-1763991019711,C158,I001,1,Thsi is frist task,VIVIVIVI,true,true
+81,C108,I003,1,Literature Foundations,"Review core literary concepts including themes, symbolism, and narrative structure",true,false
+82,C108,I003,2,Reading Assignments,"Read assigned texts and complete comprehension questions. Minimum 3 novels or plays",true,false
+83,C108,I003,3,Critical Analysis Essay,"Write 1500-word critical analysis of assigned literary work. Include textual evidence",true,true
+84,C108,I003,4,Discussion Participation,"Participate in literature discussion sessions. Engage with peers on interpretations",true,false
+85,C108,I003,5,Final Literature Exam,"Take comprehensive exam on all covered literary works and concepts. Minimum 70%",true,true
+86,C128,I002,1,Mathematics Fundamentals,"Review fundamental math concepts including algebra and geometry",true,false
+87,C128,I002,2,Problem Set Completion,"Complete assigned problem sets covering all missed topics. Show detailed work",true,true
+88,C128,I002,3,Tutoring Sessions,"Attend mandatory tutoring sessions to clarify difficult concepts",true,false
+89,C128,I002,4,Practice Exam,"Take practice exam to assess readiness. Must score 65% or higher",true,true
+90,C128,I002,5,Comprehensive Math Exam,"Take final comprehensive exam. Minimum 70% required to complete recovery",true,true

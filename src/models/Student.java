@@ -38,51 +38,6 @@ public class Student implements Serializable {
         this.retake = retake;
     }
 
-    public double calculateCGPA() {
-        List<Grade> allGrades = getGrades();
-        if (allGrades == null || allGrades.isEmpty()) {
-            return 0.0;
-        }
-
-        double totalGradePoints = 0.0;
-        int count = 0;
-
-        for (Grade grade : allGrades) {
-            if (grade.getGradePoint() > 0) {
-                totalGradePoints += grade.getGradePoint();
-                count++;
-            }
-        }
-
-        return count > 0 ? totalGradePoints / count : 0.0;
-    }
-
-    public List<Course> getFailedCourses() {
-        List<Result> allResults = getResults();
-        List<Course> failedCourses = new ArrayList<>();
-
-        if (allResults != null) {
-            for (Result result : allResults) {
-                if (result.needsRecovery()) {
-                    Course course = result.getCourse();
-                    if (course != null) {
-                        failedCourses.add(course);
-                    }
-                }
-            }
-        }
-
-        return failedCourses;
-    }
-
-    
-    public boolean isEligibleForProgression() {
-        double cgpa = calculateCGPA();
-        int failedCoursesCount = getFailedCourses().size();
-
-        return cgpa >= 2.0 && failedCoursesCount <= 3;
-    }
-
     public String getFullName() {
         return firstName + " " + lastName;
     }
