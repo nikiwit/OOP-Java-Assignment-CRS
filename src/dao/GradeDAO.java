@@ -132,4 +132,20 @@ public class GradeDAO {
 
         return courseGrades;
     }
+
+    /**
+     * Saves a new grade to the data file.
+     * @param grade the grade to save
+     */
+    public void saveGrade(Grade grade) {
+        // To be implemented
+    }
+
+    /**
+     * Updates an existing grade in the data file.
+     * @param grade the grade with updated data
+     */
+    public void updateGrade(Grade grade) {
+        // To be implemented
+    }
 }
