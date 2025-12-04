@@ -3,13 +3,18 @@ package gui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import services.AuthenticationService;
 import services.UserService;
 import models.User;
 import models.Admin;
 import models.Instructor;
-
+import services.ReportGenerator;
+import models.AcademicReport;
 public class AdminDashboard extends JFrame {
 
     // Basic UI colors and size
@@ -46,46 +51,44 @@ public class AdminDashboard extends JFrame {
 // ------------------------------------------------------------
     private class StatusColorRenderer extends javax.swing.table.DefaultTableCellRenderer {
 
-    @Override
-    public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus,
-            int row, int column) {
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected, boolean hasFocus,
+                int row, int column) {
 
-        JLabel label = (JLabel) super.getTableCellRendererComponent(
-                table, value, isSelected, hasFocus, row, column);
+            JLabel label = (JLabel) super.getTableCellRendererComponent(
+                    table, value, isSelected, hasFocus, row, column);
 
-        // Center align text
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+            // Center align text
+            label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Convert value to string safely (NO '?')
-        String status = "";
-        if (value != null) {
-            status = value.toString().trim();
-        }
-
-        // Apply colors only when row is not selected
-        if (!isSelected) {
-
-            if (status.equalsIgnoreCase("Active")) {
-                label.setBackground(new Color(198, 239, 206));  // Light green
-                label.setForeground(Color.BLACK);
-
-            } else if (status.equalsIgnoreCase("Inactive")) {
-                label.setBackground(new Color(255, 199, 206));  // Light red
-                label.setForeground(Color.BLACK);
-
-            } else {
-                label.setBackground(Color.WHITE);
-                label.setForeground(Color.BLACK);
+            // Convert value to string safely (NO '?')
+            String status = "";
+            if (value != null) {
+                status = value.toString().trim();
             }
+
+            // Apply colors only when row is not selected
+            if (!isSelected) {
+
+                if (status.equalsIgnoreCase("Active")) {
+                    label.setBackground(new Color(198, 239, 206));  // Light green
+                    label.setForeground(Color.BLACK);
+
+                } else if (status.equalsIgnoreCase("Inactive")) {
+                    label.setBackground(new Color(255, 199, 206));  // Light red
+                    label.setForeground(Color.BLACK);
+
+                } else {
+                    label.setBackground(Color.WHITE);
+                    label.setForeground(Color.BLACK);
+                }
+            }
+
+            label.setOpaque(true);
+            return label;
         }
-
-        label.setOpaque(true);
-        return label;
     }
-}
-
-
 
     // Basic window setup
     private void initializeFrame() {
@@ -112,10 +115,9 @@ public class AdminDashboard extends JFrame {
 
         mainContentPanel.add(createDashboardPanel(), "Dashboard");
         mainContentPanel.add(createUserManagementPanel(), "UserManagement");
-        mainContentPanel.add(new LoginHistoryPanel(), "LoginHistory"); 
+        mainContentPanel.add(new LoginHistoryPanel(), "LoginHistory");
         mainContentPanel.add(createEligibilityCheckPanel(), "EligibilityCheck");
         mainContentPanel.add(createReportsPanel(), "Reports");
-
 
         add(mainContentPanel, BorderLayout.CENTER);
     }
@@ -182,34 +184,34 @@ public class AdminDashboard extends JFrame {
 
     // Sidebar navigation (Dashboard, User Management, etc.)
     private JPanel createSidebarPanel() {
-    JPanel panel = new JPanel();
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    panel.setBackground(new Color(52, 73, 94));
-    panel.setPreferredSize(new Dimension(220, FRAME_HEIGHT));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(new Color(52, 73, 94));
+        panel.setPreferredSize(new Dimension(220, FRAME_HEIGHT));
 
-    // ---- Dashboard ----
-    panel.add(Box.createVerticalStrut(15));
-    panel.add(createSidebarButton("Dashboard", "Dashboard"));
+        // ---- Dashboard ----
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(createSidebarButton("Dashboard", "Dashboard"));
 
-    // ---- User Management ----
-    panel.add(Box.createVerticalStrut(15));
-    panel.add(createSidebarButton("User Management", "UserManagement"));
+        // ---- User Management ----
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(createSidebarButton("User Management", "UserManagement"));
 
-    // ---- Login History (NEW BUTTON HERE) ----
-    panel.add(Box.createVerticalStrut(15));
-    JButton loginHistoryBtn = createSidebarButton("Login History", "LoginHistory");
-    panel.add(loginHistoryBtn);
+        // ---- Login History (NEW BUTTON HERE) ----
+        panel.add(Box.createVerticalStrut(15));
+        JButton loginHistoryBtn = createSidebarButton("Login History", "LoginHistory");
+        panel.add(loginHistoryBtn);
 
-    // ---- Eligibility Check ----
-    panel.add(Box.createVerticalStrut(15));
-    panel.add(createSidebarButton("Eligibility Check", "EligibilityCheck"));
+        // ---- Eligibility Check ----
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(createSidebarButton("Eligibility Check", "EligibilityCheck"));
 
-    // ---- Reports ----
-    panel.add(Box.createVerticalStrut(15));
-    panel.add(createSidebarButton("Reports", "Reports"));
+        // ---- Reports ----
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(createSidebarButton("Reports", "Reports"));
 
-    return panel;
-}
+        return panel;
+    }
 
     private JButton createSidebarButton(String text, final String cardName) {
         JButton button = new JButton(text);
@@ -452,89 +454,87 @@ public class AdminDashboard extends JFrame {
         return panel;
     }
 
-
     // Loads all users into table
     private void loadUserData() {
 
-    try {
-        // ---------------- CLEAR TABLE BEFORE RELOADING ----------------
-        userTableModel.setRowCount(0);
+        try {
+            // ---------------- CLEAR TABLE BEFORE RELOADING ----------------
+            userTableModel.setRowCount(0);
 
-        // ---------------- LOAD USERS FROM SERVICE ----------------
-        UserService userService = new UserService();
-        java.util.List<User> users = userService.getAllUsers();
+            // ---------------- LOAD USERS FROM SERVICE ----------------
+            UserService userService = new UserService();
+            java.util.List<User> users = userService.getAllUsers();
 
-        if (users == null) {
-            JOptionPane.showMessageDialog(this, "Failed to load users.");
-            return;
-        }
+            if (users == null) {
+                JOptionPane.showMessageDialog(this, "Failed to load users.");
+                return;
+            }
 
-        // ================================================================
-        //     SORTING LOGIC
-        //     1. Active users appear FIRST
-        //     2. Inside each Active/Inactive group >> sort by UserID
-        // ================================================================
-        java.util.Collections.sort(users, new java.util.Comparator<User>() {
-            public int compare(User u1, User u2) {
+            // ================================================================
+            //     SORTING LOGIC
+            //     1. Active users appear FIRST
+            //     2. Inside each Active/Inactive group >> sort by UserID
+            // ================================================================
+            java.util.Collections.sort(users, new java.util.Comparator<User>() {
+                public int compare(User u1, User u2) {
 
-                // ---- RULE 1: Active FIRST ----
-                if (u1.isActive() && !u2.isActive()) {
-                    return -1;  // u1 comes first
+                    // ---- RULE 1: Active FIRST ----
+                    if (u1.isActive() && !u2.isActive()) {
+                        return -1;  // u1 comes first
+                    }
+                    if (!u1.isActive() && u2.isActive()) {
+                        return 1;   // u2 comes first
+                    }
+
+                    // ---- RULE 2: Same status >> sort by User ID ----
+                    return u1.getUserId().compareTo(u2.getUserId());
                 }
-                if (!u1.isActive() && u2.isActive()) {
-                    return 1;   // u2 comes first
+            });
+
+            // ================================================================
+            //     LOAD SORTED USERS INTO TABLE
+            // ================================================================
+            for (int i = 0; i < users.size(); i++) {
+
+                User user = users.get(i);
+                String name = "";
+
+                // Get name based on role
+                if (user instanceof Admin) {
+                    name = ((Admin) user).getAdminName();
+                } else if (user instanceof Instructor) {
+                    name = ((Instructor) user).getInstructorName();
                 }
 
-                // ---- RULE 2: Same status >> sort by User ID ----
-                return u1.getUserId().compareTo(u2.getUserId());
-            }
-        });
+                String status;
+                if (user.isActive()) {
+                    status = "Active";
+                } else {
+                    status = "Inactive";
+                }
 
-        // ================================================================
-        //     LOAD SORTED USERS INTO TABLE
-        // ================================================================
-        for (int i = 0; i < users.size(); i++) {
-
-            User user = users.get(i);
-            String name = "";
-
-            // Get name based on role
-            if (user instanceof Admin) {
-                name = ((Admin) user).getAdminName();
-            } 
-            else if (user instanceof Instructor) {
-                name = ((Instructor) user).getInstructorName();
-            }
-
-            String status;
-            if (user.isActive()) {
-                status = "Active";
-            } else {
-                status = "Inactive";
-            }
-
-            userTableModel.addRow(new Object[]{
+                userTableModel.addRow(new Object[]{
                     user.getUserId(),
                     name,
                     user.getEmail(),
                     user.getRole().toString(),
                     status
-            });
+                });
+            }
+
+        } catch (Exception ex) {
+
+            // ---------------- ERROR HANDLING ----------------
+            JOptionPane.showMessageDialog(
+                    this,
+                    "An error occurred while loading user data:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+            ex.printStackTrace();
         }
-
-    } catch (Exception ex) {
-
-        // ---------------- ERROR HANDLING ----------------
-        JOptionPane.showMessageDialog(
-                this,
-                "An error occurred while loading user data:\n" + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-        );
-
-        ex.printStackTrace();
     }
-}
 
     // Called after Add/Update/Deactivate
     public void refreshUserTable() {
@@ -553,8 +553,6 @@ public class AdminDashboard extends JFrame {
         String selectedUserId = (String) userTableModel.getValueAt(row, 0);
         new UpdateUserFrame(this, selectedUserId);
     }
-
-   
 
     // ------ Deactivate Button Action -------
     private void deactivateUserAction() {
@@ -597,7 +595,6 @@ public class AdminDashboard extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to deactivate user.");
         }
     }
-
 
     // Eligibility Check Panel
     private JTable eligibilityTable;
@@ -664,7 +661,7 @@ public class AdminDashboard extends JFrame {
         panel.add(topPanel, BorderLayout.NORTH);
 
         String[] columnNames = {"Student ID", "Name", "Major", "Year", "Semester",
-                                "CGPA", "Failed Courses", "Failed Course Names", "Eligibility"};
+            "CGPA", "Failed Courses", "Failed Course Names", "Eligibility"};
         eligibilityTableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -688,28 +685,28 @@ public class AdminDashboard extends JFrame {
         eligibilityTable.getColumnModel().getColumn(8).setPreferredWidth(80);
 
         eligibilityTable.getColumnModel().getColumn(8).setCellRenderer(
-            new javax.swing.table.DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value,
-                        boolean isSelected, boolean hasFocus, int row, int column) {
-                    JLabel label = (JLabel) super.getTableCellRendererComponent(
-                            table, value, isSelected, hasFocus, row, column);
-                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                JLabel label = (JLabel) super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
 
-                    if (!isSelected) {
-                        String status = value != null ? value.toString() : "";
-                        if (status.contains("✓")) {
-                            label.setBackground(new Color(198, 239, 206));
-                            label.setForeground(new Color(0, 128, 0));
-                        } else {
-                            label.setBackground(new Color(255, 199, 206));
-                            label.setForeground(new Color(192, 0, 0));
-                        }
+                if (!isSelected) {
+                    String status = value != null ? value.toString() : "";
+                    if (status.contains("✓")) {
+                        label.setBackground(new Color(198, 239, 206));
+                        label.setForeground(new Color(0, 128, 0));
+                    } else {
+                        label.setBackground(new Color(255, 199, 206));
+                        label.setForeground(new Color(192, 0, 0));
                     }
-                    label.setOpaque(true);
-                    return label;
                 }
+                label.setOpaque(true);
+                return label;
             }
+        }
         );
 
         javax.swing.table.DefaultTableCellRenderer centerHeaderRenderer = new javax.swing.table.DefaultTableCellRenderer() {
@@ -782,7 +779,9 @@ public class AdminDashboard extends JFrame {
 
             StringBuilder failedNames = new StringBuilder();
             for (int i = 0; i < failedCourses.size(); i++) {
-                if (i > 0) failedNames.append(", ");
+                if (i > 0) {
+                    failedNames.append(", ");
+                }
                 failedNames.append(failedCourses.get(i).getCourseId());
             }
 
@@ -857,7 +856,9 @@ public class AdminDashboard extends JFrame {
 
             StringBuilder failedNames = new StringBuilder();
             for (int i = 0; i < failedCourses.size(); i++) {
-                if (i > 0) failedNames.append(", ");
+                if (i > 0) {
+                    failedNames.append(", ");
+                }
                 failedNames.append(failedCourses.get(i).getCourseId());
             }
 
@@ -890,7 +891,9 @@ public class AdminDashboard extends JFrame {
     }
 
     /**
-     * Checks if student has active recovery enrollments for ALL their failed courses.
+     * Checks if student has active recovery enrollments for ALL their failed
+     * courses.
+     *
      * @param studentId the student ID
      * @param failedCourses list of failed courses needing recovery
      * @return true if all failed courses have active enrollments
@@ -899,14 +902,14 @@ public class AdminDashboard extends JFrame {
             String studentId, java.util.List<models.Course> failedCourses) {
 
         dao.RecoveryCourseEnrollmentDAO enrollmentDAO = new dao.RecoveryCourseEnrollmentDAO();
-        java.util.List<models.RecoveryCourseEnrollment> studentEnrollments =
-            enrollmentDAO.loadEnrollmentsByStudent(studentId);
+        java.util.List<models.RecoveryCourseEnrollment> studentEnrollments
+                = enrollmentDAO.loadEnrollmentsByStudent(studentId);
 
         java.util.Set<String> enrolledCourseIds = new java.util.HashSet<>();
 
         for (models.RecoveryCourseEnrollment enrollment : studentEnrollments) {
-            if (enrollment.getStatus() == models.RecoveryCourseEnrollment.RecoveryEnrollmentStatus.IN_PROGRESS ||
-                enrollment.getStatus() == models.RecoveryCourseEnrollment.RecoveryEnrollmentStatus.SUBMITTED) {
+            if (enrollment.getStatus() == models.RecoveryCourseEnrollment.RecoveryEnrollmentStatus.IN_PROGRESS
+                    || enrollment.getStatus() == models.RecoveryCourseEnrollment.RecoveryEnrollmentStatus.SUBMITTED) {
                 enrolledCourseIds.add(enrollment.getCourseId());
             }
         }
@@ -932,9 +935,9 @@ public class AdminDashboard extends JFrame {
         int selectedRow = eligibilityTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this,
-                "Please select a student to enroll for recovery.",
-                "No Selection",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please select a student to enroll for recovery.",
+                    "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -947,27 +950,26 @@ public class AdminDashboard extends JFrame {
 
         // Validate enrollment eligibility based on assignment requirements
         // Only students who are ELIGIBLE for progression AND have 1-3 failed courses can enroll for recovery
-
         if (!eligibilityStatus.contains("✓")) {
             JOptionPane.showMessageDialog(this,
-                "Cannot enroll for recovery.\n\n" +
-                studentName + " is not eligible for progression.\n" +
-                "CGPA: " + cgpaStr + " | Failed Courses: " + failedCount + "\n\n" +
-                "Students who are ineligible must repeat the year.\n" +
-                "Recovery enrollment is only for eligible students with 1-3 failed courses.",
-                "Ineligible for Recovery",
-                JOptionPane.ERROR_MESSAGE);
+                    "Cannot enroll for recovery.\n\n"
+                    + studentName + " is not eligible for progression.\n"
+                    + "CGPA: " + cgpaStr + " | Failed Courses: " + failedCount + "\n\n"
+                    + "Students who are ineligible must repeat the year.\n"
+                    + "Recovery enrollment is only for eligible students with 1-3 failed courses.",
+                    "Ineligible for Recovery",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (failedCount == 0) {
             JOptionPane.showMessageDialog(this,
-                "No recovery needed.\n\n" +
-                studentName + " has no failed courses.\n" +
-                "CGPA: " + cgpaStr + " | Failed Courses: 0\n\n" +
-                "This student can progress normally without recovery enrollment.",
-                "No Recovery Needed",
-                JOptionPane.INFORMATION_MESSAGE);
+                    "No recovery needed.\n\n"
+                    + studentName + " has no failed courses.\n"
+                    + "CGPA: " + cgpaStr + " | Failed Courses: 0\n\n"
+                    + "This student can progress normally without recovery enrollment.",
+                    "No Recovery Needed",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -984,10 +986,315 @@ public class AdminDashboard extends JFrame {
     }
 
     // Reports (placeholder)
+    private JTable reportTable;
+    private DefaultTableModel reportTableModel;
+    private JComboBox<String> majorFilterBox1;
+    private JComboBox<String> yearFilterBox1;
+    private JTextField reportSearchField;
+
     private JPanel createReportsPanel() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(BACKGROUND_COLOR);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(BACKGROUND_COLOR);
+
+        JLabel titleLabel = new JLabel("Report");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(TEXT_COLOR);
+        topPanel.add(titleLabel, BorderLayout.WEST);
+
+        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        filterPanel.setBackground(BACKGROUND_COLOR);
+
+        JLabel searchLabel = new JLabel("Search");
+        reportSearchField = new JTextField(20);
+
+// Listen to typing changes
+        reportSearchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterReportData();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterReportData();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterReportData();
+            }
+        });
+
+        JLabel majorLabel1 = new JLabel("Major:");
+        majorFilterBox1 = new JComboBox<>();
+        majorFilterBox1.addItem("All Majors");
+        majorFilterBox1.addActionListener(e -> filterReportData());
+
+        JLabel yearLabel1 = new JLabel("Year:");
+        yearFilterBox1 = new JComboBox<>();
+        yearFilterBox1.addItem("All Years");
+        yearFilterBox1.addItem("1");
+        yearFilterBox1.addItem("2");
+        yearFilterBox1.addItem("3");
+        yearFilterBox1.addItem("4");
+        yearFilterBox1.addActionListener(e -> filterReportData());
+
+        filterPanel.add(searchLabel);
+        filterPanel.add(reportSearchField);
+        filterPanel.add(Box.createHorizontalStrut(10));
+        filterPanel.add(majorLabel1);
+        filterPanel.add(majorFilterBox1);
+        filterPanel.add(Box.createHorizontalStrut(10));
+        filterPanel.add(yearLabel1);
+        filterPanel.add(yearFilterBox1);
+
+        topPanel.add(filterPanel, BorderLayout.EAST);
+        panel.add(topPanel, BorderLayout.NORTH);
+
+        String[] columnNames = {"Student ID", "Name", "Major", "Year", "Semester",
+            "CGPA"};
+        reportTableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        reportTable = new JTable(reportTableModel);
+
+        reportTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        reportTable.setRowHeight(35);
+        reportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        reportTable.getColumnModel().getColumn(0).setPreferredWidth(140);
+        reportTable.getColumnModel().getColumn(1).setPreferredWidth(180);
+        reportTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        reportTable.getColumnModel().getColumn(3).setPreferredWidth(110);
+        reportTable.getColumnModel().getColumn(4).setPreferredWidth(130);
+        reportTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+
+
+        reportTable.getColumnModel().getColumn(5).setCellRenderer(
+                new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                JLabel label = (JLabel) super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+
+                if (!isSelected) {
+                    String status = value != null ? value.toString() : "";
+                    if (status.contains("✓")) {
+                        label.setBackground(new Color(198, 239, 206));
+                        label.setForeground(new Color(0, 128, 0));
+                    } else {
+                        label.setBackground(new Color(255, 199, 206));
+                        label.setForeground(new Color(192, 0, 0));
+                    }
+                }
+                label.setOpaque(true);
+                return label;
+            }
+        }
+        );
+
+        javax.swing.table.DefaultTableCellRenderer centerHeaderRenderer1 = new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setFont(new Font("Arial", Font.BOLD, 12));
+                return c;
+            }
+        };
+
+        centerHeaderRenderer1.setHorizontalAlignment(SwingConstants.CENTER);
+        reportTable.getTableHeader().setDefaultRenderer(centerHeaderRenderer1);
+
+        JScrollPane scrollPane = new JScrollPane(reportTable);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.setBackground(BACKGROUND_COLOR);
+
+        JButton refreshButton1 = new JButton("Refresh Data");
+        refreshButton1.setBackground(SECONDARY_COLOR);
+        refreshButton1.setForeground(Color.BLACK);
+        refreshButton1.setFont(new Font("Arial", Font.BOLD, 14));
+        refreshButton1.setFocusPainted(false);
+        refreshButton1.addActionListener(e -> {
+            resetReportFilters();
+            loadReportData();
+        });
+
+        JButton exportButton = new JButton("Export to PDF");
+        exportButton.setBackground(new Color(46, 204, 113));
+        exportButton.setForeground(Color.BLACK);
+        exportButton.setFont(new Font("Arial", Font.BOLD, 14));
+        exportButton.setFocusPainted(false);
+        exportButton.addActionListener(e -> exportSelectedStudent());
+
+        buttonPanel.add(refreshButton1);
+        buttonPanel.add(exportButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        loadReportData();
+        utils.TableUtils.centerAlignTable(reportTable);
+
         return panel;
+    }
+
+    private void loadReportData() {
+        reportTableModel.setRowCount(0);
+        majorFilterBox1.removeAllItems();
+        majorFilterBox1.addItem("All Majors");
+
+        dao.StudentDAO studentDAO = new dao.StudentDAO();
+        java.util.List<models.Student> students = studentDAO.loadAllStudents();
+        java.util.Set<String> majors = new java.util.HashSet<>();
+        models.AcademicReport academicReport = new models.AcademicReport();
+
+
+        for (models.Student student : students) {
+        academicReport.setStudentId(student.getStudentId());
+        double cgpa = academicReport.calculateCGPA();
+            Object[] row = {
+                student.getStudentId(),
+                student.getFullName(),
+                student.getMajor(),
+                student.getYear(),
+                student.getSemester(),
+                String.format("%.2f", cgpa)
+            };
+            reportTableModel.addRow(row);
+            majors.add(student.getMajor());
+        }
+
+        for (String major : majors) {
+            majorFilterBox1.addItem(major);
+        }
+    }
+
+    private void filterReportData() {
+        reportTableModel.setRowCount(0);
+
+        String selectedMajor = (String) majorFilterBox1.getSelectedItem();
+        String selectedYear = (String) yearFilterBox1.getSelectedItem();
+        String keyword = reportSearchField.getText().trim().toLowerCase();
+
+        dao.StudentDAO studentDAO = new dao.StudentDAO();
+        java.util.List<models.Student> students = studentDAO.loadAllStudents();
+        models.AcademicReport academicReport = new models.AcademicReport();
+
+        for (models.Student student : students) {
+            academicReport.setStudentId(student.getStudentId());
+            double cgpa = academicReport.calculateCGPA();
+            if (!selectedMajor.equals("All Majors") && !student.getMajor().equalsIgnoreCase(selectedMajor)) {
+                continue;
+            }
+
+            if (!selectedYear.equals("All Years") && student.getYear() != Integer.parseInt(selectedYear)) {
+                continue;
+            }
+
+            if (!keyword.isEmpty() && !student.getStudentId().toLowerCase().contains(keyword)
+                    && !student.getFullName().toLowerCase().contains(keyword)) {
+                continue;
+            }
+
+            Object[] row = {
+                student.getStudentId(),
+                student.getFullName(),
+                student.getMajor(),
+                student.getYear(),
+                student.getSemester(),
+                String.format("%.2f", cgpa)
+            };
+
+            reportTableModel.addRow(row);
+        }
+    }
+
+    private void resetReportFilters() {
+        majorFilterBox1.setSelectedItem("All Majors");
+        yearFilterBox1.setSelectedItem("All Years");
+        reportSearchField.setText("");
+        loadReportData();
+    }
+
+    private void exportSelectedStudent() {
+        int selectedRow = reportTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a student first.",
+                    "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String studentId = (String) reportTable.getValueAt(selectedRow, 0);
+        String studentName = (String) eligibilityTable.getValueAt(selectedRow, 1);
+        String cgpaStr = (String) eligibilityTable.getValueAt(selectedRow, 5);
+        double cgpa = Double.parseDouble(cgpaStr);
+        dao.StudentDAO studentDAO = new dao.StudentDAO();
+        models.Student student = studentDAO.loadStudent(studentId);
+
+        if (student == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selected student not found.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Fetch all semesters for that student
+        java.util.List<String> semesters = new ArrayList<>();
+        dao.GradeDAO gradeDAO = new dao.GradeDAO();
+        for (var g : gradeDAO.loadGradesByStudent(studentId)) {
+            if (!semesters.contains(g.getSemesterId())) {
+                semesters.add(g.getSemesterId());
+            }
+        }
+
+        if (semesters.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No semester records found for this student.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Create semester selection combo box
+        JComboBox<String> semesterBox = new JComboBox<>();
+        for (String sem : semesters) {
+            semesterBox.addItem(sem);
+        }
+
+        int option = JOptionPane.showConfirmDialog(this, semesterBox,
+                "Select Semester to Export", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String selectedSemester = (String) semesterBox.getSelectedItem();
+            services.ReportGenerator reportGenerate = services.ReportGenerator.getInstance();
+            models.AcademicReport report = reportGenerate.generateAcademicReport(student, selectedSemester);
+
+            String pdfPath = reportGenerate.exportReportToPDF(report);
+            if (pdfPath != null) {
+                JOptionPane.showMessageDialog(this,
+                        "PDF exported successfully:\n" + pdfPath,
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Error exporting PDF.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     // ---------- Logout Button Action -----------
@@ -1010,13 +1317,11 @@ public class AdminDashboard extends JFrame {
             new LoginFrame();   // go back to login screen
         }
         // If NO is clicked, then stays on Dashboard 
-    }
-    
 
+    }
 
     // Main method to launch the dashboard
     public static void main(String[] args) {
         AdminDashboard dash = new AdminDashboard("Admin User", "A001");
     }
 }
-

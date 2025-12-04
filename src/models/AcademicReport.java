@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import dao.StudentDAO;
+import dao.GradeDAO;
+import dao.ResultDAO;
+import dao.CourseDAO;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -14,11 +17,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 /**
- * Represents an academic performance report for a student.
- * Generates comprehensive reports including grades, GPA calculations,
- * and exports to PDF format as required by the assignment.
+ * Represents an academic performance report for a student. Generates
+ * comprehensive reports including grades, GPA calculations, and exports to PDF
+ * format as required by the assignment.
  */
 public class AcademicReport {
+
     private String reportId;
     private String studentId;
     private String semesterId;
@@ -29,57 +33,26 @@ public class AcademicReport {
 
     /**
      * Generates the complete academic report content.
+     *
      * @return formatted report as a string
      */
     public String generateReport() {
-        Student student = getStudent();
-        String name = (student != null) ? student.getFullName() : "undefined";
+        String name = getStudent().getFullName();
 
         StringBuilder report = new StringBuilder();
         report.append("Report ID: ").append(reportId)
-            .append("\nStudent ID: ").append(studentId)
-            .append("\nName: ").append(name)
-            .append("\nSemester ID: ").append(semesterId)
-            .append("\nSemester GPA: ").append(semesterGPA)
-            .append("\nCumulative CGPA: ").append(cumulativeCGPA)
-            .append("\n\n=== Grade Records ===\n");
-
-        List<Grade> grades = getGrades();
-        if (grades != null && !grades.isEmpty()) {
-            for (int i = 0; i < grades.size(); i++) {
-                Grade g = grades.get(i);
-                report.append("Course: ").append(g.getCourseName())
-                    .append(" | Component: ").append(g.getComponent())
-                    .append(" | Grade: ").append(g.getGrade())
-                    .append(" | GradePoint: ").append(g.getGradePoint())
-                    .append(" | Status: ").append(g.getStatus())
-                    .append("\n");
-            }
-        } else {
-            report.append("No grade records found for this semester.\n");
-        }
-
-        report.append("\n=== Result Records ===\n");
-
-        List<Result> results = getResults();
-        if (results != null && !results.isEmpty()) {
-            for (int i = 0; i < results.size(); i++) {
-                Result r = results.get(i);
-                report.append("Course: ").append(r.getCourseName())
-                    .append(" | Grade: ").append(r.getGrade())
-                    .append(" | GradePoint: ").append(r.getGradePoint())
-                    .append(" | PassedExam: ").append(r.isPassedExam())
-                    .append(" | PassedAssignment: ").append(r.isPassedAssignment())
-                    .append(" | Status: ").append(r.getStatus())
-                    .append("\n");
-            }
-        } else {
-            report.append("No result records found for this semester.\n");
-        }
+                .append("\nStudent ID: ").append(studentId)
+                .append("\nName: ").append(name)
+                .append("\nSemester ID: ").append(semesterId)
+                .append("\nSemester GPA: ").append(semesterGPA)
+                .append("\nCumulative CGPA: ").append(cumulativeCGPA)
+                .append("\n\n=== Grade Records ===\n");
+        report.append(getGrades());
+        report.append(getResults());
+        report.append(getClass());
 
         return report.toString();
     }
-
 
     /**
      * Exports the academic report to a PDF file using iText library.
@@ -90,8 +63,8 @@ public class AcademicReport {
         try {
             String defaultDir = "C:\\Users\\Public\\Downloads";
             String path = (getFilePath() != null && !getFilePath().isEmpty())
-                ? getFilePath(): defaultDir + File.separator + "AcademicReport_"
-                + getStudentId() + "_" + getSemesterId() + ".pdf";
+                    ? getFilePath() : defaultDir + File.separator + "AcademicReport_"
+                    + getStudentId() + "_" + getSemesterId() + ".pdf";
 
             PdfWriter.getInstance(document, new FileOutputStream(path));
             document.open();
@@ -112,56 +85,63 @@ public class AcademicReport {
         }
     }
 
-
-
     /**
      * Calculates the GPA for a specific semester.
+     *
      * @return the semester GPA value
      */
     public double calculateSemesterGPA() {
-        Student s = getStudent();
-        if (s == null || s.getGrades() == null) return 0.0;
+        dao.ResultDAO resultDAO = new dao.ResultDAO();
+        List<Result> results = resultDAO.loadResultsByStudent(studentId);
+        List<Result> semesterResults = new ArrayList<>();
 
-        double totalPoints = 0.0;
-        double totalCredits = 0.0;
-
-        List<Grade> grades = s.getGrades();
-        for (int i = 0; i < grades.size(); i++) {
-            Grade g = grades.get(i);
-            if (g.getSemesterId().equals(this.semesterId)) {
-                totalPoints += g.getGradePoint() * g.getCreditHours();
-                totalCredits += g.getCreditHours();
+        for (Result result : results) {
+            if (result.getSemesterId().equals(semesterId)) {
+                semesterResults.add(result);
             }
         }
 
-        semesterGPA = (totalCredits > 0) ? totalPoints / totalCredits : 0.0;
+        if (semesterResults == null) {
+            return 0.0;
+        }
+
+        double totalGrade = 0.0;
+
+        for (Result result : semesterResults) {
+            totalGrade += result.getGradePoint();
+        }
+
+        semesterGPA = totalGrade / semesterResults.size();
+        setSemesterGPA(semesterGPA);
         return semesterGPA;
     }
 
     /**
      * Calculates the cumulative GPA (CGPA) across all semesters.
+     *
      * @return the cumulative CGPA value
      */
     public double calculateCGPA() {
-        Student s = getStudent();
-        if (s == null || s.getGrades() == null) return 0.0;
-
-        double totalPoints = 0.0;
-        double totalCredits = 0.0;
-
-        List<Grade> grades = s.getGrades();
-        for (int i = 0; i < grades.size(); i++) {
-            Grade g = grades.get(i);
-            totalPoints += g.getGradePoint() * g.getCreditHours();
-            totalCredits += g.getCreditHours();
+        dao.ResultDAO resultDAO = new dao.ResultDAO();
+        List<Result> results = resultDAO.loadResultsByStudent(studentId);
+        if (results == null) {
+            return 0.0;
         }
 
-        cumulativeCGPA = (totalCredits > 0) ? totalPoints / totalCredits : 0.0;
+        double totalGrade = 0.0;
+
+        for (Result result : results) {
+            totalGrade += result.getGradePoint();
+        }
+
+        cumulativeCGPA = totalGrade / results.size();
+        setCumulativeCGPA(cumulativeCGPA);
         return cumulativeCGPA;
     }
 
     /**
      * Gets the student for this report.
+     *
      * @return the Student object
      */
     public Student getStudent() {
@@ -171,18 +151,19 @@ public class AcademicReport {
 
     /**
      * Gets all grades for this report.
+     *
      * @return list of grades
      */
     public java.util.List<Grade> getGrades() {
-        Student s = getStudent();
-        if (s == null || s.getGrades() == null) return null;
-
-        List<Grade> grades = s.getGrades();
+        GradeDAO dao = new GradeDAO();
+        List<Grade> grades = dao.loadGradesByStudent(studentId);
+        if (grades == null) {
+            return null;
+        }
         List<Grade> semesterGrades = new ArrayList<>();
-         for (int i = 0; i < grades.size(); i++) {
-            Grade g = grades.get(i);
-            if (g.getSemesterId().equals(this.semesterId)) {
-                semesterGrades.add(g);
+        for (Grade grade : grades) {
+            if (grade.getSemesterId().equals(semesterId)) {
+                semesterGrades.add(grade);
             }
         }
         return semesterGrades;
@@ -190,48 +171,100 @@ public class AcademicReport {
 
     /**
      * Gets all results for this report.
+     *
      * @return list of results
      */
     public java.util.List<Result> getResults() {
-    Student s = getStudent();
-    if (s == null || s.getResults() == null) return null;
-
-    List<Result> results = s.getResults();
-    List<Result> semesterResults = new ArrayList<>();
-
-    for (int i = 0; i < results.size(); i++) {
-        Result r = results.get(i);
-        if (r.getSemesterId().equals(this.semesterId)) {
-            semesterResults.add(r);
+        ResultDAO dao = new ResultDAO();
+        List<Result> results = dao.loadResultsByStudent(studentId);
+        if (results == null) {
+            return null;
         }
+        List<Result> semesterResults = new ArrayList<>();
+        for (Result result : results) {
+            if (result.getSemesterId().equals(semesterId)) {
+                semesterResults.add(result);
+            }
+        }
+        return semesterResults;
     }
-    return semesterResults; 
+
+    public java.util.List<Course> getCourses() {
+        CourseDAO dao = new CourseDAO();
+
+        List<Course> courses = dao.loadAllCourses();
+        if (courses == null) {
+            return null;
+        }
+        List<Course> semesterCourses = new ArrayList<>();
+        for (Course course : courses) {
+            for (Result r : getResults()) {
+                if (course.getCourseId().equals(r.getCourseId())) {
+                    semesterCourses.add(course);
+                    break; // avoid duplicates
+                }
+            }
+        }
+        return semesterCourses;
     }
 
     // Getters and setters to be implemented
-    public String getReportId() { return reportId; }
+    public String getReportId() {
+        return reportId;
+    }
+
     //report id will not set from other class
     public void setReportId() {
-            String randomDigits = String.format("%04d", (int)(Math.random() * 10000));
-            this.reportId = getStudentId() + "_" + getSemesterId() + "_" + randomDigits;
+        String randomDigits = String.format("%04d", (int) (Math.random() * 10000));
+        this.reportId = getStudentId() + "_" + getSemesterId() + "_" + randomDigits;
     }
-    
-    public String getStudentId() { return studentId; }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
 
-    public String getSemesterId() { return semesterId; }
-    public void setSemesterId(String semesterId) { this.semesterId = semesterId; }
+    public String getStudentId() {
+        return studentId;
+    }
 
-    public double getSemesterGPA() { return semesterGPA; }
-    public void setSemesterGPA(double semesterGPA) { this.semesterGPA = semesterGPA; }
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
 
-    public double getCumulativeCGPA() { return cumulativeCGPA; }
-    public void setCumulativeCGPA(double cumulativeCGPA) { this.cumulativeCGPA = cumulativeCGPA; }
+    public String getSemesterId() {
+        return semesterId;
+    }
 
-    public Date getGeneratedDate() { return generatedDate; }
-    public void setGeneratedDate(Date generatedDate) { this.generatedDate = generatedDate; }
+    public void setSemesterId(String semesterId) {
+        this.semesterId = semesterId;
+    }
 
-    public String getFilePath() { return filePath; }
-    public void setFilePath(String filePath) { this.filePath = filePath; }
+    public double getSemesterGPA() {
+        return semesterGPA;
+    }
+
+    public void setSemesterGPA(double semesterGPA) {
+        this.semesterGPA = semesterGPA;
+    }
+
+    public double getCumulativeCGPA() {
+        return cumulativeCGPA;
+    }
+
+    public void setCumulativeCGPA(double cumulativeCGPA) {
+        this.cumulativeCGPA = cumulativeCGPA;
+    }
+
+    public Date getGeneratedDate() {
+        return generatedDate;
+    }
+
+    public void setGeneratedDate(Date generateDate) {
+        this.generatedDate = generatedDate;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
 }
