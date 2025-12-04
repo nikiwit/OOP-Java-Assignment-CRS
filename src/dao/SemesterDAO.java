@@ -1,8 +1,8 @@
 package dao;
 
+import java.util.List;
 import models.Semester;
 import utils.FileManager;
-import java.util.List;
 
 /**
  * Data Access Object for Semester entities.

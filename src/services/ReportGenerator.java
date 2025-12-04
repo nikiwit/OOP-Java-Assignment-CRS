@@ -1,11 +1,12 @@
 package services;
 
-import models.Student;
-import models.AcademicReport;
 import dao.CourseDAO;
+import dao.GradeDAO;
 import dao.ResultDAO;
 import dao.SemesterDAO;
 import dao.StudentDAO;
+import models.AcademicReport;
+import models.Student;
 
 /**
  * Singleton service for generating academic reports and exporting them to PDF.
@@ -18,6 +19,7 @@ public class ReportGenerator {
     private ResultDAO resultDao;
     private SemesterDAO semesterDao;
     private StudentDAO studentDao;
+    private GradeDAO gradeDao;
     /**
      * Private constructor to prevent direct instantiation.
      * Part of the Singleton pattern implementation.
@@ -28,6 +30,7 @@ public class ReportGenerator {
         this.resultDao=new ResultDAO();
         this.semesterDao=new SemesterDAO();
         this.studentDao=new StudentDAO();
+        this.gradeDao=new GradeDAO();
     }
 
     /**
@@ -74,16 +77,28 @@ public class ReportGenerator {
             return null;
         }
 
-        try {
-            report.exportToPDF();
-            System.out.println("PDF successfully generated at: " + report.getFilePath());
-            return report.getFilePath();
-        } catch (Exception e) {
-            System.out.println("Error exporting report to PDF: " + e.getMessage());
-            e.printStackTrace();
-            return null;
+        // try {
+        //     report.exportToPDF();
+        //     System.out.println("PDF successfully generated at: " + report.getFilePath());
+        //     return report.getFilePath();
+        // } catch (Exception e) {
+        //     System.out.println("Error exporting report to PDF: " + e.getMessage());
+        //     e.printStackTrace();
+        //     return null;
+        // }
+            try {
+        report.exportToPDF(); // still calling the same method name, now generates TXT
+        System.out.println("TXT successfully generated at: " + report.getFilePath());
+        return report.getFilePath();
+    } catch (Exception e) {
+        System.out.println("Error exporting report to TXT: " + e.getMessage());
+        e.printStackTrace();
+        return null;
+    }
+
         }
+
+
     }
 
     // Additional helper methods to be implemented
-}

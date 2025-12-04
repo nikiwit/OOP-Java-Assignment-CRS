@@ -1,0 +1,13 @@
+Report ID: S001_202501_20251205_040559
+Student ID: S001
+Name: Fiona Smith
+Semester: 202501
+Course Code   Course Title   Credit Hours   Grade   Grade Point
+--------------------------------------------------------------
+C121         Computer Science 3             A      4.00       
+C113         Data Structures 4             B+     3.30       
+
+Semester GPA: 3.65
+Cumulative CGPA: 3.00
+
+Report generated on: 05/12/2025 04:05:59
