@@ -16,7 +16,7 @@ public class Semester {
     /**
      * Returns a string representation of the semester.
      *
-     * @return formatted semester information
+     * @return formatted semester information 
      */
     @Override
     public String toString() {

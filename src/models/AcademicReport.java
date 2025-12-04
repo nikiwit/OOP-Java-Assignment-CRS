@@ -37,19 +37,55 @@ public class AcademicReport {
      * @return formatted report as a string
      */
     public String generateReport() {
-        String name = getStudent().getFullName();
-
         StringBuilder report = new StringBuilder();
-        report.append("Report ID: ").append(reportId)
-                .append("\nStudent ID: ").append(studentId)
-                .append("\nName: ").append(name)
-                .append("\nSemester ID: ").append(semesterId)
-                .append("\nSemester GPA: ").append(semesterGPA)
-                .append("\nCumulative CGPA: ").append(cumulativeCGPA)
-                .append("\n\n=== Grade Records ===\n");
-        report.append(getGrades());
-        report.append(getResults());
-        report.append(getClass());
+
+        // Basic info
+        report.append("Report ID: ").append(reportId).append("\n")
+                .append("Student ID: ").append(studentId).append("\n")
+                .append("Name: ").append(getStudent() != null ? getStudent().getFullName() : "N/A").append("\n")
+                .append("Semester: ").append(getSemesterId() != null ? getSemesterId() : "N/A").append("\n")
+                .append("Course Code   Course Title   Credit Hours   Grade   Grade Point\n")
+                .append("--------------------------------------------------------------\n");
+
+        // Get results and courses
+        List<Result> results = getResults();
+        List<Course> courses = getCourses();
+
+        if (results != null && courses != null) {
+            for (Result r : results) {
+                Course course = courses.stream()
+                        .filter(c -> c.getCourseId().equals(r.getCourseId()))
+                        .findFirst()
+                        .orElse(null);
+                if (course != null) {
+                    report.append(String.format("%-12s %-15s %-13d %-6s %-11.2f\n",
+                            course.getCourseId(), 
+                            course.getCourseName(), 
+                            course.getCredits(), 
+                            r.getGrade(),
+                            r.getGradePoint()));
+                }
+            }
+        } else {
+            report.append("No results available for this semester.\n");
+        }
+
+        // GPA info
+        report.append("\nSemester GPA: ").append(String.format("%.2f", semesterGPA)).append("\n")
+                .append("Cumulative CGPA: ").append(String.format("%.2f", cumulativeCGPA)).append("\n");
+
+        // Grade records (optional if you want full grade details)
+        List<Grade> grades = getGrades();
+        if (grades != null && !grades.isEmpty()) {
+            report.append("\n=== Grade Records ===\n");
+            for (Grade g : grades) {
+                report.append(String.format("%-12s %-10s %-11s %-6s\n",
+                        g.getCourseId(),
+                        g.getGrade(),
+                        g.getSemesterId(),
+                        g.getGradePoint()));
+            }
+        }
 
         return report.toString();
     }
