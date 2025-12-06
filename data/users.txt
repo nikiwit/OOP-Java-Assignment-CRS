@@ -1,6 +1,6 @@
 UserID,Role,Email,Password,Active,Name
-A001,ADMIN,admin@crs.edu,Admin1234@,true,Admin User
-I001,INSTRUCTOR,dr.brown@crs.edu,Brown1234@,true,Dr. Brown
+A001,ADMIN,nikiwit7@gmail.com,Admin1234@,true,Admin User
+I001,INSTRUCTOR,nikiwit7@gmail.com,Brown1234@,true,Dr. Brown
 I003,INSTRUCTOR,dr.kumar@crs.edu,Kumar1234@,true,Dr. Kumar
 I004,INSTRUCTOR,dr.lee@crs.edu,Lee1234@,true,Dr. Lee
 I006,INSTRUCTOR,dr.kuan@crs.edu,Kuan1234@,true,Dr. Kuan

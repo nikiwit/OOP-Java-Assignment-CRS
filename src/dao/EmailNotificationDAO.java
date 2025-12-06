@@ -1,8 +1,12 @@
 package dao;
 
 import models.EmailNotification;
+import enums.NotificationType;
 import utils.FileManager;
 import java.util.List;
+import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Data Access Object for EmailNotification entities.
@@ -11,13 +15,22 @@ import java.util.List;
  */
 public class EmailNotificationDAO {
     private FileManager fileManager;
+    private static final String EMAIL_FILE = "email.txt";
+
+    /**
+     * Constructor initializes FileManager
+     */
+    public EmailNotificationDAO() {
+        this.fileManager = new FileManager();
+    }
 
     /**
      * Saves an email notification to the data file.
      * @param email the email notification to save
      */
     public void saveEmail(EmailNotification email) {
-        // To be implemented
+        String csvLine = email.toCSV();
+        fileManager.appendToFile(EMAIL_FILE, csvLine);
     }
 
     /**
@@ -26,7 +39,19 @@ public class EmailNotificationDAO {
      * @return the EmailNotification object, or null if not found
      */
     public EmailNotification loadEmail(String emailId) {
-        // To be implemented
+        String content = fileManager.loadFromTextFile(EMAIL_FILE);
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        String[] lines = content.split("\n");
+
+        for (int i = 1; i < lines.length; i++) { // Skip header
+            String[] fields = parseCSVLine(lines[i]);
+            if (fields.length >= 7 && fields[0].equals(emailId)) {
+                return parseEmailFromCSV(fields);
+            }
+        }
         return null;
     }
 
@@ -36,8 +61,21 @@ public class EmailNotificationDAO {
      * @return list of email notifications
      */
     public List<EmailNotification> loadEmailsByRecipient(String recipientId) {
-        // To be implemented
-        return null;
+        List<EmailNotification> emails = new ArrayList<>();
+        String content = fileManager.loadFromTextFile(EMAIL_FILE);
+        if (content == null || content.isEmpty()) {
+            return emails;
+        }
+
+        String[] lines = content.split("\n");
+
+        for (int i = 1; i < lines.length; i++) {
+            String[] fields = parseCSVLine(lines[i]);
+            if (fields.length >= 7 && fields[1].equals(recipientId)) {
+                emails.add(parseEmailFromCSV(fields));
+            }
+        }
+        return emails;
     }
 
     /**
@@ -45,20 +83,85 @@ public class EmailNotificationDAO {
      * @return list of all email notifications
      */
     public List<EmailNotification> loadAllEmails() {
-        // To be implemented
-        return null;
+        List<EmailNotification> emails = new ArrayList<>();
+        String content = fileManager.loadFromTextFile(EMAIL_FILE);
+        if (content == null || content.isEmpty()) {
+            return emails;
+        }
+
+        String[] lines = content.split("\n");
+
+        for (int i = 1; i < lines.length; i++) {
+            String[] fields = parseCSVLine(lines[i]);
+            if (fields.length >= 7) {
+                emails.add(parseEmailFromCSV(fields));
+            }
+        }
+        return emails;
     }
 
-    // Additional helper methods to be implemented
-    public void sendPasswordResetEmail(String email, String code) {
+    /**
+     * Parses a CSV line into fields
+     * @param line CSV line to parse
+     * @return array of fields
+     */
+    private String[] parseCSVLine(String line) {
+        return fileManager.parseCSVLine(line);
+    }
 
-    // This is only for assignment output (simulation)
-    System.out.println("=== PASSWORD RESET EMAIL ===");
-    System.out.println("To: " + email);
-    System.out.println("Your reset code is: " + code);
-    System.out.println("============================");
+    /**
+     * Parses CSV fields into an EmailNotification object
+     * @param fields CSV fields
+     * @return EmailNotification object
+     */
+    private EmailNotification parseEmailFromCSV(String[] fields) {
+        EmailNotification email = new EmailNotification();
+        email.setEmailId(fields[0]);
+        email.setRecipientId(fields[1]);
+        email.setRecipientEmail(fields[2]);
+        email.setSubject(fields[3]);
+        email.setBody(fields[4]);
 
-    // In real system you would integrate JavaMail here
-}
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            email.setSentDate(sdf.parse(fields[5]));
+        } catch (Exception e) {
+            email.setSentDate(new Date());
+        }
 
+        try {
+            email.setNotificationType(NotificationType.valueOf(fields[6]));
+        } catch (IllegalArgumentException e) {
+            email.setNotificationType(NotificationType.ACCOUNT_CREATION);
+        }
+
+        return email;
+    }
+
+    /**
+     * Generates the next email ID in sequence (E001, E002, etc.)
+     * @return next email ID
+     */
+    public String generateNextEmailId() {
+        List<EmailNotification> allEmails = loadAllEmails();
+        if (allEmails.isEmpty()) {
+            return "E001";
+        }
+
+        int maxNum = 0;
+        for (EmailNotification email : allEmails) {
+            String id = email.getEmailId();
+            if (id != null && id.startsWith("E")) {
+                try {
+                    int num = Integer.parseInt(id.substring(1));
+                    if (num > maxNum) {
+                        maxNum = num;
+                    }
+                } catch (NumberFormatException e) {
+                    // skip invalid IDs
+                }
+            }
+        }
+        return String.format("E%03d", maxNum + 1);
+    }
 }

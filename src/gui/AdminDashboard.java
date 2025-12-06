@@ -10,9 +10,11 @@ import java.util.List;
 
 import services.AuthenticationService;
 import services.UserService;
+import services.EmailNotificationService;
 import models.User;
 import models.Admin;
 import models.Instructor;
+import models.Student;
 import services.ReportGenerator;
 import models.AcademicReport;
 public class AdminDashboard extends JFrame {
@@ -1285,8 +1287,20 @@ public class AdminDashboard extends JFrame {
 
             String pdfPath = reportGenerate.exportReportToPDF(report);
             if (pdfPath != null) {
+                // Send report generated email notification
+                try {
+                    EmailNotificationService emailService = EmailNotificationService.getInstance();
+                    emailService.sendReportGeneratedEmail(
+                        student,
+                        "Academic Performance Report",
+                        "Semester " + selectedSemester
+                    );
+                } catch (Exception ex) {
+                    System.err.println("Warning: Failed to send report notification email - " + ex.getMessage());
+                }
+
                 JOptionPane.showMessageDialog(this,
-                        "PDF exported successfully:\n" + pdfPath,
+                        "PDF exported successfully:\n" + pdfPath + "\n\nNotification email sent to student.",
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {

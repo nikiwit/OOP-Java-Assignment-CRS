@@ -1,8 +1,10 @@
 package gui;
 
 import services.UserService;
+import services.EmailNotificationService;
 import dao.UserDAO;
 import enums.UserRole;
+import models.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -172,7 +174,18 @@ public class AddUserFrame extends JFrame {
     boolean success = userService.createUser(id, email, password, name, role);
 
     if (success) {
-        JOptionPane.showMessageDialog(this, "User added successfully!");
+        // Send welcome email notification
+        try {
+            EmailNotificationService emailService = EmailNotificationService.getInstance();
+            User newUser = userService.findByEmail(email);
+            if (newUser != null) {
+                emailService.sendAccountCreationEmail(newUser);
+            }
+        } catch (Exception ex) {
+            System.err.println("Warning: Failed to send welcome email - " + ex.getMessage());
+        }
+
+        JOptionPane.showMessageDialog(this, "User added successfully! Welcome email sent.");
         parent.refreshUserTable();
         dispose();
     } else {

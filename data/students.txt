@@ -1,7 +1,7 @@
 StudentID,FirstName,LastName,Major,Year,Semester,Retake,Email,Status
-S001,Fiona,Smith,Computer Science,4,1,0,fiona.smith@university.edu,Active
-S002,George,Wilson,Literature,2,3,0,george.wilson@university.edu,Active
-S003,Ivan,Wilson,Mathematics,4,2,0,ivan.wilson@university.edu,Active
+S001,Fiona,Smith,Computer Science,4,1,0,nikiwit7@gmail.com,Active
+S002,George,Wilson,Literature,2,3,0,nikiwit7@gmail.com,Active
+S003,Ivan,Wilson,Mathematics,4,2,0,nikiwit7@gmail.com,Active
 S004,Ivan,Chen,Philosophy,4,1,0,ivan.chen@university.edu,Active
 S005,Bob,Smith,Statistics,2,3,0,bob.smith@university.edu,Active
 S006,Quinn,Chen,Engineering,1,2,0,quinn.chen@university.edu,Active

@@ -99,6 +99,8 @@ javadoc/
 .env
 credentials.json
 config.properties
+config/email.properties
+email.config
 
 # Project-specific ignores
 
