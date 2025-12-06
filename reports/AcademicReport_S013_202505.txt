@@ -1,0 +1,13 @@
+Report ID: S013_202505_20251206_133143
+Student ID: S013
+Name: Ivan Lee
+Semester: 202505
+Course Code   Course Title   Credit Hours   Grade   Grade Point
+--------------------------------------------------------------
+C105         Operating Systems 2             C+     2.30       
+C115         Cybersecurity   3             F      0.00       
+
+Semester GPA: 1.15
+Cumulative CGPA: 1.75
+
+Report generated on: 06/12/2025 13:31:43

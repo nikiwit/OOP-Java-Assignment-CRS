@@ -5,14 +5,21 @@ import dao.GradeDAO;
 import dao.ResultDAO;
 import dao.StudentDAO;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-// import com.itextpdf.text.Document;
-// import com.itextpdf.text.DocumentException;
-// import com.itextpdf.text.Paragraph;
-// import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 /**
  * Represents an academic performance report for a student. Generates
  * comprehensive reports including grades, GPA calculations, and exports to PDF
@@ -80,59 +87,134 @@ public class AcademicReport {
      * Exports the academic report to a PDF file using iText library.
      */
     public void exportToPDF() {
-        // Document document = new Document();
+        Document document = new Document();
 
-        // try {
-        //     String defaultDir = "C:\\Users\\Public\\Downloads";
-        //     String path = (getFilePath() != null && !getFilePath().isEmpty())
-        //             ? getFilePath() : defaultDir + File.separator + "AcademicReport_"
-        //             + getStudentId() + "_" + getSemesterId() + ".pdf";
+        try {
+            String defaultDir = "reports";
+            String path = (getFilePath() != null && !getFilePath().isEmpty())
+                    ? getFilePath() : defaultDir + File.separator + "AcademicReport_"
+                    + getStudentId() + "_" + getSemesterId() + ".pdf";
 
-        //     PdfWriter.getInstance(document, new FileOutputStream(path));
-        //     document.open();
+            PdfWriter.getInstance(document, new FileOutputStream(path));
+            document.open();
 
-        //     String reportContent = generateReport();
-        //     document.add(new Paragraph(reportContent));
+            // Title and Header Info
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+            Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+            Font normalFont = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
 
-        //     String formattedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(getGeneratedDate());
-        //     document.add(new Paragraph("\nReport generated on: " + formattedDate));
+            Paragraph title = new Paragraph("ACADEMIC REPORT", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
 
-        //     setFilePath(path);
-        //     System.out.println("PDF successfully exported to: " + path);
+            // Student Information
+            Student student = getStudent();
+            document.add(new Paragraph("Report ID: " + reportId, normalFont));
+            document.add(new Paragraph("Student ID: " + studentId, normalFont));
+            document.add(new Paragraph("Name: " + (student != null ? student.getFullName() : "N/A"), normalFont));
+            document.add(new Paragraph("Semester: " + (getSemesterId() != null ? getSemesterId() : "N/A"), normalFont));
+            document.add(new Paragraph("\n"));
 
-        // } catch (DocumentException | IOException e) {
-        //     e.printStackTrace();
-        // } finally {
-        //     document.close();
-        // }
-       try {
-    String defaultDir = "reports";
-    String path = (getFilePath() != null && !getFilePath().isEmpty())
-            ? getFilePath() : defaultDir + File.separator + "AcademicReport_"
-            + getStudentId() + "_" + getSemesterId() + ".txt";
+            // Course Table
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
 
-    java.io.FileWriter writer = new java.io.FileWriter(path);
-    String reportContent = generateReport();
-    writer.write(reportContent);
+            // Set column widths
+            float[] columnWidths = {2f, 3f, 2f, 1.5f, 2f};
+            table.setWidths(columnWidths);
 
-    // <-- Insert here
-    Date generatedDate = getGeneratedDate();
-    if (generatedDate == null) {
-        generatedDate = new Date();  // fallback to current date
-        setGeneratedDate(generatedDate);
-    }
+            // Table Headers
+            Font tableHeaderFont = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
+            String[] headers = {"Course Code", "Course Title", "Credit Hours", "Grade", "Grade Point"};
 
-    String formattedDate = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(generatedDate);
-    writer.write("\nReport generated on: " + formattedDate);
+            for (String header : headers) {
+                PdfPCell cell = new PdfPCell(new Phrase(header, tableHeaderFont));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setPadding(8);
+                cell.setBackgroundColor(new com.itextpdf.text.BaseColor(220, 220, 220));
+                table.addCell(cell);
+            }
 
-    writer.close();
-    setFilePath(path);
-    System.out.println("TXT successfully exported to: " + path);
+            // Get results and courses
+            List<Result> results = getResults();
+            List<Course> courses = getCourses();
 
-} catch (IOException e) {
-    e.printStackTrace();
-}
+            if (results != null && courses != null) {
+                for (Result r : results) {
+                    Course course = courses.stream()
+                            .filter(c -> c.getCourseId().equals(r.getCourseId()))
+                            .findFirst()
+                            .orElse(null);
+                    if (course != null) {
+                        // Course Code
+                        PdfPCell codeCell = new PdfPCell(new Phrase(course.getCourseId(), normalFont));
+                        codeCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        codeCell.setPadding(5);
+                        table.addCell(codeCell);
 
+                        // Course Title
+                        PdfPCell titleCell = new PdfPCell(new Phrase(course.getCourseName(), normalFont));
+                        titleCell.setPadding(5);
+                        table.addCell(titleCell);
+
+                        // Credit Hours
+                        PdfPCell creditsCell = new PdfPCell(new Phrase(String.valueOf(course.getCredits()), normalFont));
+                        creditsCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        creditsCell.setPadding(5);
+                        table.addCell(creditsCell);
+
+                        // Grade
+                        PdfPCell gradeCell = new PdfPCell(new Phrase(r.getGrade(), normalFont));
+                        gradeCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        gradeCell.setPadding(5);
+                        table.addCell(gradeCell);
+
+                        // Grade Point
+                        PdfPCell pointCell = new PdfPCell(new Phrase(String.format("%.2f", r.getGradePoint()), normalFont));
+                        pointCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        pointCell.setPadding(5);
+                        table.addCell(pointCell);
+                    }
+                }
+            } else {
+                PdfPCell noDataCell = new PdfPCell(new Phrase("No results available for this semester.", normalFont));
+                noDataCell.setColspan(5);
+                noDataCell.setPadding(10);
+                noDataCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(noDataCell);
+            }
+
+            document.add(table);
+
+            // GPA Summary
+            document.add(new Paragraph("\n"));
+            Font summaryFont = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
+            document.add(new Paragraph("Semester GPA: " + String.format("%.2f", semesterGPA), summaryFont));
+            document.add(new Paragraph("Cumulative CGPA: " + String.format("%.2f", cumulativeCGPA), summaryFont));
+
+            // Footer
+            Date generatedDate = getGeneratedDate();
+            if (generatedDate == null) {
+                generatedDate = new Date();
+                setGeneratedDate(generatedDate);
+            }
+
+            String formattedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(generatedDate);
+            Paragraph footer = new Paragraph("\nReport generated on: " + formattedDate, normalFont);
+            footer.setAlignment(Element.ALIGN_RIGHT);
+            document.add(footer);
+
+            setFilePath(path);
+            System.out.println("PDF successfully exported to: " + path);
+
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+        }
     }
 
     /**
@@ -303,7 +385,7 @@ public class AcademicReport {
     }
 
     public void setGeneratedDate(Date generateDate) {
-        this.generatedDate = generatedDate;
+        this.generatedDate = generateDate;
     }
 
     public String getFilePath() {
