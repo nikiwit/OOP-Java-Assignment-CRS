@@ -1,7 +1,9 @@
 package gui;
 
 import dao.CourseDAO;
+import dao.StudentDAO;
 import static gui.UIConstants.*;
+import services.EmailNotificationService;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -1774,6 +1776,17 @@ public class InstructorDashboard extends JFrame {
                     JOptionPane.PLAIN_MESSAGE);
                 tableModel.setRowCount(0);
                 loadRecoveryData(tableModel);
+
+                // Send milestone reminder email
+                StudentDAO studentDAO = new StudentDAO();
+                models.Student student = studentDAO.loadStudent(studentId);
+                CourseDAO courseDAO = new CourseDAO();
+                models.Course course = courseDAO.loadCourse(courseId);
+                if (student != null && course != null) {
+                    EmailNotificationService.getInstance().sendMilestoneReminderEmail(
+                        student, courseId, course.getCourseName(),
+                        newActionNumber, newAction.getDescription());
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to switch action.", "Error", JOptionPane.PLAIN_MESSAGE);
             }
@@ -2224,6 +2237,14 @@ public class InstructorDashboard extends JFrame {
                 "Recovery enrollment is only for eligible students with 1-3 failed courses.",
                 "Ineligible for Recovery",
                 JOptionPane.ERROR_MESSAGE);
+
+            // Send eligibility status notification
+            StudentDAO studentDAO = new StudentDAO();
+            models.Student student = studentDAO.loadStudent(studentId);
+            if (student != null) {
+                EmailNotificationService.getInstance().sendEligibilityStatusEmail(
+                    student, failedCount, "INELIGIBLE");
+            }
             return;
         }
 

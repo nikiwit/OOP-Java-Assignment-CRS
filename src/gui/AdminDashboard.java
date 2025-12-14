@@ -961,6 +961,14 @@ public class AdminDashboard extends JFrame {
                     + "Recovery enrollment is only for eligible students with 1-3 failed courses.",
                     "Ineligible for Recovery",
                     JOptionPane.ERROR_MESSAGE);
+
+            // Send eligibility status notification
+            dao.StudentDAO tempStudentDAO = new dao.StudentDAO();
+            models.Student student = tempStudentDAO.loadStudent(studentId);
+            if (student != null) {
+                EmailNotificationService.getInstance().sendEligibilityStatusEmail(
+                    student, failedCount, "INELIGIBLE");
+            }
             return;
         }
 

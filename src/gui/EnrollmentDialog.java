@@ -17,6 +17,7 @@ import dao.InstructorDAO;
 import dao.RecoveryCourseEnrollmentDAO;
 import dao.RecoveryCourseActionDAO;
 import services.EligibilityChecker;
+import services.EmailNotificationService;
 
 /**
  * Dialog for enrolling students in recovery programs.
@@ -386,6 +387,10 @@ public class EnrollmentDialog extends JDialog {
             try {
                 saveEnrollment(enrollmentDAO, enrollment);
                 successCount++;
+
+                // Send email notification
+                String courseName = (String) coursesTableModel.getValueAt(row, 0);
+                EmailNotificationService.getInstance().sendRecoveryPlanAssignedEmail(student, courseId, courseName);
             } catch (Exception e) {
                 System.err.println("Error saving recovery enrollment: " + e.getMessage());
             }
