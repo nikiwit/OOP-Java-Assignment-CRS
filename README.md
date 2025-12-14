@@ -1,5 +1,7 @@
 # Course Registration System (CRS)
 
+> **For Lecturer:** Quick setup instructions available in [README.txt](README.txt)
+
 > OOP Java Assignment | Team Size: 5 Members
 
 Course Registration System managing student enrollment, eligibility checking, course recovery, and notifications.
