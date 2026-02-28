@@ -1,0 +1,10 @@
+PlanID,StudentID,CourseID,InstructorID,CurrentActionNumber,Status,Notes,StartDate,TargetEndDate,CompletedDate
+RP001,S010,C113,I003,2,ACTIVE,Student is making good progress on reviewing fundamentals,2025-08-10,2025-12-01,
+RP002,S013,C115,I004,4,COMPLETED,Successfully completed all recovery actions,2025-08-15,2025-12-10,2025-12-14
+RP003,S021,C166,I003,2,ACTIVE,Needs additional support with exam preparation,2025-10-20,2025-12-15,
+RP004,S026,C121,I002,1,ACTIVE,Starting recovery for Computer Science fundamentals,2025-05-15,2025-08-01,
+RP005,S026,C113,I003,1,ACTIVE,Recovery plan for Data Structures - needs strong foundation work,2025-05-16,2025-08-05,
+RP006,S028,C128,I002,3,ACTIVE,Mathematics recovery in progress - calculus concepts need work,2025-05-12,2025-08-01,
+RP007,S032,C161,I005,2,ACTIVE,History recovery - focusing on analysis and essay writing,2025-05-15,2025-07-30,
+RP008,S035,C129,I002,1,ACTIVE,Software Engineering recovery - starting with fundamentals,2025-05-12,2025-08-10,
+RP009,S039,C162,I004,2,COMPLETED,Philosophy recovery completed successfully,2025-05-15,2025-07-30,2025-07-28

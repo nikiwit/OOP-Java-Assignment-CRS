@@ -1,0 +1,56 @@
+StudentID,FirstName,LastName,Major,Year,Semester,Retake,Email,Status
+S001,Fiona,Smith,Computer Science,4,1,0,nikiwit7@gmail.com,Active
+S002,George,Wilson,Literature,2,3,0,nikiwit7@gmail.com,Active
+S003,Ivan,Wilson,Mathematics,4,2,0,nikiwit7@gmail.com,Active
+S004,Ivan,Chen,Philosophy,4,1,0,ivan.chen@university.edu,Active
+S005,Bob,Smith,Statistics,2,3,0,bob.smith@university.edu,Active
+S006,Quinn,Chen,Engineering,1,2,0,quinn.chen@university.edu,Active
+S007,Oscar,Smith,Philosophy,2,1,0,oscar.smith@university.edu,Active
+S008,Bob,Chen,Engineering,1,3,0,bob.chen@university.edu,Active
+S009,Rachel,Davis,Physics,3,2,0,rachel.davis@university.edu,Active
+S010,Charlie,Miller,Computer Science,1,1,0,charlie.miller@university.edu,Active
+S011,Charlie,Brown,Engineering,3,3,1,charlie.brown@university.edu,Active
+S012,Quinn,Chen,Engineering,2,2,0,quinn.chen2@university.edu,Active
+S013,Ivan,Lee,Engineering,3,1,0,ivan.lee@university.edu,Active
+S014,Diana,Brown,Economics,1,3,0,diana.brown@university.edu,Active
+S015,Alice,Wilson,Engineering,1,2,0,alice.wilson@university.edu,Active
+S016,Bob,Smith,History,2,1,0,bob.smith2@university.edu,Active
+S017,Alice,Johnson,Philosophy,2,3,0,alice.johnson@university.edu,Active
+S018,Julia,Davis,Mathematics,3,2,0,julia.davis@university.edu,Active
+S019,Nina,Miller,History,3,1,0,nina.miller@university.edu,Active
+S020,Rachel,Miller,Biology,3,3,0,rachel.miller@university.edu,Active
+S021,Rachel,Miller,History,1,2,1,rachel.miller2@university.edu,Active
+S022,Ivan,Smith,Mathematics,4,1,0,ivan.smith@university.edu,Active
+S023,Nina,Taylor,Engineering,3,3,0,nina.taylor@university.edu,Active
+S024,Quinn,Brown,Physics,2,2,0,quinn.brown@university.edu,Active
+S025,Paula,Taylor,Statistics,3,1,0,paula.taylor@university.edu,Active
+S026,Michael,Zhang,Computer Science,2,1,1,michael.zhang@university.edu,Active
+S027,Sarah,Ahmed,Biology,3,2,0,sarah.ahmed@university.edu,Active
+S028,David,Kim,Mathematics,2,3,1,david.kim@university.edu,Active
+S029,Emily,Martinez,Engineering,1,1,0,emily.martinez@university.edu,Active
+S030,James,Wilson,Physics,4,2,0,james.wilson@university.edu,Active
+S031,Linda,Garcia,Economics,2,3,0,linda.garcia@university.edu,Active
+S032,Robert,Lee,History,3,1,1,robert.lee@university.edu,Active
+S033,Maria,Rodriguez,Literature,2,2,0,maria.rodriguez@university.edu,Active
+S034,Thomas,Brown,Chemistry,1,3,0,thomas.brown@university.edu,Active
+S035,Jennifer,Taylor,Software Engineering,2,2,1,jennifer.taylor@university.edu,Active
+S036,William,Anderson,Philosophy,3,1,0,william.anderson@university.edu,Active
+S037,Patricia,White,Statistics,1,2,0,patricia.white@university.edu,Active
+S038,Richard,Martin,Database Systems,2,1,0,richard.martin@university.edu,Active
+S039,Barbara,Thompson,Philosophy,3,2,1,barbara.thompson@university.edu,Active
+S040,Joseph,Harris,Networking,4,3,0,joseph.harris@university.edu,Active
+S041,Alex,Turner,Computer Science,3,1,0,alex.turner@university.edu,Active
+S042,Maya,Patel,Engineering,2,2,0,maya.patel@university.edu,Active
+S043,Jordan,Lee,Mathematics,3,1,0,jordan.lee@university.edu,Active
+S044,Emma,Rodriguez,Physics,2,2,0,emma.rodriguez@university.edu,Active
+S045,Liam,Chen,Computer Science,2,1,0,liam.chen@university.edu,Active
+S046,Olivia,Martinez,Statistics,3,1,0,olivia.martinez@university.edu,Active
+S047,Noah,Anderson,Physics,2,2,0,noah.anderson@university.edu,Active
+S048,Sophia,Thomas,Engineering,3,1,0,sophia.thomas@university.edu,Active
+S049,Mason,Jackson,Physics,2,3,0,mason.jackson@university.edu,Active
+S050,Isabella,White,Economics,1,2,0,isabella.white@university.edu,Active
+S051,Ethan,Harris,Engineering,3,2,0,ethan.harris@university.edu,Active
+S052,Ava,Martin,Computer Science,2,1,0,ava.martin@university.edu,Active
+S053,Lucas,Thompson,Mathematics,3,2,0,lucas.thompson@university.edu,Active
+S054,Mia,Garcia,Literature,2,1,0,mia.garcia@university.edu,Active
+S055,Aiden,Lewis,Engineering,4,1,0,aiden.lewis@university.edu,Active

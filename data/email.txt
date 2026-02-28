@@ -1,0 +1,16 @@
+EmailID,RecipientID,RecipientEmail,Subject,Body,SentDate,NotificationType
+E001,S010,charlie.miller@university.edu,Recovery Plan Assigned,Your recovery plan for Data Structures has been created. Please check the system for details.,2025-08-10,RECOVERY_PLAN_ASSIGNED
+E002,S013,ivan.lee@university.edu,Recovery Plan Assigned,Your recovery plan for Cybersecurity has been created. Please check the system for details.,2025-08-15,RECOVERY_PLAN_ASSIGNED
+E003,S021,rachel.miller2@university.edu,Recovery Plan Assigned,Your recovery plan for History has been created. Please check the system for details.,2025-10-20,RECOVERY_PLAN_ASSIGNED
+E004,S010,charlie.miller@university.edu,Academic Performance Report,Your academic performance report for Fall 2025 is now available.,2025-12-20,REPORT_GENERATED
+E005,I001,instructor1@university.edu,Password Reset,Your password has been successfully reset.,2025-01-10,PASSWORD_RESET
+E006,Admin,admin@university.edu,Account Notification,Your administrator account has been activated.,2025-01-05,ACCOUNT_CREATION
+E007,S026,michael.zhang@university.edu,Recovery Plan Assigned,Your recovery plan for Computer Science has been created. Please review the action steps in the system.,2025-05-15,RECOVERY_PLAN_ASSIGNED
+E008,S026,michael.zhang@university.edu,Recovery Plan Assigned,Your recovery plan for Data Structures has been created. Please review the action steps in the system.,2025-05-16,RECOVERY_PLAN_ASSIGNED
+E009,S028,david.kim@university.edu,Recovery Plan Assigned,Your recovery plan for Mathematics has been created. Current step: Week 3 activities.,2025-05-12,RECOVERY_PLAN_ASSIGNED
+E010,S032,robert.lee@university.edu,Recovery Plan Assigned,Your recovery plan for History has been created. Focus on analytical writing skills.,2025-05-15,RECOVERY_PLAN_ASSIGNED
+E011,S035,jennifer.taylor@university.edu,Recovery Plan Assigned,Your recovery plan for Software Engineering has been created. Review fundamentals first.,2025-05-12,RECOVERY_PLAN_ASSIGNED
+E012,S039,barbara.thompson@university.edu,Report Generated,Recovery plan completed! Your Philosophy course recovery was successful.,2025-07-28,REPORT_GENERATED
+E013,I001,dr.brown@university.edu,Password Reset,Your password reset request has been processed successfully.,2025-02-10,PASSWORD_RESET
+E014,S010,charlie.miller@university.edu,Milestone Reminder,Reminder: Week 3 milestone for Data Structures recovery is due soon.,2025-11-25,MILESTONE_REMINDER
+E015,S026,michael.zhang@university.edu,Eligibility Status,Important: You currently have 2 failed courses. Academic support is available.,2025-05-20,ELIGIBILITY_STATUS

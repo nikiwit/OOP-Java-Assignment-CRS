@@ -1,0 +1,31 @@
+StudentID,CourseID,InstructorID,CurrentTask,Status,Notes
+S005,C182,I002,Week 4: Take recovery exam,COMPLETED,Successfully passed recovery exam with grade C. Showed significant improvement in statistical analysis.
+S010,C113,I001,Week 3: Meeting with module lecturer,ACTIVE,Student struggling with tree data structures. Additional tutoring sessions scheduled.
+S013,C115,I004,Week 2: Review all lecture topics,COMPLETED,Completed review of network security fundamentals and cryptography basics.
+S021,C166,I005,Week 4: Take recovery exam,COMPLETED,Passed recovery exam. Improved understanding of World War II historical context.
+S028,C128,I003,Week 3: Meeting with module lecturer,ACTIVE,Discussion on calculus problems. Student needs more practice with integration techniques.
+S032,C161,I005,Week 2: Review all lecture topics,ACTIVE,Reviewing Ancient Rome and Medieval Europe content. Progress is satisfactory.
+S035,C129,I002,Week 1: Review all lecture topics,ACTIVE,Starting review of software development lifecycle and agile methodologies.
+S039,C162,I004,Week 4: Take recovery exam,COMPLETED,Barely passed with C-. Student needs to work on critical thinking in philosophy.
+S043,C176,I003,Week 3: Meeting with module lecturer,ACTIVE,Discussing microeconomics principles. Student showing improvement in supply-demand concepts.
+S047,C200,I004,Week 2: Review all lecture topics,ACTIVE,Reviewing quantum mechanics and thermodynamics. Attending extra lab sessions.
+S050,C163,I003,Week 4: Take recovery exam,COMPLETED,Passed recovery exam with grade C. Better grasp of macroeconomic policies now.
+S054,C161,I005,Week 4: Take recovery exam,COMPLETED,Successfully completed recovery. Demonstrated improved knowledge of historical timelines.
+S058,C159,I002,Week 3: Meeting with module lecturer,ACTIVE,Discussing literary analysis techniques. Student needs to improve essay writing skills.
+S005,C182,I002,Week 1: Review all lecture topics,COMPLETED,Reviewed probability theory and hypothesis testing materials thoroughly.
+S010,C113,I001,Week 1: Review all lecture topics,COMPLETED,Completed review of arrays linked lists and basic algorithms.
+S010,C113,I001,Week 2: Complete practice assignments,ACTIVE,Working on implementing binary search trees and graph traversal algorithms.
+S013,C115,I004,Week 1: Review all lecture topics,COMPLETED,Reviewed network protocols firewall configurations and security best practices.
+S013,C115,I004,Week 3: Meeting with module lecturer,COMPLETED,Met with Dr. Lee. Clarified encryption algorithms and penetration testing concepts.
+S021,C166,I005,Week 1: Review all lecture topics,COMPLETED,Reviewed Cold War era and modern European history comprehensively.
+S021,C166,I005,Week 2: Submit research paper,COMPLETED,Submitted 10-page paper on post-war reconstruction. Received B+ grade.
+S028,C128,I003,Week 1: Review all lecture topics,COMPLETED,Reviewed differential equations and multivariable calculus chapters.
+S028,C128,I003,Week 2: Complete problem sets,ACTIVE,Working through 50 practice problems on derivatives and integrals.
+S032,C161,I005,Week 1: Review all lecture topics,COMPLETED,Reviewed Renaissance period and industrial revolution materials.
+S035,C129,I002,Week 2: Complete coding assignments,ACTIVE,Implementing design patterns and writing unit tests for software projects.
+S039,C162,I004,Week 1: Review all lecture topics,COMPLETED,Reviewed ethics existentialism and epistemology course materials.
+S039,C162,I004,Week 2: Write philosophy essays,COMPLETED,Submitted essays on Kant and Nietzsche. Feedback received for improvement.
+S043,C176,I003,Week 1: Review all lecture topics,COMPLETED,Reviewed GDP inflation unemployment and fiscal policy concepts.
+S043,C176,I003,Week 2: Complete case studies,ACTIVE,Analyzing real-world economic scenarios and market failures.
+S047,C200,I004,Week 1: Review all lecture topics,COMPLETED,Reviewed mechanics electromagnetism and wave physics thoroughly.
+S050,C163,I003,Week 1: Review all lecture topics,COMPLETED,Reviewed international trade monetary policy and economic growth theories.

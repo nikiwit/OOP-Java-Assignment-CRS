@@ -1,0 +1,7 @@
+templateId,courseId,instructorId,planTitle,planDescription,actionIds,isActive,createdDate,lastModifiedDate
+TPL_C101_1,C101,I001,Algorithm Recovery Program,Comprehensive recovery plan for students who failed Data Structures and Algorithms. Covers fundamental concepts through practical exercises and assessments.,,true,2025-01-15 09:00:00,2025-01-15 09:00:00
+TPL_C102_1,C102,I002,AI Fundamentals Recovery,Recovery plan focusing on machine learning basics\, neural networks\, and practical AI applications.,,true,2025-01-16 10:30:00,2025-01-16 10:30:00
+TPL_C103_1,C103,I003,Biology Recovery Track,Complete recovery program covering cell biology\, lab techniques\, and research methodology.,,true,2025-01-17 14:00:00,2025-01-17 14:00:00
+TPL_C152_1,C152,I015,Programming Fundamentals Recovery,Step-by-step recovery for programming basics including coding exercises and mini projects.,,true,2025-01-18 11:15:00,2025-01-18 11:15:00
+TPL_C109_1,C109,I009,Software Engineering Recovery,Recovery plan for software development lifecycle\, requirements\, and design patterns.,,true,2025-01-19 13:45:00,2025-01-19 13:45:00
+TPL_C105_1762415637680,C105,I001,Submit Exam,THIS IS,,true,2025-11-06 15:53:57,2025-11-06 15:53:57

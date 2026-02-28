@@ -1,7 +1,7 @@
-# Compiled class file
+# Compiled class files
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.nar
@@ -19,6 +19,110 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Virtual machine crash logs
 hs_err_pid*
 replay_pid*
+
+# IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# IntelliJ IDEA
+out/
+.idea_modules/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*~.nib
+
+# Java documentation
+javadoc/
+
+# Test coverage
+*.coverage
+.coverage
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Credentials and environment files
+.env
+credentials.json
+config.properties
+config/email.properties
+email.config
+
+# Project-specific ignores
+
+# Keep lib directory but ignore JAR files (except necessary ones)
+# Uncomment if you want to track external JARs:
+# !lib/javax.mail.jar
+# !lib/itextpdf-*.jar
+
+# Ignore generated data files (keep structure, ignore content)
+data/*.dat
+!data/.gitkeep
+
+# Ignore generated PDF reports
+reports/*.pdf
+!reports/.gitkeep
+
+# Ignore generated documentation screenshots
+docs/Screenshots/*
+!docs/Screenshots/.gitkeep
+
+# Keep docs directory structure
+!docs/.gitkeep
+
+# Python virtual environments
+venv/

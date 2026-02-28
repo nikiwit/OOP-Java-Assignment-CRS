@@ -1,0 +1,49 @@
+CourseID,ActionNumber,ActionDescription,Notes
+C113,1,Review all lecture topics,Focus on arrays linked lists and basic data structure fundamentals
+C113,2,Complete practice assignments,Implement binary search trees and graph traversal algorithms
+C113,3,Meeting with module lecturer,Discuss challenging concepts and clarify doubts
+C113,4,Take recovery exam,Final assessment to demonstrate mastery
+C115,1,Review all lecture topics,Cover network protocols firewall configurations and security principles
+C115,2,Complete security labs,Hands-on practice with encryption and penetration testing
+C115,3,Meeting with module lecturer,Clarify advanced security concepts
+C115,4,Take recovery exam,Comprehensive security assessment
+C166,1,Review all lecture topics,Study Cold War era and modern European history
+C166,2,Submit research paper,Write analytical paper on historical events
+C166,3,Meeting with module lecturer,Discuss historical analysis and critical thinking
+C166,4,Take recovery exam,Final history examination
+C182,1,Review all lecture topics,Review probability theory and hypothesis testing
+C182,2,Complete problem sets,Practice statistical calculations and data analysis
+C182,3,Meeting with module lecturer,Discuss statistical concepts and applications
+C182,4,Take recovery exam,Statistics final assessment
+C128,1,Review all lecture topics,Review differential equations and multivariable calculus
+C128,2,Complete problem sets,Work through calculus practice problems
+C128,3,Meeting with module lecturer,Discussion on calculus problems and integration techniques
+C128,4,Take recovery exam,Calculus final examination
+C161,1,Review all lecture topics,Review Ancient Rome and Medieval Europe content
+C161,2,Complete essay assignments,Write analytical essays on historical periods
+C161,3,Meeting with module lecturer,Discuss historical interpretation and analysis
+C161,4,Take recovery exam,History comprehensive exam
+C129,1,Review all lecture topics,Review software development lifecycle and agile methodologies
+C129,2,Complete coding assignments,Implement design patterns and write unit tests
+C129,3,Meeting with module lecturer,Discuss software engineering best practices
+C129,4,Take recovery exam,Software engineering project assessment
+C162,1,Review all lecture topics,Review ethics existentialism and epistemology
+C162,2,Write philosophy essays,Submit analytical essays on philosophical concepts
+C162,3,Meeting with module lecturer,Discuss philosophical reasoning and critical thinking
+C162,4,Take recovery exam,Philosophy comprehensive examination
+C176,1,Review all lecture topics,Review GDP inflation unemployment and fiscal policy
+C176,2,Complete case studies,Analyze real-world economic scenarios
+C176,3,Meeting with module lecturer,Discuss microeconomics principles and market dynamics
+C176,4,Take recovery exam,Economics final assessment
+C200,1,Review all lecture topics,Review mechanics electromagnetism and wave physics
+C200,2,Complete lab assignments,Hands-on physics experiments and data collection
+C200,3,Meeting with module lecturer,Discuss quantum mechanics and thermodynamics concepts
+C200,4,Take recovery exam,Physics comprehensive examination
+C163,1,Review all lecture topics,Review international trade monetary policy and growth theories
+C163,2,Complete economic analysis,Analyze macroeconomic policies and their impacts
+C163,3,Meeting with module lecturer,Discuss advanced macroeconomic concepts
+C163,4,Take recovery exam,Macroeconomics final assessment
+C159,1,Review all lecture topics,Review literary analysis techniques and major works
+C159,2,Write literary essays,Analytical essays on literature and themes
+C159,3,Meeting with module lecturer,Discuss literary analysis and essay writing skills
+C159,4,Take recovery exam,Literature comprehensive examination
